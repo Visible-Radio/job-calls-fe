@@ -1,0 +1,95 @@
+body { 
+  background-color: #001320;
+	/*background: url(images/mcc.jpg) no-repeat center center fixed;
+	background-size: cover;	*/
+}
+
+.multiGraphContainer {		
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 95vw;
+	align-items: center;
+	margin-top: 0.7rem;
+	/*border: 1px solid red;*/
+}
+
+.graphBg {	
+	background-color: #1c243a;
+	padding-bottom: 1rem;
+	
+}
+
+.totalLineGraph {
+	width: 66%;	
+}
+
+.LineGraph {
+	width: 66%;	
+}
+
+.DoughnutGraph {	
+	width: 33%;	
+}
+
+.App {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;	
+}
+
+.Marquee {	
+	line-height: 2rem;
+	color: #dbcc00;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-content: center;	
+	width: 33%;
+	height: 100%;
+	background-color: #2f3442;
+	/*border: 1px solid red;	*/
+	
+}
+
+h1 {
+	margin: 0.5rem;	
+	font-size: 2rem;	
+	
+}
+
+h2 {
+	margin: 0.5rem;
+	font-size: 1rem;	
+}
+
+.legendBlock {
+	display: block;
+	height: 20px;
+	width: 20px;	
+}
+
+.ColorLegend {
+	border: 5px solid #1c243a;
+	padding: 5rem 5rem 5rem 1rem;
+
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	display: flex;
+}
+
+span {
+	margin-left: 0.5rem;
+	font-size: 20px;
+}
+
+
