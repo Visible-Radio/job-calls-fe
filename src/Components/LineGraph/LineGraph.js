@@ -56,7 +56,7 @@ class LineGraph extends Component {
             fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: `Members needed by classification from ${this.humanDate(this.props.start)} to ${this.humanDate(this.props.end)}`
+            text: `Members Needed by Classification` 
         },
 	    	legend: {
 	    		display: false,

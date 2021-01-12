@@ -1,95 +1,145 @@
-body { 
-  background-color: #001320;
-	/*background: url(images/mcc.jpg) no-repeat center center fixed;
+body {	
+  /*background: url(images/mcc.jpg) no-repeat center center fixed;
 	background-size: cover;	*/
+	/*background: linear-gradient(180deg, #110a21, #1f2138);*/
+	background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center fixed;
+}
+
+.App {		
+	display: flex;
+	justify-content: center;	
+	box-sizing: border-box;
+	height: 100vh;	
+	/*background-color:#1c243a88;	*/
+	/*border: 1px solid red;	*/
+}
+
+.layoutMaster {
+	display: flex;	
+	flex-direction: column;
+	align-items: center;	
+	max-width: 1500px;
+	width: 100%;
+	height: 100%;		
+
+}
+
+.graphMaster {
+	width: 95%;
+	background-color: #001320;	
+	border: 5px solid #1c243a;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	height: auto;
 }
 
 .multiGraphContainer {		
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	width: 95vw;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;	
+	max-width: 1500px;
+	height: inherit;
 	align-items: center;
-	margin-top: 0.7rem;
-	/*border: 1px solid red;*/
+	margin: 0;
+	box-sizing: border-box;		
 }
 
-.graphBg {	
+.graphBg {
+	margin: 0.5rem;	
 	background-color: #1c243a;
 	padding-bottom: 1rem;
 	
 }
 
 .totalLineGraph {
-	width: 66%;	
-}
-
-.LineGraph {
-	width: 66%;	
-}
-
-.DoughnutGraph {	
-	width: 33%;	
-}
-
-.App {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;	
-}
-
-.Marquee {	
-	line-height: 2rem;
-	color: #dbcc00;
-	display:flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	align-content: center;	
-	width: 33%;
-	height: 100%;
-	background-color: #2f3442;
-	/*border: 1px solid red;	*/
+	min-width: 350px;	
+	flex: 2 1 0;
+	max-width: 1000px;
+	box-sizing: border-box;
 	
 }
 
-h1 {
-	margin: 0.5rem;	
-	font-size: 2rem;	
+.LineGraph {	
+	min-width: 350px;	
+	flex: 2 1 0;
+	max-width: 1500px;
+	box-sizing: border-box;
 	
+}
+
+.DoughnutGraph {		
+	min-width: 200px;	
+	flex: 1 1 0;
+	max-height: 500px;
+	max-width: 500px;
+	box-sizing: border-box;
+}
+
+.ColorLegend {
+	align-self: center;
+	border: 5px solid #1c243a;
+	margin: 0.5rem;
+	padding: 0.5rem;
+	min-width: 240px;	
+	max-height: 100px;	
+	flex: 1 4 0;
+	
+}
+
+
+
+h1 {		
+	margin: 0.5rem;
+	font-size: 1.1rem;
+	letter-spacing: 0.2rem;	
+	color: #f174d8;	
 }
 
 h2 {
-	margin: 0.5rem;
-	font-size: 1rem;	
+	text-align: center;
+	color: #f174d8;	
+	margin-bottom: 0;
+	margin-top: 0.5rem;
+	font-size: 1.1rem;
+	letter-spacing: 0.2rem;	
+	background: #1c243a;
+	border: 3px solid #1c243a;
 }
 
-.legendBlock {
+.legendBlock {	
 	display: block;
 	height: 20px;
 	width: 20px;	
 }
 
-.ColorLegend {
-	border: 5px solid #1c243a;
-	padding: 5rem 5rem 5rem 1rem;
-
-}
-
 ul {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	max-height: 100px;
+	
 }
 
 li {
 	display: flex;
+	align-items: center;
 }
 
 span {
 	margin-left: 0.5rem;
 	font-size: 20px;
+}
+
+span.readableClassification {	
+	font-size: 18px;
+	opacity: 0.4;	
 }
 
 

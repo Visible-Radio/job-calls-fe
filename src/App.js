@@ -74,7 +74,7 @@ class App extends Component {
       body: JSON.stringify({
         "start": this.state.start,
         "end": this.state.end,
-        "member_class": ["JW", "AW", "JHW"]
+        // "member_class": ["JW", "AW", "JHW"]
       })
     })
    .then(response => response.json())   
@@ -95,27 +95,33 @@ class App extends Component {
 
   render() {        
     return (
+
       <div className="App">
-        <div className="multiGraphContainer">
-          <ColorLegend datasets={this.state.datasets} colors={this.state.colors} />   
-          <TotalLineGraph 
-            total={this.state.total}
-            dates={this.state.dates}
-            start={this.state.start}
-            end={this.state.end}
-          />
-        </div>
-        <div className="multiGraphContainer">
-          <LineGraph 
-            datasets={this.state.datasets}
-            start={this.state.start}
-            end={this.state.end}
-            colors={this.state.colors} 
-          />
-          <DoughnutGraph
-            datasets={this.state.datasets}
-            colors={this.state.colors} 
-          />
+      <div className="layoutMaster">      
+        <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>
+          <div className="graphMaster">
+            <div className="multiGraphContainer">              
+              <LineGraph 
+                datasets={this.state.datasets}
+                start={this.state.start}
+                end={this.state.end}
+                colors={this.state.colors} 
+              />
+            </div>              
+            <div className="multiGraphContainer">
+              <TotalLineGraph 
+                total={this.state.total}
+                dates={this.state.dates}
+                start={this.state.start}
+                end={this.state.end}
+              />      
+              <DoughnutGraph
+                datasets={this.state.datasets}
+                colors={this.state.colors} 
+              />
+            </div>
+            <ColorLegend datasets={this.state.datasets} colors={this.state.colors} /> 
+          </div>
         </div>
       </div>
     );

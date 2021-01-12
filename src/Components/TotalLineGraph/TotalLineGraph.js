@@ -42,10 +42,10 @@ class TotalLineGraph extends Component {
 	    options: {
 	    	title: {
             display: true,
-            fontSize: 12,
+            fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: `Total members needed from ${this.humanDate(this.props.start)} to ${this.humanDate(this.props.end)}`
+            text: `Total Members Needed` 
         },
 	    	legend: {
 	    		display: false,

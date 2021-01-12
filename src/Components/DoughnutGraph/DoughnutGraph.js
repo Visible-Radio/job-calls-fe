@@ -43,13 +43,14 @@ class DoughnutGraph extends Component {
 
 	    // Configuration options go here
 	    options: {
+	    	// responsive: false,
 	    	aspectRatio: 1,
 	    	title: {
             display: true,
-            fontSize: 12,
+            fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: 'Total members needed by classification for period'
+            text: 'Classification Totals for Period'
         },
 	    	legend: {
 	    		display: false,
