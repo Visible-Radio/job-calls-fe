@@ -7,11 +7,6 @@ class TotalLineGraph extends Component {
 		super(props);
 		this.canvasRef = React.createRef();
 	}
-		
-	humanDate = (iso_date_string) => {
-		const myString = new Date(iso_date_string).toUTCString();
-		return myString.replace(/ \d\d:\d\d:\d\d \w\w\w/, "");
-	}
 
 	componentDidUpdate() {				
 		this.myChart.data.datasets[0].data = this.props.total;

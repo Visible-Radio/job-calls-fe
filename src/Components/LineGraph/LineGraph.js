@@ -6,12 +6,7 @@ class LineGraph extends Component {
 	constructor(props) {
 		super(props);
 		this.canvasRef = React.createRef();
-	}
-		
-		humanDate = (iso_date_string) => {
-			const myString = new Date(iso_date_string).toUTCString();
-			return myString.replace(/ \d\d:\d\d:\d\d \w\w\w/, "");
-		}
+	}	
 
 	generateLines = () => {		
 	//programatically generate the data object for each line
@@ -35,8 +30,7 @@ class LineGraph extends Component {
 	componentDidUpdate() {
 		this.generateLines();
     this.myChart.data.labels = this.props.datasets.Date;
-    this.myChart.update();    
-
+    this.myChart.update();  
   }  
 
 	componentDidMount() {		

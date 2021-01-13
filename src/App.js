@@ -5,7 +5,7 @@ import TotalLineGraph from './Components/TotalLineGraph/TotalLineGraph';
 import Marquee from './Components/Marquee/Marquee';
 import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
-
+import StartEndDates from './Components/StartEndDates/StartEndDates';
 
 class App extends Component {
   constructor() {
@@ -100,6 +100,10 @@ class App extends Component {
       <div className="layoutMaster">      
         <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>
           <div className="graphMaster">
+            <StartEndDates 
+              start={this.state.start}
+              end={this.state.end}
+            />
             <div className="multiGraphContainer">              
               <LineGraph 
                 datasets={this.state.datasets}

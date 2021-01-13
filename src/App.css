@@ -24,7 +24,7 @@ body {
 
 }
 
-.graphMaster {
+.graphMaster {		
 	width: 95%;
 	background-color: #001320;	
 	border: 5px solid #1c243a;
@@ -85,12 +85,54 @@ body {
 	margin: 0.5rem;
 	padding: 0.5rem;
 	min-width: 240px;	
-	max-height: 100px;	
-	flex: 1 4 0;
-	
+	max-height: 400px;	
+	flex: 1 4 0;	
+}
+
+ul {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	max-height: 400px;	
+}
+
+@media (min-width:700px) {
+	ul {
+		max-height: 200px;
+	}
+	.colorLegend {
+		max-height: 200px;
+	}
 }
 
 
+@media (min-width: 1280px) {
+	ul {
+		max-height: 100px;
+	}
+	.colorLegend {
+		max-height: 100px;
+	}
+}
+
+.legendBlock {	
+	display: block;
+	height: 20px;
+	width: 20px;	
+}
+
+li {
+	display: flex;
+	align-items: center;
+}
+
+span {
+	margin-left: 0.5rem;
+	font-size: 20px;
+}
 
 h1 {		
 	margin: 0.5rem;
@@ -110,36 +152,28 @@ h2 {
 	border: 3px solid #1c243a;
 }
 
-.legendBlock {	
-	display: block;
-	height: 20px;
-	width: 20px;	
-}
-
-ul {
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	max-height: 100px;
-	
-}
-
-li {
-	display: flex;
-	align-items: center;
-}
-
-span {
-	margin-left: 0.5rem;
-	font-size: 20px;
-}
-
 span.readableClassification {	
 	font-size: 18px;
 	opacity: 0.4;	
 }
+
+div.StartEndDates > h3 > span {	 			
+	font-size: 1.1rem;
+	letter-spacing: 0.2rem;	
+}
+
+div.StartEndDates > h3 {
+	color: rgb(0, 200, 200);
+	text-align: center;
+	margin: 0.5rem 0.5rem 0 0.5rem;	
+	background: #1c243a;
+	border: 3px solid #1c243a;
+
+}
+
+.resultDate {
+	color: #f174d8;
+}
+
 
 
