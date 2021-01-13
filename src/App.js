@@ -2,23 +2,30 @@ import React, { Component } from 'react';
 import './App.css';
 import LineGraph from './Components/LineGraph/LineGraph';
 import TotalLineGraph from './Components/TotalLineGraph/TotalLineGraph';
-import Marquee from './Components/Marquee/Marquee';
 import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
 import StartEndDates from './Components/StartEndDates/StartEndDates';
+import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      // rawFromAPI: [],
+    this.state = {      
       datasets: {},
-      start: "2020-12-01",
-      end: "2020-12-31",
-      dates: [],
-      total: [],
-      colors: []
+      start: "2020-12-02",
+      end: "2020-12-31",      
+      colors: [],      
     }
+  }
+
+  onButtonSubmit = () => {
+    const checkboxes = document.querySelectorAll('.ClassificationPickerCheckbox');
+    const clicked = [];
+    checkboxes.forEach(box => {      
+      if (box.checked) clicked.push(box.value);
+    });        
+    console.log("clicked: ", clicked);
+    this.getData(clicked);       
   }
 
   generateRandomColors = () => {
@@ -66,39 +73,45 @@ class App extends Component {
     return datasets;       
   }
 
-  componentDidMount() {
-    this.setState({colors: this.generateColorArray()})        
+  getData = (clicked) => {
     fetch('http://127.0.0.1:3000/members_needed_by_date', {
       method: 'post',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify({
         "start": this.state.start,
         "end": this.state.end,
-        // "member_class": ["JW", "AW", "JHW"]
+        "member_class": clicked
       })
     })
-   .then(response => response.json())   
-   .then(response => {    
-    //this.setState(Object.assign(this.state.rawFromAPI, response))
-    return this.prepareDatasets(response);
-   })   
-   .then(preparedDatasets => {    
-    this.setState({total: preparedDatasets.Total, dates: preparedDatasets.Date})    
-    return preparedDatasets;
-   })
-   .then(preparedDatasets => {
-    this.setState(Object.assign(this.state.datasets, preparedDatasets))    
-   })
-   .catch(err => console.log("Fetch failed ", err))
-    
+    .then(response => response.json())   
+    .then(response => {
+      console.log("this came back from the API: ", response);         
+     return this.prepareDatasets(response);
+    })   
+    .then(preparedDatasets => {
+      console.log("prepareDatasets returned: ", preparedDatasets);
+      this.setState({datasets: {}})
+      this.setState(Object.assign(this.state.datasets, preparedDatasets));     
+    })
+    .catch(err => console.log("Fetch failed ", err))
   }
 
-  render() {        
-    return (
+  componentDidMount() {
+    this.setState({colors: this.generateColorArray()})
+    this.getData(); 
+  }
 
+  render() {
+    console.log("logging State from App.js :", this.state);        
+    return (
       <div className="App">
       <div className="layoutMaster">      
         <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>
+        <ClassificationPicker
+          colors={this.state.colors}
+          onCheckBoxClick={this.onCheckBoxClick}
+          onButtonSubmit={this.onButtonSubmit}
+        />
           <div className="graphMaster">
             <StartEndDates 
               start={this.state.start}
@@ -106,18 +119,13 @@ class App extends Component {
             />
             <div className="multiGraphContainer">              
               <LineGraph 
-                datasets={this.state.datasets}
-                start={this.state.start}
-                end={this.state.end}
+                datasets={this.state.datasets}                
                 colors={this.state.colors} 
               />
             </div>              
             <div className="multiGraphContainer">
-              <TotalLineGraph 
-                total={this.state.total}
-                dates={this.state.dates}
-                start={this.state.start}
-                end={this.state.end}
+              <TotalLineGraph
+                datasets={this.state.datasets} 
               />      
               <DoughnutGraph
                 datasets={this.state.datasets}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
-import './TotalLinegraph.css'
 
 class TotalLineGraph extends Component {
 	constructor(props) {
@@ -8,10 +7,10 @@ class TotalLineGraph extends Component {
 		this.canvasRef = React.createRef();
 	}
 
-	componentDidUpdate() {				
-		this.myChart.data.datasets[0].data = this.props.total;
-		this.myChart.data.labels = this.props.dates;       
-		this.myChart.update();
+	componentDidUpdate() {						
+		this.myChart.data.datasets[0].data = this.props?.datasets?.Total;
+		this.myChart.data.labels = this.props?.datasets?.Date;       
+		this.myChart.update();		
   }  
 
 	componentDidMount() {
@@ -19,7 +18,7 @@ class TotalLineGraph extends Component {
 			type: 'line',			
 			// The data for our dataset
 	    data: {
-        labels: this.props.dates,
+        labels: this.props?.datasets?.Date,
         datasets: [
         	{
 		        label: "Sum of all classifications",
@@ -28,7 +27,7 @@ class TotalLineGraph extends Component {
 			      borderColor: 'rgb(200, 200, 0)',
 			      borderWidth: 2,
 			      pointRadius: 5,
-			      data: this.props.total
+			      data: this.props?.datasets?.Total
 		    	}
         ]
 	    },

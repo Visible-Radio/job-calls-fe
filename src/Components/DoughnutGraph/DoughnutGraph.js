@@ -8,7 +8,8 @@ class DoughnutGraph extends Component {
 	}
 	
   initChartData = () => {
-  	let index = 0;  	
+  	this.myChart.data.datasets[0].data = [];  				
+  	let index = 0;  	  	
   	for (let key in this.props.datasets) {  	  			
 			if (key === "Date" || key === "Total") continue;			
       this.myChart.data.labels.push(key);
@@ -17,11 +18,17 @@ class DoughnutGraph extends Component {
       this.myChart.data.datasets[0].backgroundColor.push(this.props.colors[index].lineColor);       
       index++;
   	}
-  }	   	
+  }
 
-	componentDidUpdate() {				
+  grandTotal = () => {
+  	const grandTotal = this.props.datasets?.Total?.reduce((acc, element) =>	acc += Number(element),0);
+  	console.log(grandTotal);
+  	return grandTotal
+  }  	
+
+	componentDidUpdate() {	
 		this.initChartData();		
-		this.myChart.update();
+		this.myChart.update();		
   }  
 
 	componentDidMount() {
@@ -36,7 +43,7 @@ class DoughnutGraph extends Component {
 		        label: "Sum of all classifications",		      			      
 			      backgroundColor: [], 
 			      borderColor: '#1c243a',			      
-			      data: []
+			      data: [0]
 		    	}
         ]
 	    },
@@ -67,7 +74,8 @@ class DoughnutGraph extends Component {
 	render() {			
 		return (						
 				<div className="DoughnutGraph graphBg" >
-					<canvas ref={ this.canvasRef } />
+					<span id="grandTotal">{this.grandTotal()}</span>
+					<canvas ref={ this.canvasRef } />					
 				</div>						
 			);
 	}

@@ -25,13 +25,13 @@ const ColorLegend = (props) => {
 	for (let key in props.datasets) {
 		if (key === 'Total' || key === "Date") continue;	
 		legendBlocks.push(
-			<li>
-				<div className="legendBlock"
+			<li key={key + index}>
+				<div className="legendBlock"					
 					style={{backgroundColor: props.colors[index]?.lineColor}}>				
 				</div>
 				<span 
 					className="acronymClassifciation"
-					style={{color: props.colors[index]?.lineColor}}
+					style={{color: props.colors[index]?.lineColor}}					
 					>
 					{key}
 				</span>
@@ -52,7 +52,7 @@ const ColorLegend = (props) => {
 			<div className="ColorLegend">			
 				<ul>
 					{legendBlocks}
-					<li>
+					<li key={"ColorLegendTotal_static_li"}>
 						<div className="legendBlock"
 							style={{backgroundColor: 'rgb(200, 200, 0)'}}>				
 						</div>
