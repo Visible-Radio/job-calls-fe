@@ -1,6 +1,19 @@
 import React from 'react';
+import "flatpickr/dist/themes/dark.css";
+import Flatpickr from "react-flatpickr";
 
 const ClassificationPicker = (props) => {
+
+	const handlePickerSize = () => {		
+		const picker = document.querySelector('.ClassificationPicker');
+		const currentHeight = picker.offsetHeight;
+		if (currentHeight > 35) {
+			picker.style.height = "35px"
+		} else {
+			picker.style.height = "450px"
+		}
+	}
+
 	const readableClassification = {
 		JW: "Journeyman ICI",
     AW: "Apprentice ICI",
@@ -44,8 +57,29 @@ const ClassificationPicker = (props) => {
 		index++;		
 	}	
 
+	const Options = {
+		mode: "single",
+		allowInput: false,
+		minDate: "2020-12-04",
+		maxDate: new Date(),
+	}
+
+	const defaultStart = "2020-12-04";
+	const defaultEnd = "2020-12-31";	
+
 	return (
-		<div className="ClassificationPicker">			
+		<div className="ClassificationPicker">
+			<h2 onClick={handlePickerSize}>Select Classifications</h2>
+			<Flatpickr
+				id = "startPicker"
+				options={Options}        
+        value={defaultStart}                
+      />
+      <Flatpickr
+      	id = "endPicker"        
+        value={defaultEnd}
+        options={Options}        
+      />			
 			<form>
 		  	{checkBoxes}		  		
 			</form>

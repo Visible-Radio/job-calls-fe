@@ -12,20 +12,23 @@ class App extends Component {
     super();
     this.state = {      
       datasets: {},
-      start: "2020-12-02",
+      start: "2020-12-05",
       end: "2020-12-31",      
-      colors: [],      
+      colors: [],           
     }
   }
 
-  onButtonSubmit = () => {
+  onButtonSubmit = () => {    
+    const start = document.querySelector('#startPicker').value;
+    const end = document.querySelector('#endPicker').value;
+
     const checkboxes = document.querySelectorAll('.ClassificationPickerCheckbox');
-    const clicked = [];
+    let clicked = [];
     checkboxes.forEach(box => {      
       if (box.checked) clicked.push(box.value);
-    });        
-    console.log("clicked: ", clicked);
-    this.getData(clicked);       
+    });
+    if (clicked.length === 0) clicked = ["JW", "AW"];
+    this.getData(clicked, start, end);       
   }
 
   generateRandomColors = () => {
@@ -73,23 +76,23 @@ class App extends Component {
     return datasets;       
   }
 
-  getData = (clicked) => {
+  getData = (clicked, start, end) => {
     fetch('http://127.0.0.1:3000/members_needed_by_date', {
       method: 'post',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify({
-        "start": this.state.start,
-        "end": this.state.end,
+        "start": start || "2020-12-04",
+        "end": end || "2020-12-31",
         "member_class": clicked
       })
     })
     .then(response => response.json())   
     .then(response => {
-      console.log("this came back from the API: ", response);         
+      // console.log("this came back from the API: ", response);         
      return this.prepareDatasets(response);
     })   
     .then(preparedDatasets => {
-      console.log("prepareDatasets returned: ", preparedDatasets);
+      // console.log("prepareDatasets returned: ", preparedDatasets);
       this.setState({datasets: {}})
       this.setState(Object.assign(this.state.datasets, preparedDatasets));     
     })
@@ -102,16 +105,17 @@ class App extends Component {
   }
 
   render() {
+    
     console.log("logging State from App.js :", this.state);        
     return (
       <div className="App">
-      <div className="layoutMaster">      
-        <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>
-        <ClassificationPicker
-          colors={this.state.colors}
-          onCheckBoxClick={this.onCheckBoxClick}
-          onButtonSubmit={this.onButtonSubmit}
-        />
+        <div className="layoutMaster">      
+          <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>          
+          <ClassificationPicker
+            colors={this.state.colors}
+            onCheckBoxClick={this.onCheckBoxClick}
+            onButtonSubmit={this.onButtonSubmit}
+          />
           <div className="graphMaster">
             <StartEndDates 
               start={this.state.start}

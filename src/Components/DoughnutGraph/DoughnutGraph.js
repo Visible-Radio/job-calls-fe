@@ -6,9 +6,20 @@ class DoughnutGraph extends Component {
 		super(props);
 		this.canvasRef = React.createRef();
 	}
+
+	scaleDoughnutText = () => {		
+		const doughnutGraphElement = document.querySelector('.DoughnutGraph');
+		const grandTotalElement = document.querySelector('#grandTotal');
+		const width = doughnutGraphElement.offsetWidth;
+		grandTotalElement.style.fontSize = `${width/10}px`
+		const textWidth = grandTotalElement.offsetWidth;
+		const left = (width/2) - (textWidth/2);
+		grandTotalElement.style.left = `${left}px`;		
+	}
 	
   initChartData = () => {
   	this.myChart.data.datasets[0].data = [];  				
+  	this.myChart.data.labels = [];
   	let index = 0;  	  	
   	for (let key in this.props.datasets) {  	  			
 			if (key === "Date" || key === "Total") continue;			
@@ -22,16 +33,17 @@ class DoughnutGraph extends Component {
 
   grandTotal = () => {
   	const grandTotal = this.props.datasets?.Total?.reduce((acc, element) =>	acc += Number(element),0);
-  	console.log(grandTotal);
   	return grandTotal
   }  	
 
 	componentDidUpdate() {	
 		this.initChartData();		
-		this.myChart.update();		
+		this.myChart.update();
+		this.scaleDoughnutText();			
   }  
 
-	componentDidMount() {
+	componentDidMount() {		
+		window.addEventListener('resize', this.scaleDoughnutText);
 
 		this.myChart = new Chart(this.canvasRef.current, {
 			type: 'doughnut',			
@@ -74,7 +86,7 @@ class DoughnutGraph extends Component {
 	render() {			
 		return (						
 				<div className="DoughnutGraph graphBg" >
-					<span id="grandTotal">{this.grandTotal()}</span>
+					<span id="grandTotal"><div id="grandTotalLabel">Total:</div><div>{this.grandTotal()}</div></span>
 					<canvas ref={ this.canvasRef } />					
 				</div>						
 			);

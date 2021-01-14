@@ -50,7 +50,7 @@ const ColorLegend = (props) => {
 		<div>
 			<h2>Selected Classifications</h2>
 			<div className="ColorLegend">			
-				<ul>
+				<ul className="legend">
 					{legendBlocks}
 					<li key={"ColorLegendTotal_static_li"}>
 						<div className="legendBlock"
