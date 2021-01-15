@@ -164,7 +164,7 @@ h2 {
 
 span.readableClassification {	
 	font-size: 18px;
-	opacity: 0.4;	
+	opacity: 0.8;	
 }
 
 h3 {	 				
@@ -192,38 +192,116 @@ div.StartEndDates {
 	background-color: #001320;	
 	font-size: 20px;
 	width: 95%;
-	height: 450px;
+	height: 610px;
 	transition-property: height;
 	transition-duration: 0.5s;
 	overflow-y: hidden;
-	/*border: 1px solid blue;*/
+	box-sizing: border-box;
+	border-left: 5px solid #1c243a;
+	border-right: 5px solid #1c243a;
+	border-top: 5px solid #1c243a;
+	overflow: hidden;	
 }
-
 .ClassificationPicker > h2 {
-	cursor: pointer;	
+	cursor: pointer;
+	margin-top: 0;	
 }
-
 .ClassificationPicker > h2:hover {
 	background-color: rgb(0,200,200);
 	color: #001320;
 	border-color: rgb(0,200,200);
 }
-
-input {
-	/*appearance: none;
-	height: 20px;
-	width: 20px;
-	border-radius: 50%;
-	background-color: gray;*/
+form {	
+	margin-left: 1rem;
+	padding: 0.5rem;
 }
-
-input:checked {
-    /*border: 1px solid #41B883;
-    background-color: green;
+.ClassificationPickerItem {
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	margin: 0.25rem;	
+}
+.ClassificationPickerItem label {
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	align-content: center;	
+}
+.ClassificationPickerCheckbox {
+	cursor: pointer;	
+	appearance: none;
+	height: 20px;
+	width: 20px;	
+	border: 2px solid #2c344a;	
+	box-sizing: border-box;		
+	transition-property: border-width;
+	transition-duration: 0.2s
+}
+.ClassificationPickerCheckbox:checked {           
     height: 20px;
 		width: 20px;
-    */
+		transition-property: border-width;
+		transition-duration: 0.2s;
+		border-width: 10px;
+}
+.ClassificationPickerCheckbox:focus {           
+    outline-color: rgb(0,200,200);
+    outline-style: dashed;    
+}
+.acronymClassification {	
+	width: 60px;
 }
 
+button {
+	border: none;
+	margin-left: 1.5rem;
+	font-size: 16px;
+	background-color: rgb(0,200,200);
+}
+button:focus {           
+    outline-color: rgb(0,200,200);
+    outline-style: dashed;    
+}
+button:hover, #startPicker:hover, #endPicker:hover {
+	cursor: pointer;
+	background-color: rgb(0,255,255);
+	transform: scale(1.05);
+	transition-property: transform;
+	transition-duration: 0.2s;
+}
+button:active {
+	background-color: rgb(0,255,255);
+	transform: scale(0.9);
+	transition-property: transform;
+	transition-duration: 0.1s;
+}
 
+#viewRecords {
+	width: 350px;
+	height: 25px;
+}
 
+#openPickers {
+	width: 100%;
+	margin: 0;	
+}
+
+#startPicker, #endPicker {
+	background-color: rgb(0,200,200);
+	font-size: 16px;
+	text-align: center;
+	width: 100px;
+	height: 25px;
+	margin-top: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+label[for="startPicker"] {
+	color: rgb(0,200,200);
+	margin-left: 1rem;
+}
+
+label[for="endPicker"] {
+	color: rgb(0,200,200);
+	margin-left: 1rem;
+}

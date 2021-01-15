@@ -1,18 +1,11 @@
+// Date picker values need to be validated
+
+
 import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 
 const ClassificationPicker = (props) => {
-
-	const handlePickerSize = () => {		
-		const picker = document.querySelector('.ClassificationPicker');
-		const currentHeight = picker.offsetHeight;
-		if (currentHeight > 35) {
-			picker.style.height = "35px"
-		} else {
-			picker.style.height = "450px"
-		}
-	}
 
 	const readableClassification = {
 		JW: "Journeyman ICI",
@@ -36,20 +29,23 @@ const ClassificationPicker = (props) => {
 	let index = 0;	
 	for (let property in readableClassification) {
 		checkBoxes.push(
-				<div key = {property}>
+				<div key = {property} className="ClassificationPickerItem">
 			    <input
+			    	className = "ClassificationPickerCheckbox"
 			    	type="checkbox"
 			    	id={property + "_checkbox"}
 			    	name={property}
 			    	value={property}
 			    	onClick={props.onCheckBoxClick}
-			    	className="ClassificationPickerCheckbox" 			    	
+			    	style={
+			    		{borderColor: props.colors[index]?.lineColor}
+			    	}			    	 			    	
 			    />
 			    <label 
 			    	htmlFor={property + "_checkbox"}
 			    	style={{color: props.colors[index]?.lineColor}}
 			    	>
-			    		<span className="acronymClassification">{property}</span>
+			    		<div className="acronymClassification"><span>{property}</span></div>
 			    		<span className="readableClassification">{readableClassification[property]}</span>
 			    </label>
 		  	</div>
@@ -69,12 +65,15 @@ const ClassificationPicker = (props) => {
 
 	return (
 		<div className="ClassificationPicker">
-			<h2 onClick={handlePickerSize}>Select Classifications</h2>
+			<button id="openPickers" onClick={props.handlePickerSize}>Select Period and Classifications</button>
+			<label htmlFor="startPicker">Start Date</label>
 			<Flatpickr
 				id = "startPicker"
 				options={Options}        
-        value={defaultStart}                
+        value={defaultStart}
+        onChange={props.onDatePick}
       />
+      <label htmlFor="endPicker">End Date</label>
       <Flatpickr
       	id = "endPicker"        
         value={defaultEnd}
@@ -83,7 +82,7 @@ const ClassificationPicker = (props) => {
 			<form>
 		  	{checkBoxes}		  		
 			</form>
-			<button
+			<button id="viewRecords"
 				onClick={props.onButtonSubmit}>View Records</button>
 		</div>
 	);

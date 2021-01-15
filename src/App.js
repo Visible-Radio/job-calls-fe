@@ -6,6 +6,7 @@ import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
 import StartEndDates from './Components/StartEndDates/StartEndDates';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
+import CallCard from './Components/CallCard/CallCard';
 
 class App extends Component {
   constructor() {
@@ -18,9 +19,36 @@ class App extends Component {
     }
   }
 
+  handlePickerSize = () => {    
+    const picker = document.querySelector('.ClassificationPicker');
+    const currentHeight = picker.offsetHeight;
+    if (currentHeight > 32) {
+      picker.style.height = "32px"
+    } else {
+      picker.style.height = "610px"
+    }
+  }
+
+  onDatePick = (selectedDates, dateStr, instance) => {
+    // this might be a less side effect-y way
+    // to get the values returned from the date pickers
+    // pass this in to the picker component
+    // the picker onChange hook will pass to it
+    // 3 arguments
+    // selectedDates, dateStr, instance    
+  }
+
   onButtonSubmit = () => {    
     const start = document.querySelector('#startPicker').value;
     const end = document.querySelector('#endPicker').value;
+
+    //need to validate date inputs
+    // convert to date objects and compare to make sure end is later than start
+    if (new Date(start) > new Date(end) || start.length === 0 || end.length === 0) {
+      return alert("Invalid date input");
+    }
+
+    this.setState({start, end})
 
     const checkboxes = document.querySelectorAll('.ClassificationPickerCheckbox');
     let clicked = [];
@@ -28,7 +56,9 @@ class App extends Component {
       if (box.checked) clicked.push(box.value);
     });
     if (clicked.length === 0) clicked = ["JW", "AW"];
-    this.getData(clicked, start, end);       
+    console.log(clicked);
+    this.getData(clicked, start, end);
+    setTimeout(this.handlePickerSize,500);       
   }
 
   generateRandomColors = () => {
@@ -115,6 +145,8 @@ class App extends Component {
             colors={this.state.colors}
             onCheckBoxClick={this.onCheckBoxClick}
             onButtonSubmit={this.onButtonSubmit}
+            onDatePick={this.onDatePick}
+            handlePickerSize={this.handlePickerSize}
           />
           <div className="graphMaster">
             <StartEndDates 
@@ -138,7 +170,8 @@ class App extends Component {
             </div>
             <ColorLegend datasets={this.state.datasets} colors={this.state.colors} /> 
           </div>
-        </div>
+          <CallCard />
+        </div>        
       </div>
     );
   }  
