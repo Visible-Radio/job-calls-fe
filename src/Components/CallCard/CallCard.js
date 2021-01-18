@@ -1,40 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class CallCard extends Component {
-	constructor(props) {
-		super(props);		
-	}
-
-
-getCallSheetData = () => {
-  fetch('http://127.0.0.1:3000/', {
-    method: 'post',
-    headers: {'Content-type': 'application/json'},
-    body: JSON.stringify({
-      "start": "2020-12-04",
-      "end": "2020-12-31",	        
-    })
-  })
-  .then(response => response.json())   
-  .then(response => {
-    console.log("this came back from the API: ", response);
-  })
-} 
-
-
-componentDidMount() {
-	this.getCallSheetData();
+const CallCard = ({ data, color }) => {
+	
+	return (
+		<div className="CallCard">
+			<div style={{backgroundColor: color}}>
+				<h5 className="lbl">Class</h5>
+				<p style={{color: "#1c243a", fontWeight: "bold"}}>{data?.member_class}</p>
+			</div>
+			<div>
+				<h5 className="lbl">Company</h5>
+				<p>{data?.company}</p>
+			</div>
+			<div>
+				<h5 className="lbl">Location</h5>
+				<p>{data?.location}</p>
+			</div>
+			<div>
+				<h5 className="lbl">Call Date</h5>
+				<p>{data?.call_date_from_html}</p>
+			</div>													
+			<div>
+				<h5 className="lbl">Start Date</h5>
+				<p>{data?.start_date_from_html}</p>
+			</div>	
+			<div>
+				<h5 className="lbl">Start Time</h5>
+				<p>{data?.start_time}</p>
+			</div>
+			<div>
+				<h5 className="lbl">Members</h5>
+				<p>{data?.members_needed}</p>
+			</div>
+			<div>
+				<h5 className="lbl">Details</h5>
+				<p>{data?.summary}</p>
+			</div>					
+		</div>
+		);
 }
 
-
-
-	render() {			
-		return (						
-				<div className="CallCard" >
-							<p>Hi there! I'm the call card component</p>			
-				</div>						
-			);
-	}
-}
-
-export default CallCard
+export default CallCard;

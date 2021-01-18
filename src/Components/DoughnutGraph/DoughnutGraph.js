@@ -20,14 +20,14 @@ class DoughnutGraph extends Component {
   initChartData = () => {
   	this.myChart.data.datasets[0].data = [];  				
   	this.myChart.data.labels = [];
-  	let index = 0;  	  	
+  	this.myChart.data.datasets[0].backgroundColor = [];
+  	  	  	
   	for (let key in this.props.datasets) {  	  			
 			if (key === "Date" || key === "Total") continue;			
       this.myChart.data.labels.push(key);
       const reduced = this.props.datasets[key].reduce((acc, element) =>	acc += Number(element),0);
       this.myChart.data.datasets[0].data.push(reduced);
-      this.myChart.data.datasets[0].backgroundColor.push(this.props.colors[index].lineColor);       
-      index++;
+      this.myChart.data.datasets[0].backgroundColor.push(this.props.colors[key]);       
   	}
   }
 

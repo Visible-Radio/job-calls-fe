@@ -27,17 +27,17 @@ const ColorLegend = (props) => {
 		legendBlocks.push(
 			<li key={key + index}>
 				<div className="legendBlock"					
-					style={{backgroundColor: props.colors[index]?.lineColor}}>				
+					style={{backgroundColor: props.colors[key]}}>				
 				</div>
 				<span 
 					className="acronymClassifciation"
-					style={{color: props.colors[index]?.lineColor}}					
+					style={{color: props.colors[key]}}					
 					>
 					{key}
 				</span>
 				<span
 					className="readableClassification"
-					style={{color: props.colors[index]?.lineColor}}
+					style={{color: props.colors[key]}}
 					>
 					{readableClassification[key]}
 				</span>
@@ -56,7 +56,7 @@ const ColorLegend = (props) => {
 						<div className="legendBlock"
 							style={{backgroundColor: 'rgb(200, 200, 0)'}}>				
 						</div>
-						<span style={{color: 'rgb(200, 200, 0)'}}>Total</span>
+						<span style={{color: 'rgb(255, 255, 0)'}}>Total</span>
 					</li>
 				</ul>
 			</div>

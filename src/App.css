@@ -186,6 +186,53 @@ div.StartEndDates {
 .resultDate {
 	color: #f174d8;
 }
+.SearchBox {	
+	margin: 1rem;
+	text-align: center;	
+}
+.SearchBox input {
+	text-align: center;	
+	font-size: 1rem;
+}
+.SearchBox p {
+	color: rgb(0,200,200);
+}
+
+.CallCardContainer {		
+	width: 95%;	
+	padding: 0.5rem;
+	box-sizing: content-box;
+	/*border: 1px solid red;*/
+}
+.CallCard {
+	width: 100%;				
+	display: flex;
+	flex-wrap: wrap;
+	color: rgb(0,200,200);
+	margin-top: 3rem;	
+	border: 5px solid #1c243a;
+	border-radius: 0 0 20px 20px;
+	background-color: #1c243a;
+
+}
+.CallCard div {		
+	border: 2px solid #1c243a;	
+	margin: 0.25rem;	
+	background-color: #0c142a;
+	border-radius: 0 0 15px 15px;
+}
+.CallCard p {	
+	margin: 0.5rem 1rem 1rem 1rem;	
+
+}
+.lbl {
+	background-color: #015b00;
+	border: 3px solid #015b00;
+	margin: 2px;
+	font-size: 1rem;
+	font-weight: normal;
+	text-align: center;		
+}
 
 .ClassificationPicker {
 	flex-shrink: 0;

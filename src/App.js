@@ -6,7 +6,8 @@ import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
 import StartEndDates from './Components/StartEndDates/StartEndDates';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
-import CallCard from './Components/CallCard/CallCard';
+import CallCardList from './Components/CallCardList/CallCardList';
+import SearchBox from './Components/SearchBox/SearchBox';
 
 class App extends Component {
   constructor() {
@@ -15,8 +16,29 @@ class App extends Component {
       datasets: {},
       start: "2020-12-05",
       end: "2020-12-31",      
-      colors: [],           
+      colors: [],
+      callCardData: [],
+      searchfield: ""           
     }
+  }
+
+  colors = {
+    JW: "#fa5336",
+    AW: "#e91e63",
+    JHW: "#ff11ff",
+    AHW: "#673ab7",
+    RJW: "#0055ff",
+    JL: "#2196f3",
+    AL: "#00bcd4",
+    TEC1: "#af9800",
+    TEC2: "#ff9800",
+    TEC3: "#4caf50",
+    TEC4: "#cddc39",
+    ATEC: "#004d40",
+    CI: "#607d8b",
+    ETN: "#424242",
+    JCS: "#9e9e9e",
+    U: "#795548",
   }
 
   handlePickerSize = () => {    
@@ -42,7 +64,7 @@ class App extends Component {
     const start = document.querySelector('#startPicker').value;
     const end = document.querySelector('#endPicker').value;
 
-    //need to validate date inputs
+    // validate date inputs
     // convert to date objects and compare to make sure end is later than start
     if (new Date(start) > new Date(end) || start.length === 0 || end.length === 0) {
       return alert("Invalid date input");
@@ -55,45 +77,18 @@ class App extends Component {
     checkboxes.forEach(box => {      
       if (box.checked) clicked.push(box.value);
     });
-    if (clicked.length === 0) clicked = ["JW", "AW"];
-    console.log(clicked);
+    if (clicked.length === 0) clicked = ["JW", "AW"];    
     this.getData(clicked, start, end);
+    this.getCallSheetData(clicked, start, end);
     setTimeout(this.handlePickerSize,500);       
   }
 
-  generateRandomColors = () => {
-    const random = () => {
-        const num = Math.floor(Math.random() * (350 - 50) + 50);
-        return num > 255 ? 255 : num;           
-    } 
-      const R = random();
-      const G = random();
-      const B = random();
-      const A = 0.0      
-      const lineColor = `rgb(${R}, ${G}, ${B})`;
-      const fillColor = `rgb(${G-50}, ${R-50}, ${B-50}, ${A})`;
-      return {
-        lineColor,
-        fillColor
-      }    
-  }
-
-  generateColorArray = () => {    
-    const arr = []
-    for (let i=0; i < 16; i++) {
-      arr.push(this.generateRandomColors());
-    }
-    return arr;
-  }
-
-  /*transform our data into something like this:
-    {
-      Dates: [2020-12-15, 2020-12-16, 2020-12-17],
-      JW: [5, 2, 8],
-      AW: [2, 10, 7],
-      //etc, for all classes that may be returned from DB
-    }
-  */
+  onSearchChange = (event) => {
+    this.setState({ searchfield: event.target.value });
+    // console.log(event);
+    console.log(event.target.value);  
+  }  
+  
   prepareDatasets = (response) => {    
     const keys = Object.keys(response[0]);       
     const datasets = {};
@@ -129,20 +124,41 @@ class App extends Component {
     .catch(err => console.log("Fetch failed ", err))
   }
 
-  componentDidMount() {
-    this.setState({colors: this.generateColorArray()})
-    this.getData(); 
+  getCallSheetData = (clicked, start, end) => {
+    fetch('http://127.0.0.1:3000/', {
+      method: 'post',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({
+        "start": start || "2020-12-04",
+        "end": end || "2020-12-31",
+        "member_class": clicked          
+      })
+    })
+    .then(response => response.json())   
+    .then(response => {
+      // console.log("here's the stuff: ", response);
+      this.setState({callCardData: []})  
+      this.setState(Object.assign(this.state.callCardData, response));
+    })
+  }
+
+  componentDidMount() {    
+    this.getData();    
   }
 
   render() {
-    
-    console.log("logging State from App.js :", this.state);        
+    console.log(this.state.searchfield);
+    const { callCardData, searchfield} = this.state;
+    const filteredCalls = callCardData.filter(call => {
+      return call.summary.toLowerCase().includes(searchfield.toLowerCase());
+    })
+    console.log(filteredCalls);
     return (
       <div className="App">
         <div className="layoutMaster">      
           <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>          
           <ClassificationPicker
-            colors={this.state.colors}
+            colors={this.colors}
             onCheckBoxClick={this.onCheckBoxClick}
             onButtonSubmit={this.onButtonSubmit}
             onDatePick={this.onDatePick}
@@ -156,7 +172,7 @@ class App extends Component {
             <div className="multiGraphContainer">              
               <LineGraph 
                 datasets={this.state.datasets}                
-                colors={this.state.colors} 
+                colors={this.colors} 
               />
             </div>              
             <div className="multiGraphContainer">
@@ -165,12 +181,16 @@ class App extends Component {
               />      
               <DoughnutGraph
                 datasets={this.state.datasets}
-                colors={this.state.colors} 
+                colors={this.colors} 
               />
             </div>
-            <ColorLegend datasets={this.state.datasets} colors={this.state.colors} /> 
+            <ColorLegend datasets={this.state.datasets} colors={this.colors} /> 
           </div>
-          <CallCard />
+          <SearchBox searchChange={this.onSearchChange}/>
+          <CallCardList 
+            callCardData={filteredCalls}
+            colors={this.colors}            
+          />
         </div>        
       </div>
     );

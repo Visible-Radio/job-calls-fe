@@ -26,7 +26,7 @@ const ClassificationPicker = (props) => {
     U: "Utility Man",
 	}
 	const checkBoxes = [];
-	let index = 0;	
+	
 	for (let property in readableClassification) {
 		checkBoxes.push(
 				<div key = {property} className="ClassificationPickerItem">
@@ -38,19 +38,19 @@ const ClassificationPicker = (props) => {
 			    	value={property}
 			    	onClick={props.onCheckBoxClick}
 			    	style={
-			    		{borderColor: props.colors[index]?.lineColor}
+			    		{borderColor: props.colors[property]}
 			    	}			    	 			    	
 			    />
 			    <label 
 			    	htmlFor={property + "_checkbox"}
-			    	style={{color: props.colors[index]?.lineColor}}
+			    	style={{color: props.colors[property]}}
 			    	>
 			    		<div className="acronymClassification"><span>{property}</span></div>
 			    		<span className="readableClassification">{readableClassification[property]}</span>
 			    </label>
 		  	</div>
 			)
-		index++;		
+			
 	}	
 
 	const Options = {

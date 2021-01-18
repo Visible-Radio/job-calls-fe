@@ -24,7 +24,7 @@ class TotalLineGraph extends Component {
 		        label: "Sum of all classifications",
 			      lineTension: 0.3,
 			      backgroundColor: 'rgba(0, 50, 100, 0)',
-			      borderColor: 'rgb(200, 200, 0)',
+			      borderColor: 'rgb(255, 255, 0)',
 			      borderWidth: 2,
 			      pointRadius: 5,
 			      data: this.props?.datasets?.Total

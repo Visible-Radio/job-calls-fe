@@ -10,20 +10,20 @@ class LineGraph extends Component {
 	generateLines = () => {		
 	//programatically generate the data object for each line
 	this.myChart.data.datasets.length = 0;		
-		let index = 0;
+		
 		for (let key in this.props?.datasets) {					
 			if (key === "Date" || key === "Total") continue;			
 			const chartLine = {
 	      label: key,
 	      lineTension: 0.3,
-	      backgroundColor: this.props?.colors[index]?.fillColor,
-	      borderColor: this.props?.colors[index]?.lineColor,
+	      backgroundColor: 'rgba(1,1,1,0)' ,
+	      borderColor: this.props?.colors[key],
 	      borderWidth: 2,
 	      pointRadius: 5,
 	      data: this.props?.datasets[key] 
 	   	}
 	   	this.myChart.data.datasets.push(chartLine);
-	   	index++;   	
+	   	  	
 		}		
 	}
 
