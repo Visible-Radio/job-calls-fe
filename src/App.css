@@ -188,20 +188,28 @@ div.StartEndDates {
 }
 .SearchBox {	
 	margin: 1rem;
-	text-align: center;	
+	text-align: center;
+	background-color: #1c243a;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	border-radius: 20px;
+	margin-bottom: 0;	
 }
 .SearchBox input {
 	text-align: center;	
 	font-size: 1rem;
 }
 .SearchBox p {
-	color: rgb(0,200,200);
+	color: rgb(0,200,200);	
 }
 
-.CallCardContainer {		
+.CallCardContainer {
+	display: flex;
+	flex-direction: column;		
+	align-items: center;
 	width: 95%;	
 	padding: 0.5rem;
-	box-sizing: content-box;
+	box-sizing: border-box;
+	margin-top: 3rem;
 	/*border: 1px solid red;*/
 }
 .CallCard {
@@ -209,7 +217,7 @@ div.StartEndDates {
 	display: flex;
 	flex-wrap: wrap;
 	color: rgb(0,200,200);
-	margin-top: 3rem;	
+	margin-top: 1rem;	
 	border: 5px solid #1c243a;
 	border-radius: 0 0 20px 20px;
 	background-color: #1c243a;
@@ -222,8 +230,7 @@ div.StartEndDates {
 	border-radius: 0 0 15px 15px;
 }
 .CallCard p {	
-	margin: 0.5rem 1rem 1rem 1rem;	
-
+	margin: 0.5rem 1rem 1rem 1rem;
 }
 .lbl {
 	background-color: #015b00;
@@ -233,13 +240,12 @@ div.StartEndDates {
 	font-weight: normal;
 	text-align: center;		
 }
-
 .ClassificationPicker {
 	flex-shrink: 0;
 	background-color: #001320;	
 	font-size: 20px;
 	width: 95%;
-	height: 610px;
+	height: 32px;
 	transition-property: height;
 	transition-duration: 0.5s;
 	overflow-y: hidden;
@@ -305,7 +311,7 @@ button {
 	font-size: 16px;
 	background-color: rgb(0,200,200);
 }
-button:focus {           
+button:focus, #startPicker:focus, #endPicker:focus {           
     outline-color: rgb(0,200,200);
     outline-style: dashed;    
 }
@@ -322,17 +328,14 @@ button:active {
 	transition-property: transform;
 	transition-duration: 0.1s;
 }
-
 #viewRecords {
 	width: 350px;
 	height: 25px;
 }
-
 #openPickers {
 	width: 100%;
 	margin: 0;	
 }
-
 #startPicker, #endPicker {
 	background-color: rgb(0,200,200);
 	font-size: 16px;
@@ -342,13 +345,35 @@ button:active {
 	margin-top: 0.5rem;
 	margin-left: 0.5rem;
 }
-
 label[for="startPicker"] {
 	color: rgb(0,200,200);
 	margin-left: 1rem;
 }
-
 label[for="endPicker"] {
 	color: rgb(0,200,200);
 	margin-left: 1rem;
 }
+label[for="companyInput"] {
+	color: rgb(0,200,200);
+	margin-left: 1rem;
+}
+#companyInput {
+	margin-top: 0.5rem;
+	margin-left: 0.5rem;
+	width: 321px;
+	height: 31px;	
+	font-size: 16px;		
+	padding: 0.7rem;
+	/*border-radius: 5px;	*/
+	background-color: rgb(0,200,200);
+}
+#companyInput:focus {
+	background-color: rgb(0,255,255);	
+	transform: scale(1.05);
+	transition-property: transform;
+	transition-duration: 0.2s;
+}
+::placeholder {
+	color: black;
+}
+

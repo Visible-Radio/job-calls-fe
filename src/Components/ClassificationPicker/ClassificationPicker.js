@@ -1,6 +1,3 @@
-// Date picker values need to be validated
-
-
 import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
@@ -78,8 +75,17 @@ const ClassificationPicker = (props) => {
       	id = "endPicker"        
         value={defaultEnd}
         options={Options}        
-      />			
-			<form>
+      />
+      <div>
+      <label htmlFor="companyInput">Company</label>
+	      <input
+					id = "companyInput"				
+					type='search'
+					placeholder='Leave blank for all'
+					maxLength="25"								
+					/>
+			</div>			
+			<form>				
 		  	{checkBoxes}		  		
 			</form>
 			<button id="viewRecords"
