@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {      
       datasets: {},
       start: "2020-12-05",
-      end: "2020-12-31",      
+      end: "2020-12-31",
+      company: "",            
       colors: [],
       callCardData: [],
       searchfield: ""           
@@ -44,8 +45,8 @@ class App extends Component {
   handlePickerSize = () => {    
     const picker = document.querySelector('.ClassificationPicker');
     const currentHeight = picker.offsetHeight;
-    if (currentHeight > 32) {
-      picker.style.height = "32px"
+    if (currentHeight > 34) {
+      picker.style.height = "34px"
     } else {
       picker.style.height = "650px"
     }
@@ -70,7 +71,7 @@ class App extends Component {
     if (new Date(start) > new Date(end) || start.length === 0 || end.length === 0) {
       return alert("Invalid date input");
     }
-    this.setState({start, end})
+    this.setState({start, end, company})
 
     // validate company input
     // only permit alphanumeric chars    
@@ -176,8 +177,11 @@ class App extends Component {
     })
     return (
       <div className="App">
-        <div className="layoutMaster">      
-          <h1>IBEW LOCAL 353 JOB CALLS DATABASE</h1>          
+        <div className="layoutMaster">
+        <div id="header">      
+          <h1>IBEW LOCAL 353</h1>
+          <h1>JOB CALLS DATABASE</h1>
+        </div>
           <ClassificationPicker
             colors={this.colors}
             onCheckBoxClick={this.onCheckBoxClick}
@@ -189,6 +193,7 @@ class App extends Component {
             <StartEndDates 
               start={this.state.start}
               end={this.state.end}
+              company={this.state.company}
             />
             <div className="multiGraphContainer">              
               <LineGraph 

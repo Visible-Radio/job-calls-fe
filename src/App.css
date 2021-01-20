@@ -13,7 +13,6 @@ body {
 	/*background-color:#1c243a88;	*/
 	/*border: 1px solid red;	*/
 }
-
 .layoutMaster {
 	display: flex;	
 	flex-direction: column;
@@ -22,18 +21,18 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
-.graphMaster {		
-	width: 95%;
+.graphMaster {
+	display: flex;
+	flex-direction: column;
+	width: 97%;	
 	background-color: #001320;	
 	border: 5px solid #1c243a;
-	height: auto;
+	border-top: 7px solid #1c243a;	
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 	height: auto;
 }
-
 .multiGraphContainer {		
 	display: flex;
 	flex-direction: row;
@@ -46,20 +45,16 @@ body {
 	margin: 0;
 	box-sizing: border-box;		
 }
-
 .graphBg {
 	margin: 0.5rem;	
 	background-color: #1c243a;
 	padding-bottom: 1rem;
-	
 }
-
 .totalLineGraph {
 	min-width: 350px;	
 	flex: 2 1 0;
 	max-width: 1000px;
 	box-sizing: border-box;
-	
 }
 
 .LineGraph {	
@@ -67,9 +62,7 @@ body {
 	flex: 2 1 0;
 	max-width: 1500px;
 	box-sizing: border-box;
-	
 }
-
 .DoughnutGraph {		
 	min-width: 200px;	
 	flex: 1 1 0;
@@ -78,18 +71,14 @@ body {
 	box-sizing: border-box;
 	position: relative;
 }
-
 #grandTotal {
 	position: absolute;	
-	top: 45%;
-	/*left: 38%;*/
-	/*font-size: 3vw;*/
+	top: 45%;	
 	color: rgb(0, 200, 200);	
 	margin: 0;
 	line-height: 90%;	
 	text-align: center;
 }
-
 .ColorLegend {
 	align-self: center;
 	border: 5px solid #1c243a;
@@ -99,7 +88,6 @@ body {
 	max-height: 400px;	
 	flex: 1 4 0;	
 }
-
 ul.legend {
 	display: flex;
 	flex-direction: column;
@@ -109,7 +97,6 @@ ul.legend {
 	padding: 0;
 	max-height: 400px;	
 }
-
 @media (min-width:700px) {
 	ul.legend {
 		max-height: 200px;
@@ -118,7 +105,6 @@ ul.legend {
 		max-height: 200px;
 	}
 }
-
 @media (min-width: 1280px) {
 	ul.legend {
 		max-height: 100px;
@@ -127,30 +113,33 @@ ul.legend {
 		max-height: 100px;
 	}
 }
-
 .legendBlock {	
 	display: block;
 	height: 20px;
 	width: 20px;	
 }
-
 li {
 	display: flex;
 	align-items: center;
 }
-
 span {
 	margin-left: 0.5rem;
 	font-size: 20px;
 }
-
-h1 {		
-	margin: 0.5rem;
-	font-size: 1.1rem;
+h1 {
+	margin: 0 1rem 0 1rem;		
 	letter-spacing: 0.2rem;	
-	color: #f174d8;	
+	color: rgb(0,200,200);
+	z-index: 1;
 }
-
+#header {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;		
+	width: 97%;
+}
 h2 {
 	text-align: center;
 	color: #f174d8;	
@@ -161,31 +150,30 @@ h2 {
 	background: #1c243a;
 	border: 3px solid #1c243a;
 }
-
 span.readableClassification {	
 	font-size: 18px;
 	opacity: 0.8;	
 }
+/*=============================================================*/
+/* what the? make the dang divs wrap inside the flexbox instead
+of the h3s!!*/
 
-h3 {	 				
-	margin: 0;		
-}
-
-h3 > span {
-	font-size: 1.1rem;
-}
-
-div.StartEndDates {	
-	text-align: center;	
-	background: #1c243a;		
-	letter-spacing: 0.2rem;
-	margin: 0.5rem 0.5rem 0 0.5rem;
-	border: 3px solid #1c243a;
-}
-
-.resultDate {
+#StartEndDates h3 {	 				
+	margin: 0.5rem;
 	color: #f174d8;
+	font-size: 18px;
+	min-width: max-content;
+	margin-bottom: 0;		
 }
+#StartEndDates {			
+	display: flex;	
+	flex-flow: row wrap;
+	justify-content: space-between;
+	padding: 0 0.2rem 0 0.2rem;
+	margin-bottom: 0;	
+}
+/*=============================================================*/
+
 .SearchBox {	
 	margin: 1rem;
 	text-align: center;
@@ -206,7 +194,7 @@ div.StartEndDates {
 	display: flex;
 	flex-direction: column;		
 	align-items: center;
-	width: 95%;	
+	width: 97%;	
 	padding: 0.5rem;
 	box-sizing: border-box;
 	margin-top: 3rem;
@@ -244,15 +232,15 @@ div.StartEndDates {
 	flex-shrink: 0;
 	background-color: #001320;	
 	font-size: 20px;
-	width: 95%;
-	height: 32px;
+	width: 97%;
+	height: 34px;
 	transition-property: height;
 	transition-duration: 0.5s;
 	overflow-y: hidden;
 	box-sizing: border-box;
 	border-left: 5px solid #1c243a;
 	border-right: 5px solid #1c243a;
-	border-top: 5px solid #1c243a;
+	border-top: 7px solid #1c243a;	
 	overflow: hidden;	
 }
 .ClassificationPicker > h2 {
@@ -308,8 +296,9 @@ form {
 button {
 	border: none;
 	margin-left: 1.5rem;
-	font-size: 16px;
+	font-size: 18px;
 	background-color: rgb(0,200,200);
+	height: 25px;	
 }
 button:focus, #startPicker:focus, #endPicker:focus {           
     outline-color: rgb(0,200,200);
@@ -329,12 +318,11 @@ button:active {
 	transition-duration: 0.1s;
 }
 #viewRecords {
-	width: 350px;
-	height: 25px;
+	width: 350px;	
 }
 #openPickers {
 	width: 100%;
-	margin: 0;	
+	margin: 0;
 }
 #startPicker, #endPicker {
 	background-color: rgb(0,200,200);
