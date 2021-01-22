@@ -132,7 +132,7 @@ h1 {
 	color: rgb(0,200,200);
 	z-index: 1;
 }
-#header {
+#header {	
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	display: flex;
@@ -154,13 +154,9 @@ span.readableClassification {
 	font-size: 18px;
 	opacity: 0.8;	
 }
-/*=============================================================*/
-/* what the? make the dang divs wrap inside the flexbox instead
-of the h3s!!*/
-
 #StartEndDates h3 {	 				
 	margin: 0.5rem;
-	color: #f174d8;
+	color: rgb(0,200,200);
 	font-size: 18px;
 	min-width: max-content;
 	margin-bottom: 0;		
@@ -172,8 +168,6 @@ of the h3s!!*/
 	padding: 0 0.2rem 0 0.2rem;
 	margin-bottom: 0;	
 }
-/*=============================================================*/
-
 .SearchBox {	
 	margin: 1rem;
 	text-align: center;
@@ -298,6 +292,7 @@ button {
 	margin-left: 1.5rem;
 	font-size: 18px;
 	background-color: rgb(0,200,200);
+	/*background-color: #b3c32f;*/
 	height: 25px;	
 }
 button:focus, #startPicker:focus, #endPicker:focus {           

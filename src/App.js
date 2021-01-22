@@ -120,8 +120,8 @@ class App extends Component {
     if (company?.length) {      
       body.company = company;
     }
-
-    fetch('http://127.0.0.1:3000/members_needed_by_date', {
+    //http://127.0.0.1:3000/ for local db
+    fetch('https://evening-plateau-74700.herokuapp.com/members_needed_by_date', {
       method: 'post',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify(body)
@@ -151,8 +151,8 @@ class App extends Component {
     if (company?.length) {      
       body.company = company;
     }
-
-    fetch('http://127.0.0.1:3000/', {
+    //http://127.0.0.1:3000/ for local db
+    fetch('https://evening-plateau-74700.herokuapp.com/', {
       method: 'post',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify(body)
