@@ -35,6 +35,7 @@ const App = () => {
   const [end, setEnd] = useState('2021-01-30');
   const [clicked, setClicked] = useState([]);
   const [company, setCompany] = useState('');
+  const [companies, setCompanies] = useState();
 
   const handlePickerSize = () => {
     const picker = document.querySelector('.ClassificationPicker');
@@ -82,6 +83,7 @@ const App = () => {
       handleFetch(clicked, start, end, company).then(data => {
         setCallCardData(data.callCardData);
         setChartData(data.chartData);
+        setCompanies(data.companies);
       });
    },[clicked, start, end, company]);
 
@@ -93,6 +95,7 @@ const App = () => {
           <h1>JOB CALLS DATABASE</h1>
         </div>
           <ClassificationPicker
+            companies={companies}
             colors={colors}
             // onCheckBoxClick={onCheckBoxClick}
             // onDatePick={onDatePick}

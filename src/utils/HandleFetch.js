@@ -31,6 +31,9 @@ const handleFetch = async (clicked, start, end, company) => {
     return datasets;
   }
 
+  const companies = await fetch('https://evening-plateau-74700.herokuapp.com/companies')
+    .then(res => res.json());
+
   const callCardData = await
     getData('https://evening-plateau-74700.herokuapp.com/');
 
@@ -41,6 +44,7 @@ const handleFetch = async (clicked, start, end, company) => {
   return {
     callCardData,
     chartData,
+    companies,
   }
 
 }

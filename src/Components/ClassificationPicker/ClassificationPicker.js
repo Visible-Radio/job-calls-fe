@@ -2,6 +2,7 @@ import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
+import CompanySelect from './CompanySelect';
 
 const ClassificationPicker = (props) => {
 
@@ -67,6 +68,7 @@ const ClassificationPicker = (props) => {
 					maxLength="25"
 					/>
 			</div>
+			<CompanySelect companies={props.companies}></CompanySelect>
 			<form>
 		  	{checkBoxes}
 			</form>
