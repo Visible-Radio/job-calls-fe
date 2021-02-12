@@ -1,11 +1,6 @@
 //TODOs
 /*
-some kind of loading indicator when waiting for data
-clear charts of old data when new data has been requested
 
-Why does the filter input cause the line graph to re-render? fix this
-
-refactor chart compondents with hooks
 refactor for the react chart.js library
 
 layout bug on mobile with classification picker

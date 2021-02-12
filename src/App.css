@@ -359,6 +359,7 @@ label[for="companyInput"] {
 ::placeholder {
 	color: black;
 }
+/* =========================waiting for database indicator=========================== */
 .loadingRef {
 	position: relative;
 	width: 100%;
@@ -366,13 +367,26 @@ label[for="companyInput"] {
 	margin: 0;
 	padding: 0;
 }
-.noData {
-	margin: 0;
-	padding: 0;
+.loadingFlex {
 	position: absolute;
-	top: 40%;
-	left: 25%;
-
-
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+.noData {
+	transition-property: all;
+	transition-duration: 1s;
+	margin: 0;
+	padding: 1%;
+	font-size: 18px;
+	letter-spacing: 5px;
+	text-transform: uppercase;
+	color: rgb(240,240,0);
+	border: 2px solid rgb(240,240,0);
+	border-radius: 5px;
 }
 
