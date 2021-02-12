@@ -31,7 +31,7 @@ import StartEndDates from './Components/StartEndDates/StartEndDates';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
 import CallCardList from './Components/CallCardList/CallCardList';
 import handleFetch from './utils/HandleFetch';
-import colors from './config';
+import { colors } from './config';
 
 const App = () => {
   const [chartData, setChartData] = useState({});
@@ -40,7 +40,6 @@ const App = () => {
   const [end, setEnd] = useState('2021-01-30');
   const [clicked, setClicked] = useState([]);
   const [company, setCompany] = useState('');
-  // const [searchField, setSearchField] = useState('');
 
   const handlePickerSize = () => {
     const picker = document.querySelector('.ClassificationPicker');
@@ -79,7 +78,7 @@ const App = () => {
     });
     setClicked(checked);
     setCallCardData([]);
-    setChartData([]);
+    setChartData({});
     setTimeout(handlePickerSize,500);
   }
 
@@ -131,7 +130,6 @@ const App = () => {
           <CallCardList
             callCardData={callCardData}
             colors={colors}
-            // searchChange={onSearchChange}
           />
         </div>
       </div>

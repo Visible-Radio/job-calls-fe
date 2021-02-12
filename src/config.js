@@ -17,4 +17,24 @@ const colors = {
   U: "#795548",
 }
 
-export default colors;
+const readableClassification = {
+  JW: "Journeyman ICI",
+  AW: "Apprentice ICI",
+  JHW: "Journeyman House",
+  AHW: "Apprentice House",
+  RJW: "Highrise Journeyman",
+  JL: "Journeyman Lineman",
+  AL: "Apprentice Lineman",
+  TEC1: "Comm Tech 1",
+  TEC2: "Comm Tech 2",
+  TEC3: "Comm Tech 3",
+  TEC4: "Comm Tech 4",
+  ATEC: "Apprentice Comm Tech",
+  CI: "Cable Installer",
+  ETN: "Electronics Technician",
+  JCS: "Journeyman Cable Splicer",
+  U: "Utility Man",
+}
+
+export {colors, readableClassification};
+

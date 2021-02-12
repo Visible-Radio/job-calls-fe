@@ -1,27 +1,10 @@
 import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
+import { readableClassification } from '../../config';
 
 const ClassificationPicker = (props) => {
 
-	const readableClassification = {
-		JW: "Journeyman ICI",
-    AW: "Apprentice ICI",
-    JHW: "Journeyman House",
-    AHW: "Apprentice House",
-    RJW: "Highrise Journeyman",
-    JL: "Journeyman Lineman",
-    AL: "Apprentice Lineman",
-    TEC1: "Comm Tech 1",
-    TEC2: "Comm Tech 2",
-    TEC3: "Comm Tech 3",
-    TEC4: "Comm Tech 4",
-    ATEC: "Apprentice Comm Tech",
-    CI: "Cable Installer",
-    ETN: "Electronics Technician",
-    JCS: "Journeyman Cable Splicer",
-    U: "Utility Man",
-	}
 	const checkBoxes = [];
 
 	for (let property in readableClassification) {
@@ -47,7 +30,6 @@ const ClassificationPicker = (props) => {
 			    </label>
 		  	</div>
 			)
-
 	}
 
 	const Options = {

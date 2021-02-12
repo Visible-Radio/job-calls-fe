@@ -5,14 +5,14 @@ class LineGraph extends Component {
 	constructor(props) {
 		super(props);
 		this.canvasRef = React.createRef();
-	}	
+	}
 
-	generateLines = () => {		
+	generateLines = () => {
 	//programatically generate the data object for each line
-	this.myChart.data.datasets.length = 0;		
-		
-		for (let key in this.props?.datasets) {					
-			if (key === "Date" || key === "Total") continue;			
+	this.myChart.data.datasets.length = 0;
+
+		for (let key in this.props?.datasets) {
+			if (key === "Date" || key === "Total") continue;
 			const chartLine = {
 	      label: key,
 	      lineTension: 0.3,
@@ -20,23 +20,23 @@ class LineGraph extends Component {
 	      borderColor: this.props?.colors[key],
 	      borderWidth: 2,
 	      pointRadius: 5,
-	      data: this.props?.datasets[key] 
+	      data: this.props?.datasets[key]
 	   	}
 	   	this.myChart.data.datasets.push(chartLine);
-	   	  	
-		}		
+
+		}
 	}
 
 	componentDidUpdate() {
-		this.myChart.data.datasets.length = 0;		
+		this.myChart.data.datasets.length = 0;
 		this.generateLines();
     this.myChart.data.labels = this.props?.datasets?.Date;
-    this.myChart.update();  
-  }  
+    this.myChart.update();
+  }
 
-	componentDidMount() {		
+	componentDidMount() {
 		this.myChart = new Chart(this.canvasRef.current, {
-			type: 'line',			
+			type: 'line',
 			// The data for our dataset
 	    data: {
         labels: this.props?.datasets?.Date,
@@ -50,7 +50,7 @@ class LineGraph extends Component {
             fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: `Members Needed by Classification` 
+            text: `Members Needed by Classification`
         },
 	    	legend: {
 	    		display: false,
@@ -70,7 +70,7 @@ class LineGraph extends Component {
                 fontColor: "rgb(0, 200, 200)",
                 fontSize: 12,
                 stepSize: 1,
-                beginAtZero: true                
+                beginAtZero: true
             }
           }],
           xAxes: [{
@@ -88,14 +88,23 @@ class LineGraph extends Component {
           }]
         }
 	    }
-		});		
+		});
 	}
 
-	render() {			
-		return (						
+	render() {
+		let waitingOpacity = 0;
+		if (this.props.datasets && Object.keys(this.props.datasets).length === 0) {
+			waitingOpacity = 1;
+		} else {
+			waitingOpacity = 0;
+		}
+		return (
+			<div className='loadingRef'>
+				<h1 className='noData' style={{opacity: waitingOpacity,}}>Waiting for Database</h1>
 				<div className='graphBg LineGraph'>
 					<canvas ref={ this.canvasRef } />
-				</div>						
+				</div>
+			</div>
 			);
 	}
 
