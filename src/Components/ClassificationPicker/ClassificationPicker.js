@@ -1,29 +1,12 @@
 import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
+import { readableClassification } from '../../config';
 
 const ClassificationPicker = (props) => {
 
-	const readableClassification = {
-		JW: "Journeyman ICI",
-    AW: "Apprentice ICI",
-    JHW: "Journeyman House",
-    AHW: "Apprentice House",
-    RJW: "Highrise Journeyman",
-    JL: "Journeyman Lineman",
-    AL: "Apprentice Lineman",
-    TEC1: "Comm Tech 1",
-    TEC2: "Comm Tech 2",
-    TEC3: "Comm Tech 3",
-    TEC4: "Comm Tech 4",
-    ATEC: "Apprentice Comm Tech",
-    CI: "Cable Installer",
-    ETN: "Electronics Technician",
-    JCS: "Journeyman Cable Splicer",
-    U: "Utility Man",
-	}
 	const checkBoxes = [];
-	
+
 	for (let property in readableClassification) {
 		checkBoxes.push(
 				<div key = {property} className="ClassificationPickerItem">
@@ -33,12 +16,12 @@ const ClassificationPicker = (props) => {
 			    	id={property + "_checkbox"}
 			    	name={property}
 			    	value={property}
-			    	onClick={props.onCheckBoxClick}
+			    	// onClick={props.onCheckBoxClick}
 			    	style={
 			    		{borderColor: props.colors[property]}
-			    	}			    	 			    	
+			    	}
 			    />
-			    <label 
+			    <label
 			    	htmlFor={property + "_checkbox"}
 			    	style={{color: props.colors[property]}}
 			    	>
@@ -47,8 +30,7 @@ const ClassificationPicker = (props) => {
 			    </label>
 		  	</div>
 			)
-			
-	}	
+	}
 
 	const Options = {
 		mode: "single",
@@ -58,7 +40,7 @@ const ClassificationPicker = (props) => {
 	}
 
 	const defaultStart = "2020-12-04";
-	const defaultEnd = "2020-12-31";	
+	const defaultEnd = "2020-12-31";
 
 	return (
 		<div className="ClassificationPicker">
@@ -66,27 +48,27 @@ const ClassificationPicker = (props) => {
 			<label htmlFor="startPicker">Start Date</label>
 			<Flatpickr
 				id = "startPicker"
-				options={Options}        
+				options={Options}
         value={defaultStart}
         onChange={props.onDatePick}
       />
       <label htmlFor="endPicker">End Date</label>
       <Flatpickr
-      	id = "endPicker"        
+      	id = "endPicker"
         value={defaultEnd}
-        options={Options}        
+        options={Options}
       />
       <div>
       <label htmlFor="companyInput">Company</label>
 	      <input
-					id = "companyInput"				
+					id = "companyInput"
 					type='search'
 					placeholder='Leave blank for all'
-					maxLength="25"								
+					maxLength="25"
 					/>
-			</div>			
-			<form>				
-		  	{checkBoxes}		  		
+			</div>
+			<form>
+		  	{checkBoxes}
 			</form>
 			<button id="viewRecords"
 				onClick={props.onButtonSubmit}>View Records</button>

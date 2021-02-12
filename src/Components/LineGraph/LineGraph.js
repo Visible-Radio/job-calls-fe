@@ -1,48 +1,37 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 
-class LineGraph extends Component {
-	constructor(props) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}	
+const LineGraph = ({ datasets, colors }) => {
+	const canvasRef = useRef();
 
-	generateLines = () => {		
-	//programatically generate the data object for each line
-	this.myChart.data.datasets.length = 0;		
-		
-		for (let key in this.props?.datasets) {					
-			if (key === "Date" || key === "Total") continue;			
+	const generateLines = (myChart) => {
+		//programatically generate the data object for each line
+		myChart.data.datasets.length = 0;
+
+		for (let key in datasets) {
+			if (key === "Date" || key === "Total") continue;
 			const chartLine = {
 	      label: key,
 	      lineTension: 0.3,
 	      backgroundColor: 'rgba(1,1,1,0)' ,
-	      borderColor: this.props?.colors[key],
+	      borderColor: colors[key],
 	      borderWidth: 2,
 	      pointRadius: 5,
-	      data: this.props?.datasets[key] 
+	      data: datasets[key]
 	   	}
-	   	this.myChart.data.datasets.push(chartLine);
-	   	  	
-		}		
+	   	myChart.data.datasets.push(chartLine);
+		}
 	}
 
-	componentDidUpdate() {
-		this.myChart.data.datasets.length = 0;		
-		this.generateLines();
-    this.myChart.data.labels = this.props?.datasets?.Date;
-    this.myChart.update();  
-  }  
-
-	componentDidMount() {		
-		this.myChart = new Chart(this.canvasRef.current, {
-			type: 'line',			
+	useEffect(()=> {
+		/*init graph instance...this runs every render??*/
+		const myChart = new Chart(canvasRef.current, {
+			type: 'line',
 			// The data for our dataset
 	    data: {
-        labels: this.props?.datasets?.Date,
+        labels: datasets?.Date,
         datasets: [] // chartLines get pushed into here
 	    },
-
 	    // Configuration options go here
 	    options: {
 	    	title: {
@@ -50,7 +39,7 @@ class LineGraph extends Component {
             fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: `Members Needed by Classification` 
+            text: `Members Needed by Classification`
         },
 	    	legend: {
 	    		display: false,
@@ -70,7 +59,7 @@ class LineGraph extends Component {
                 fontColor: "rgb(0, 200, 200)",
                 fontSize: 12,
                 stepSize: 1,
-                beginAtZero: true                
+                beginAtZero: true
             }
           }],
           xAxes: [{
@@ -88,17 +77,44 @@ class LineGraph extends Component {
           }]
         }
 	    }
-		});		
+		});/*end of init graph instance*/
+
+		generateLines(myChart);
+    myChart.data.labels = datasets?.Date;
+    myChart.update();
+
+		return function cleanup() {
+			myChart.destroy();
+		};
+	});
+
+	let waitingOpacity = 0;
+	let scale = 1;
+	const loadingOverlay = document.querySelector('.loadingFlex');
+	if (datasets && Object.keys(datasets).length === 0) {
+		waitingOpacity = 1;
+		scale = 'scale(1)';
+		if (loadingOverlay) loadingOverlay.style.setProperty('display', 'flex');
+	} else {
+		waitingOpacity = 0;
+		scale = 'scale(0)';
+		if (loadingOverlay) {
+			setTimeout(()=> {
+				loadingOverlay.style.setProperty('display', 'none');
+			},1000);
+		}
 	}
 
-	render() {			
-		return (						
-				<div className='graphBg LineGraph'>
-					<canvas ref={ this.canvasRef } />
-				</div>						
-			);
-	}
-
+	return (
+		<div className='loadingRef'>
+			<div className='loadingFlex' style={{display: 'flex'}}>
+				<h1 className='noData' style={{opacity: waitingOpacity, transform: scale}}>Fetching Data</h1>
+			</div>
+			<div className='graphBg LineGraph'>
+				<canvas ref={ canvasRef } />
+			</div>
+		</div>
+	);
 }
 
 export default LineGraph

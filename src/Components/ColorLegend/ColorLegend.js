@@ -1,37 +1,20 @@
 import React from 'react';
+import { readableClassification } from '../../config'
 
 const ColorLegend = (props) => {
-	const readableClassification = {
-		JW: "Journeyman ICI",
-    AW: "Apprentice ICI",
-    JHW: "Journeyman House",
-    AHW: "Apprentice House",
-    RJW: "Highrise Journeyman",
-    JL: "Journeyman Lineman",
-    AL: "Apprentice Lineman",
-    TEC1: "Comm Tech 1",
-    TEC2: "Comm Tech 2",
-    TEC3: "Comm Tech 3",
-    TEC4: "Comm Tech 4",
-    ATEC: "Apprentice Comm Tech",
-    CI: "Cable Installer",
-    ETN: "Electronics Technician",
-    JCS: "Journeyman Cable Splicer",
-    U: "Utility Man",
-	}
 
 	const legendBlocks = [];
 	let index = 0;
 	for (let key in props.datasets) {
-		if (key === 'Total' || key === "Date") continue;	
+		if (key === 'Total' || key === "Date") continue;
 		legendBlocks.push(
 			<li key={key + index}>
-				<div className="legendBlock"					
-					style={{backgroundColor: props.colors[key]}}>				
+				<div className="legendBlock"
+					style={{backgroundColor: props.colors[key]}}>
 				</div>
-				<span 
+				<span
 					className="acronymClassifciation"
-					style={{color: props.colors[key]}}					
+					style={{color: props.colors[key]}}
 					>
 					{key}
 				</span>
@@ -49,12 +32,12 @@ const ColorLegend = (props) => {
 	return (
 		<div>
 			<h2>Selected Classifications</h2>
-			<div className="ColorLegend">			
+			<div className="ColorLegend">
 				<ul className="legend">
 					{legendBlocks}
 					<li key={"ColorLegendTotal_static_li"}>
 						<div className="legendBlock"
-							style={{backgroundColor: 'rgb(200, 200, 0)'}}>				
+							style={{backgroundColor: 'rgb(200, 200, 0)'}}>
 						</div>
 						<span style={{color: 'rgb(255, 255, 0)'}}>Total</span>
 					</li>

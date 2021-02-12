@@ -1,37 +1,27 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 
-class TotalLineGraph extends Component {
-	constructor(props) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}
+const TotalLineGraph = ({ datasets }) => {
+	const canvasRef = useRef();
 
-	componentDidUpdate() {						
-		this.myChart.data.datasets[0].data = this.props?.datasets?.Total;
-		this.myChart.data.labels = this.props?.datasets?.Date;       
-		this.myChart.update();		
-  }  
-
-	componentDidMount() {
-		this.myChart = new Chart(this.canvasRef.current, {
-			type: 'line',			
+	useEffect(() => {
+		const myChart = new Chart(canvasRef.current, {
+			type: 'line',
 			// The data for our dataset
 	    data: {
-        labels: this.props?.datasets?.Date,
+        labels: datasets?.Date,
         datasets: [
         	{
-		        label: "Sum of all classifications",
+		        label: "Sum of selected classifications",
 			      lineTension: 0.3,
 			      backgroundColor: 'rgba(0, 50, 100, 0)',
 			      borderColor: 'rgb(255, 255, 0)',
 			      borderWidth: 2,
 			      pointRadius: 5,
-			      data: this.props?.datasets?.Total
+			      data: datasets?.Total
 		    	}
         ]
 	    },
-
 	    // Configuration options go here
 	    options: {
 	    	title: {
@@ -39,16 +29,16 @@ class TotalLineGraph extends Component {
             fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 200, 200)",
-            text: `Total Members Needed` 
+            text: `Total Members Needed`
         },
 	    	legend: {
 	    		display: false,
-          labels: {          	
+          labels: {
               fontColor: "rgb(150, 120, 255)",
               fontSize: 18
           }
         },
-        scales: {        	
+        scales: {
           yAxes: [{
           	// display: false,
           	gridLines: {
@@ -56,17 +46,17 @@ class TotalLineGraph extends Component {
 	        		color: 'rgb(0, 50, 50)',
 	        		lineWidth: 1
         		},
-            ticks: {            		
+            ticks: {
                 fontColor: "rgb(0, 200, 200)",
                 fontSize: 12,
                 stepSize: 1,
-                beginAtZero: true                
+                beginAtZero: true
             }
           }],
           xAxes: [{
           	// display: false,
           	gridLines: {
-          		display: true,	        		
+          		display: true,
 	        		color: 'rgb(0, 50, 100)',
 	        		lineWidth: 1
         		},
@@ -79,16 +69,22 @@ class TotalLineGraph extends Component {
           }]
         }
 	    }
-		});		
-	}
+		});
 
-	render() {			
-		return (						
-				<div className='graphBg totalLineGraph'>
-					<canvas ref={ this.canvasRef } />
-				</div>						
-			);
-	}
+		myChart.data.datasets[0].data = datasets?.Total;
+		myChart.data.labels = datasets?.Date;
+		myChart.update();
+
+		return function cleanup() {
+			myChart.destroy();
+		};
+	})
+
+	return (
+			<div className='graphBg totalLineGraph'>
+				<canvas ref={ canvasRef } />
+			</div>
+		);
 }
 
 export default TotalLineGraph
