@@ -2,6 +2,7 @@ import React from 'react';
 import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
+import CompanySelect from './CompanySelect';
 
 const ClassificationPicker = (props) => {
 
@@ -40,7 +41,7 @@ const ClassificationPicker = (props) => {
 	}
 
 	const defaultStart = "2020-12-04";
-	const defaultEnd = "2020-12-31";
+	const defaultEnd = Options.maxDate;
 
 	return (
 		<div className="ClassificationPicker">
@@ -58,7 +59,7 @@ const ClassificationPicker = (props) => {
         value={defaultEnd}
         options={Options}
       />
-      <div>
+      {/* <div>
       <label htmlFor="companyInput">Company</label>
 	      <input
 					id = "companyInput"
@@ -66,7 +67,8 @@ const ClassificationPicker = (props) => {
 					placeholder='Leave blank for all'
 					maxLength="25"
 					/>
-			</div>
+			</div> */}
+			<CompanySelect companies={props.companies}></CompanySelect>
 			<form>
 		  	{checkBoxes}
 			</form>

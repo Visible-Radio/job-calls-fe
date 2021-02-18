@@ -1,4 +1,6 @@
 const handleFetch = async (clicked, start, end, company) => {
+  // const remote = 'https://evening-plateau-74700.herokuapp.com';
+  const remote = 'http://127.0.0.1:4000';
 
   const getData = async (url) => {
     const body = {
@@ -31,16 +33,19 @@ const handleFetch = async (clicked, start, end, company) => {
     return datasets;
   }
 
-  const callCardData = await
-    getData('https://evening-plateau-74700.herokuapp.com/');
+  const companies = await fetch(`${remote}/companies`)
+    .then(res => res.json());
+
+  const callCardData = await getData(`${remote}`);
 
   const chartData = prepareDatasets(await
-    getData('https://evening-plateau-74700.herokuapp.com/members_needed_by_date')
+    getData(`${remote}/members_needed_by_date`)
   );
 
   return {
     callCardData,
     chartData,
+    companies,
   }
 
 }

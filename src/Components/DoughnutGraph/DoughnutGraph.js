@@ -34,8 +34,6 @@ const DoughnutGraph = ({ datasets, colors }) => {
   }
 
 	useEffect(()=> {
-		console.log('using effect...');
-
 		window.addEventListener('resize', scaleDoughnutText);
 
 		const myChart = new Chart(canvasRef.current, {
