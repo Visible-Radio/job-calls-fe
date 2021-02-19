@@ -19,36 +19,52 @@ body {
 .layoutMaster {
 	display: grid;
 	grid-template-columns: 280px 1fr;
-	grid-template-rows: auto 1fr auto;
-	align-items: start;
-	/* grid-gap: 5px; */
-	max-width: 1500px;
+	grid-template-rows: 25px 1fr;
+	max-width: 2000px;
 	width: 100vw;
 	height: 100vh;
+	overflow-x: hidden;
 }
 .graphGrid {
 	display: grid;
-	grid-column: 2 / 3;
+	grid-column: 1 / 3;
 	grid-row: 2 / 3;
 	width: 100%;
-	padding: 0;
+	height: 100%;
 	margin: 0;
-	grid-gap: 10px;
+
+	align-content: start;
+
+	grid-template-columns: 280px 1fr auto;
+	grid-template-rows: 280px auto auto auto;
+	align-items: start;
 }
 .graphBg {
 	background-color: #1c243a;
-	padding-bottom: 1rem;
-	border: 3px solid #1c243a;
+	padding: 0 15px 15px 15px;
+}
+.loadingRef {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	grid-column: 2 / -1;
+	grid-row: 1 / 3;
 }
 .totalLineGraph {
-
+	grid-column: 2 / -1;
+	grid-row: 1 / -1;
+	width: 100%;
+	padding: 0;
+	margin: 0;
 }
 .LineGraph {
-	max-height: 100%;
 	max-width: 100%;
+	max-height: 100%;
 }
 .DoughnutGraph {
 	position: relative;
+	background: none;
 }
 #grandTotal {
 	position: absolute;
@@ -63,7 +79,8 @@ body {
 	background-color: #001320;
 	padding: 0.5rem;
 	max-width: 100%;
-	grid-column: 1 / 3;
+	grid-column: 2 / 3;
+	grid-row: 3 / 4;
 }
 ul.legend {
 	display: grid;
@@ -192,11 +209,12 @@ h2 {
 	background-color: #001320;
 	font-size: 15px;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	margin: 0;
 	transition-property: transform;
 	transition-duration: 0.5s;
 	border: 3px solid #6d1158;
+	align-self: start;
 	grid-column: 1 / 2;
 	grid-row: 2 / 3 ;
 	display: flex;
@@ -365,14 +383,7 @@ label[for="companySelect"] {
 	color: black;
 }
 /* =========================waiting for database indicator=========================== */
-.loadingRef {
-	position: relative;
-	width: 100%;
-	/* height: 100%; */
-	margin: 0;
-	padding: 0;
-	grid-column: 1 / -1;
-}
+
 .loadingFlex {
 	position: absolute;
 	top:0;

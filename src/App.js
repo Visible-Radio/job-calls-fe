@@ -104,22 +104,25 @@ const App = () => {
             onButtonSubmit={onButtonSubmit}
             handlePickerSize={handlePickerSize}
             />
-          <ColorLegend datasets={chartData} colors={colors} />
+
           <div className="graphGrid">
 
-            {/* <TotalLineGraph
-              datasets={chartData}
-            />
             <DoughnutGraph
               datasets={chartData}
               colors={colors}
-            /> */}
+            />
 
 
             <LineGraph
               datasets={chartData}
               colors={colors}
             />
+
+            <ColorLegend datasets={chartData} colors={colors} />
+
+            {/* <TotalLineGraph
+              datasets={chartData}
+            /> */}
 
           </div>{/* end of graph grid */}
 

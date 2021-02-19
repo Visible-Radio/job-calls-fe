@@ -16,7 +16,7 @@ const LineGraph = ({ datasets, colors }) => {
 	      backgroundColor: 'rgba(1,1,1,0)' ,
 	      borderColor: colors[key],
 	      borderWidth: 2,
-	      pointRadius: 5,
+	      pointRadius: 2,
 	      data: datasets[key]
 	   	}
 	   	myChart.data.datasets.push(chartLine);
@@ -36,9 +36,9 @@ const LineGraph = ({ datasets, colors }) => {
 	    options: {
 	    	title: {
             display: true,
-            fontSize: 16,
+            fontSize: 15,
             position: 'top',
-            fontColor: "rgb(0, 200, 200)",
+            fontColor: "rgb(0, 250, 200)",
             text: `Members Needed by Classification`
         },
 	    	legend: {
@@ -51,12 +51,12 @@ const LineGraph = ({ datasets, colors }) => {
         scales: {
           yAxes: [{
           	gridLines: {
-	        		display: true,
-	        		color: 'rgb(0, 50, 50)',
+	        		display: false,
+	        		color: 'rgba(0, 50, 50,0.25)',
 	        		lineWidth: 1
         		},
             ticks: {
-                fontColor: "rgb(0, 200, 200)",
+                fontColor: "rgb(0, 250, 200)",
                 fontSize: 12,
                 stepSize: 1,
                 beginAtZero: true
@@ -64,12 +64,12 @@ const LineGraph = ({ datasets, colors }) => {
           }],
           xAxes: [{
           	gridLines: {
-	        		display: true,
-	        		color: 'rgb(0, 50, 100)',
+	        		display: false,
+	        		color: 'rgba(0, 50, 100,0.25)',
 	        		lineWidth: 1
         		},
 	          ticks: {
-	              fontColor: "rgb(0, 200, 200)",
+	              fontColor: "rgb(0, 250, 200)",
 	              fontSize: 12,
 	              stepSize: 1,
 	              beginAtZero: true
