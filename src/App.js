@@ -44,12 +44,8 @@ const App = () => {
 
   const handlePickerSize = () => {
     const picker = document.querySelector('.ClassificationPicker');
-    const currentHeight = picker.offsetHeight;
-    if (currentHeight > 34) {
-      picker.style.height = "34px"
-    } else {
-      picker.style.height = "650px"
-    }
+    picker.classList.toggle('close');
+
   }
 
   const onButtonSubmit = () => {
@@ -96,46 +92,42 @@ const App = () => {
     return (
       <div className="App">
         <div className="layoutMaster">
-        <div id="header">
-          <h1>IBEW LOCAL 353</h1>
-          <h1>JOB CALLS DATABASE</h1>
-        </div>
+
+          <StartEndDates
+            start={start}
+            end={end}
+            company={company}
+          />
           <ClassificationPicker
             companies={companies}
             colors={colors}
-            // onCheckBoxClick={onCheckBoxClick}
-            // onDatePick={onDatePick}
             onButtonSubmit={onButtonSubmit}
             handlePickerSize={handlePickerSize}
-          />
-          <div className="graphMaster">
-            <StartEndDates
-              start={start}
-              end={end}
-              company={company}
             />
-            <div className="multiGraphContainer">
-              <LineGraph
-                datasets={chartData}
-                colors={colors}
-              />
-            </div>
-            <div className="multiGraphContainer">
-              <TotalLineGraph
-                datasets={chartData}
-              />
-              <DoughnutGraph
-                datasets={chartData}
-                colors={colors}
-              />
-            </div>
-            <ColorLegend datasets={chartData} colors={colors} />
-          </div>
-          <CallCardList
+          <ColorLegend datasets={chartData} colors={colors} />
+          <div className="graphGrid">
+
+            {/* <TotalLineGraph
+              datasets={chartData}
+            />
+            <DoughnutGraph
+              datasets={chartData}
+              colors={colors}
+            /> */}
+
+
+            <LineGraph
+              datasets={chartData}
+              colors={colors}
+            />
+
+          </div>{/* end of graph grid */}
+
+          {/* <CallCardList
             callCardData={callCardData}
             colors={colors}
-          />
-        </div>
+          /> */}
+        </div>{/* end of layout master */}
       </div>
     );
 }
