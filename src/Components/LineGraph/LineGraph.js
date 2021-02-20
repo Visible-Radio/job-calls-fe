@@ -57,8 +57,8 @@ const LineGraph = ({ datasets, colors }) => {
         		},
             ticks: {
                 fontColor: "rgb(0, 250, 200)",
-                fontSize: 12,
-                stepSize: 1,
+                fontSize: 10,
+                stepSize: 5,
                 beginAtZero: true
             }
           }],
@@ -70,7 +70,7 @@ const LineGraph = ({ datasets, colors }) => {
         		},
 	          ticks: {
 	              fontColor: "rgb(0, 250, 200)",
-	              fontSize: 12,
+	              fontSize: 10,
 	              stepSize: 1,
 	              beginAtZero: true
 	          }

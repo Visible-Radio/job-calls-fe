@@ -1,3 +1,9 @@
+:root {
+	--greenText: rgb(0, 250, 200);
+	/* maybe we can grab this in react and pass it to the charts */
+}
+
+
 html {
 	box-sizing: border-box;
 }
@@ -19,7 +25,7 @@ body {
 .layoutMaster {
 	display: grid;
 	grid-template-columns: 280px 1fr;
-	grid-template-rows: 25px auto 15px;
+	grid-template-rows: auto auto 15px;
 	max-width: 2000px;
 	width: 100vw;
 	height: 100vh;
@@ -41,6 +47,7 @@ body {
 } */
 
 .graphGrid {
+	padding-left: 10px;
 	display: grid;
 	grid-column: 1 / 3;
 	grid-row: 2 / 3;
@@ -61,11 +68,10 @@ body {
 	align-content: flex-start;
 	justify-content: space-around;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	grid-column: 1 / 2;
 	grid-row: 1 / 4;
 	padding: 5px;
-	border: 1px solid red;;
 }
 
 .otherStuff {
@@ -115,7 +121,7 @@ body {
 #grandTotal {
 	position: absolute;
 	top: 45%;
-	color: rgb(0, 200, 200);
+	color: rgb(0, 250, 200);
 	margin: 0;
 	line-height: 90%;
 	text-align: center;
@@ -149,6 +155,15 @@ body {
 		grid-column: 1 / 4;
 		grid-row: 4 / 5;
 	}
+}
+@media screen and (max-width:450px) {
+	/* native date pickers on mobile don't respect widths */
+	.wrapperR {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
 }
 
 
@@ -189,27 +204,17 @@ h1 {
 	align-self: start;
 }
 
-h2 {
-	text-align: center;
-	color: #f174d8;
-	margin-bottom: 0;
-	margin-top: 0;
-	font-size: 1.1rem;
-	letter-spacing: 0.2rem;
-	background: #1c243a;
-	border: 3px solid #1c243a;
-}
-
 /* START END DATE COMPONENT*/
 #StartEndDates h3 {
 	margin: 0;
-	color: rgb(0,200,200);
+	color: var(--greenText);
 	font-size: 12px;
 	min-width: max-content;
 	margin-bottom: 0;
 }
 #StartEndDates {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-content: center;
 	margin-bottom: 0;
@@ -234,7 +239,7 @@ h2 {
 	font-size: 1rem;
 }
 .SearchBox p {
-	color: rgb(0,200,200);
+	color: var(--greenText);
 }
 
 .CallCardContainer {
@@ -410,8 +415,14 @@ button:active {
 	font-size: 14px;
 	text-align: center;
 	width: 100%;
+	max-width: 131px;
 	border: none;
 }
+.flatpickr-input {
+	/* for mobile native date pickers that don't obey... */
+	width: 131px;
+}
+
 label[for="startPicker"] {
 	color: rgb(0,200,200);
 }
@@ -427,7 +438,7 @@ label[for="companySelect"] {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	border: 1px solid #1c243a;
+	margin: 1px;
 }
 .wrapperR {
 	display: flex;
