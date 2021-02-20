@@ -17,7 +17,7 @@ const TotalLineGraph = ({ datasets }) => {
 			      backgroundColor: 'rgba(0, 50, 100, 0)',
 			      borderColor: 'rgb(255, 255, 0)',
 			      borderWidth: 2,
-			      pointRadius: 5,
+			      pointRadius: 2,
 			      data: datasets?.Total
 		    	}
         ]
@@ -42,7 +42,7 @@ const TotalLineGraph = ({ datasets }) => {
           yAxes: [{
           	// display: false,
           	gridLines: {
-	        		display: true,
+	        		display: false,
 	        		color: 'rgb(0, 50, 50)',
 	        		lineWidth: 1
         		},
@@ -56,7 +56,7 @@ const TotalLineGraph = ({ datasets }) => {
           xAxes: [{
           	// display: false,
           	gridLines: {
-          		display: true,
+          		display: false,
 	        		color: 'rgb(0, 50, 100)',
 	        		lineWidth: 1
         		},

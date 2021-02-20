@@ -92,7 +92,6 @@ const App = () => {
     return (
       <div className="App">
         <div className="layoutMaster">
-
           <StartEndDates
             start={start}
             end={end}
@@ -103,26 +102,32 @@ const App = () => {
             colors={colors}
             onButtonSubmit={onButtonSubmit}
             handlePickerSize={handlePickerSize}
-            />
-
+          />
           <div className="graphGrid">
+            <div className="leftSubGrid">
+              <DoughnutGraph
+                datasets={chartData}
+                colors={colors}
+              />
 
-            <DoughnutGraph
-              datasets={chartData}
-              colors={colors}
-            />
-
+              <div className="otherStuff">
+                <p>Other Stuff Will go here</p>
+                <p>Company by calls</p>
+                <p>Company by members</p>
+                <p>Company by unique members</p>
+                <p>Company by stale calls</p>
+              </div>
+            </div>
 
             <LineGraph
               datasets={chartData}
               colors={colors}
             />
-
             <ColorLegend datasets={chartData} colors={colors} />
 
-            {/* <TotalLineGraph
+            <TotalLineGraph
               datasets={chartData}
-            /> */}
+            />
 
           </div>{/* end of graph grid */}
 
