@@ -73,7 +73,7 @@ const ClassificationPicker = (props) => {
 			<button id="viewRecords"
 				onClick={props.onButtonSubmit}>Get Records</button>
 
-			<button id="toggleView"
+			<button
 				id="toggleView"
 				onClick={props.onToggleView}
 				>{`Toggle ${props.view === 'Charts' ? 'Calls' : 'Charts'}`}

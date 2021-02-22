@@ -283,29 +283,36 @@ h1 {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	margin-bottom: 15px;
+	margin-bottom: 25px;
 	color: rgb(0,200,200);
-	border: 5px solid #1c243a;
-	border-radius: 0 0 20px 20px;
 	background-color: #1c243a;
-
+	font-size: 15px;
 }
+
 .CallCard div {
-	border: 2px solid #1c243a;
-	margin: 0.25rem;
+	margin: 10px 5px 10px 5px;
 	background-color: #0c142a;
-	border-radius: 0 0 15px 15px;
+	text-align: center;
+
 }
 .CallCard p {
 	margin: 0.5rem 1rem 1rem 1rem;
 }
 .lbl {
-	background-color: #015b00;
-	border: 3px solid #015b00;
-	margin: 2px;
+	margin: 0;
+	color: #1c243a;
 	font-size: 1rem;
-	font-weight: normal;
+	font-weight: 600;
 	text-align: center;
+}
+.classShield {
+	border-radius: 0 0 25px 25px;
+	text-align: center;
+	padding: 0;
+	width: 60px;
+}
+.classShield p {
+	margin: 7px 0 0 0;
 }
 
 /* Main Picker Component */

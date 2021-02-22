@@ -1,6 +1,6 @@
 import CallCard from '../CallCard/CallCard';
 
-const CallCardList = ({ filteredCalls, callCardData, colors }) => {
+const CallCardList = ({ filteredCalls, colors }) => {
 
 	return (
 		<div className="CallCardList">
