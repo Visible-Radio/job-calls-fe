@@ -6,6 +6,8 @@
 
 html {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 *,
 *:before,
@@ -21,45 +23,73 @@ body {
 	display: flex;
 	justify-content: center;
 	box-sizing: border-box;
+	padding: 0;
 }
 .layoutMaster {
 	display: grid;
 	grid-template-columns: 280px 1fr;
-	grid-template-rows: auto auto 15px;
+	grid-template-rows: min-content 1fr 15px;
 	max-width: 2000px;
 	width: 100vw;
 	height: 100vh;
-	overflow-x: hidden;
-	/* overflow-y: hidden; */
-}
-/*  O.G.
-.graphGrid {
-	display: grid;
-	grid-column: 1 / 3;
-	grid-row: 2 / 3;
-	width: 100%;
-	height: 100%;
+	padding: 0;
 	margin: 0;
-	align-content: start;
-	grid-template-columns: 280px 1fr auto;
-	grid-template-rows: 1fr auto 1fr;
-	align-items: start;
-} */
+	grid-gap: 0;
+}
 
 .graphGrid {
-	padding-left: 10px;
 	display: grid;
 	grid-column: 1 / 3;
 	grid-row: 2 / 3;
 	width: 100%;
 	height: 100%;
 	margin: 0;
-	grid-gap: 5px;
 	align-content: start;
-	grid-template-columns: 280px 1fr auto 5px;
+	grid-template-columns: 280px 1fr 0px 10px;
 	grid-template-rows: auto auto 1fr;
 	align-items: start;
 	overflow-y: auto;
+	/* grid-gap: 10px; */
+}
+
+.callGrid {
+	display: grid;
+	grid-column: 1 / 3;
+	grid-row: 2 / 3;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	align-content: start;
+	grid-template-columns: 280px 1fr;
+	grid-template-rows: auto 1fr;
+	align-items: start;
+	overflow-y: auto;
+}
+
+.SearchBox {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: space-between;
+	/* border-bottom: 3px solid #6d1158; */
+	margin: 0;
+	padding: 0 10px 0 10px;
+	width: 100%;
+	grid-column: 2 / -1;
+	grid-row: 1 / 2;
+	font-size: 15px;
+}
+
+.CallCardList {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 0 10px 10px 10px;
+	width: 100%;
+	height: 100%;
+	grid-column: 2 / -1;
+	grid-row: 2 / 3;
+	overflow-y: auto;
+	margin: 0;
 }
 
 .leftSubGrid {
@@ -74,19 +104,25 @@ body {
 	padding: 5px;
 }
 
-.otherStuff {
+.SearchBox p {
+	margin: 0;
+}
+
+.CompanyRankings {
 	border: 5px solid #1c243a;
 	border-radius: 5px;
 	padding: 0.5rem;
 	flex: 1;
 	min-width: 250px;
+	max-width: 280px;
+	margin: 0;
 }
 
 .graphBg {
 	position: relative;
 	background-color: #1c243a;
-	padding: 0 15px 15px 15px;
 	border-radius: 5px;
+	padding: 15px;
 }
 
 .loadingRef {
@@ -102,13 +138,12 @@ body {
 	grid-column: 2 / 4;
 	grid-row: 3 / 4;
 	width: 100%;
-	padding: 0;
 	margin: 0;
 }
 
 .LineGraph {
-	max-width: 100%;
-	max-height: 100%;
+	/* max-width: 100%; */
+	/* max-height: 100%; */
 }
 
 .DoughnutGraph {
@@ -135,6 +170,7 @@ body {
 	max-width: 100%;
 	grid-column: 2 / 4;
 	grid-row: 2 / 3;
+	margin: 10px 0px
 }
 
 .rotate {
@@ -155,6 +191,14 @@ body {
 		grid-column: 1 / 4;
 		grid-row: 4 / 5;
 	}
+	.SearchBox {
+		grid-column: 1 / 4;
+		grid-row: 1 / 2;
+	}
+	.CallCardList {
+		grid-column: 1 / 4;
+		grid-row: 2;
+	}
 }
 @media screen and (max-width:450px) {
 	/* native date pickers on mobile don't respect widths */
@@ -163,7 +207,6 @@ body {
 		flex-direction: column;
 		width: 100%;
 	}
-
 }
 
 
@@ -228,32 +271,20 @@ h1 {
 #StartEndDates >*:nth-child(2) {
 	justify-self: end;
 }
-.SearchBox {
-	text-align: center;
-	background-color: #1c243a;
-	border-radius: 20px;
-	margin: 0;
-}
 .SearchBox input {
+	height: 100%;
 	text-align: center;
-	font-size: 1rem;
 }
 .SearchBox p {
 	color: var(--greenText);
 }
 
-.CallCardContainer {
-	display: grid;
-	align-items: center;
-	width: 100%;
-
-}
 .CallCard {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	margin-bottom: 15px;
 	color: rgb(0,200,200);
-	margin-top: 1rem;
 	border: 5px solid #1c243a;
 	border-radius: 0 0 20px 20px;
 	background-color: #1c243a;
@@ -403,6 +434,13 @@ button:active {
 }
 #viewRecords {
 	width: 100%;
+}
+
+#toggleView {
+	align-self: center;
+	margin: 15px 0 5px 0;
+	width: 50%;
+	border-radius: 10px;
 }
 #openPickers {
 	align-self: center;

@@ -28,8 +28,10 @@ import TotalLineGraph from './Components/TotalLineGraph/TotalLineGraph';
 import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
 import StartEndDates from './Components/StartEndDates/StartEndDates';
+import SearchBox from './Components/SearchBox/SearchBox';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
 import CallCardList from './Components/CallCardList/CallCardList';
+import CompanyRankings from './Components/CompanyRankings/CompanyRankings';
 import handleFetch from './utils/HandleFetch';
 import { colors } from './config';
 
@@ -41,11 +43,21 @@ const App = () => {
   const [clicked, setClicked] = useState([]);
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState();
+  const [searchField, setSearchField] = useState('');
+  const [view, setView] = useState('Charts');
 
   const handlePickerSize = () => {
     const picker = document.querySelector('.ClassificationPicker');
     picker.classList.toggle('close');
 
+  }
+
+  const onToggleView = () => {
+    if (view === 'Charts') {
+      setView('Calls')
+    } else if (view ==="Calls") {
+      setView('Charts')
+    }
   }
 
   const onButtonSubmit = () => {
@@ -89,6 +101,15 @@ const App = () => {
       });
    },[clicked, start, end, company]);
 
+  const onSearchChange = (event) => {
+    setSearchField(event.target.value);
+  }
+
+  const filteredCalls = callCardData.filter(call => {
+    return call.summary.toLowerCase().includes(searchField.toLowerCase());
+  })
+
+
     return (
       <div className="App">
         <div className="layoutMaster">
@@ -101,40 +122,44 @@ const App = () => {
             companies={companies}
             colors={colors}
             onButtonSubmit={onButtonSubmit}
+            onToggleView={onToggleView}
             handlePickerSize={handlePickerSize}
+            view = {view}
           />
-          <div className="graphGrid">
-            <div className="leftSubGrid">
-              <DoughnutGraph
-                datasets={chartData}
-                colors={colors}
-              />
-
-              <div className="otherStuff">
-                <p>Other Stuff Will go here</p>
-                <p>Company by calls</p>
-                <p>Company by members</p>
-                <p>Company by unique members</p>
-                <p>Company by stale calls</p>
-              </div>
-            </div>
-
-            <LineGraph
-              datasets={chartData}
-              colors={colors}
-            />
-            <ColorLegend datasets={chartData} colors={colors} />
-
-            <TotalLineGraph
-              datasets={chartData}
-            />
-
-          </div>{/* end of graph grid */}
-
-          {/* <CallCardList
-            callCardData={callCardData}
-            colors={colors}
-          /> */}
+          {
+          (function(){
+            if (view === 'Charts') {
+              return (
+                <div className="graphGrid">
+                  <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                    <CompanyRankings />
+                  </div>
+                  <LineGraph datasets={chartData} colors={colors} />
+                  <ColorLegend datasets={chartData} colors={colors} />
+                  <TotalLineGraph datasets={chartData} />
+                </div>
+              )
+            } else if (view === "Calls") {
+              return (
+                <div className="callGrid">
+                  {/* <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                    <CompanyRankings />
+                  </div> */}
+                  <SearchBox
+                    searchChange={onSearchChange}
+                    count={filteredCalls.length}
+                  />
+                  <CallCardList
+                    filteredCalls={filteredCalls}
+                    colors={colors}
+                  />
+                </div>
+              )
+            }
+          }())
+          }
         </div>{/* end of layout master */}
       </div>
     );

@@ -77,6 +77,7 @@ const DoughnutGraph = ({ datasets, colors }) => {
 
 		return function cleanup() {
 			myChart.destroy();
+			window.removeEventListener('resize', scaleDoughnutText);
 		};
 	})
 

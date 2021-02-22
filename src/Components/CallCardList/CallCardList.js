@@ -1,26 +1,9 @@
 import CallCard from '../CallCard/CallCard';
-import SearchBox from '../SearchBox/SearchBox';
-import { useState } from 'react';
 
-
-const CallCardList = ({ callCardData, colors }) => {
-
-	const [searchField, setSearchField] = useState('');
-
-	const onSearchChange = (event) => {
-		setSearchField(event.target.value);
-	}
-
-	const filteredCalls = callCardData.filter(call => {
-		return call.summary.toLowerCase().includes(searchField.toLowerCase());
-	})
+const CallCardList = ({ filteredCalls, callCardData, colors }) => {
 
 	return (
-		<div className="CallCardContainer">
-			<SearchBox
-    		searchChange={onSearchChange}
-    		count={filteredCalls.length}
-      />
+		<div className="CallCardList">
 			{
 				filteredCalls?.map((call, i) => {
 					return (
