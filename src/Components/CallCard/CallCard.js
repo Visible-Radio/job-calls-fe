@@ -3,7 +3,7 @@ import React from 'react';
 const CallCard = ({ data, color }) => {
 
 	return (
-		<div className="CallCard" style={{border: `10px solid ${color + '77'}`}}>
+		<div className="CallCard" style={{border: `6px solid ${color + '77'}`}}>
 			<div className="classShield" style={{backgroundColor: color}}>
 				<h5 className="lbl">Class</h5>
 				<p style={{color: "#1c243a", fontWeight: "bold"}}>{data?.member_class}</p>
