@@ -102,7 +102,7 @@ body {
 	height: auto;
 	grid-column: 1 / 2;
 	grid-row: 1 / 4;
-	padding: 5px;
+	padding: 0 5px 5px 5px;
 }
 
 .SearchBox p {
@@ -151,12 +151,12 @@ body {
 	position: relative;
 	background: none;
 	max-width: 280px;
-	max-height: 280px
+	max-height: 280px;
 }
 
 #grandTotal {
 	position: absolute;
-	top: 45%;
+	top: 48%;
 	color: rgb(0, 250, 200);
 	margin: 0;
 	line-height: 90%;
@@ -295,6 +295,8 @@ h1 {
 	border-radius: 20px;
 	font-size: 15px;
 	padding: 6px;
+	align-content: flex-start;
+	height: max-content;
 }
 
 /* .CallCard {
@@ -311,7 +313,6 @@ h1 {
 	margin: 4px 4px 4px 4px;
 	background-color: #0c142a;
 	text-align: center;
-
 }
 .CallCard p {
 	margin: 0.5rem 1rem 1rem 1rem;
@@ -331,6 +332,15 @@ h1 {
 }
 .classShield p {
 	margin: 7px 0 0 0;
+}
+.stale >.staleBadge {
+	order: -1;
+	align-self: flex-start;
+	top: -30px;
+	left: 85%;
+}
+.notStale >.staleBadge {
+	display: none;
 }
 
 /* Main Picker Component */
@@ -522,6 +532,15 @@ label[for="companySelect"] {
 #companySelect:hover {
 	background-color: rgb(0,255,255);
 	transition-duration: 0.2s;
+}
+#companySelect:disabled {
+	margin-top: 0;
+	font-size: 14px;
+	padding: 0.1rem;
+	background-color: rgb(113, 57, 14);
+	text-align: center;
+	width: 100%;
+	border: none;
 }
 ::placeholder {
 	color: black;

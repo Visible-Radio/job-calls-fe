@@ -4,8 +4,8 @@ const handleFetch = async (clicked, start, end, company) => {
 
   const getData = async (url) => {
     const body = {
-      "start": start || "2020-12-07",
-      "end": end || "2020-12-31",
+      "start": start,
+      "end": end,
     }
     if (clicked?.length > 0) {
       body.member_class = clicked;
@@ -19,6 +19,13 @@ const handleFetch = async (clicked, start, end, company) => {
       body: JSON.stringify(body)
     })
     .then(response => response.json())
+    .then(response => {
+      if (typeof response !== 'object') {
+        throw response
+      }
+      return response;
+    })
+    .catch(console.log)
   }
 
   const prepareDatasets = (response) => {
@@ -33,21 +40,26 @@ const handleFetch = async (clicked, start, end, company) => {
     return datasets;
   }
 
-  const companies = await fetch(`${remote}/companies`)
+  try {
+    const companies = await fetch(`${remote}/companies`)
     .then(res => res.json());
 
-  const callCardData = await getData(`${remote}`);
+    const callCardData = await getData(`${remote}`);
 
-  const chartData = prepareDatasets(await
-    getData(`${remote}/members_needed_by_date`)
-  );
+    const chartData = prepareDatasets(await
+      getData(`${remote}/members_needed_by_date`)
+    );
 
-  return {
-    callCardData,
-    chartData,
-    companies,
+    return {
+      callCardData,
+      chartData,
+      companies,
+    }
+
+  } catch(e) {
+    console.log(e);
+    return 1;
   }
-
 }
 
 export default handleFetch;

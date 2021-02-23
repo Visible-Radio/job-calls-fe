@@ -1,6 +1,7 @@
 import React from 'react';
 
-const SearchBox = ({ searchChange, count }) => {
+const SearchBox = ({ searchChange, count, staleCalls }) => {
+	const uniqueCalls = count - staleCalls.count;
 	return (
 		<div className='SearchBox'>
 			<input
@@ -8,7 +9,8 @@ const SearchBox = ({ searchChange, count }) => {
 				placeholder='Filter Calls by Details'
 				onChange={searchChange}
 			/>
-			<p>{count} job calls matched the filter terms</p>
+			<p>{uniqueCalls} unique job calls matched the filter terms</p>
+			<p>{staleCalls.count} more appeared multiple days</p>
 		</div>
 	);
 }
