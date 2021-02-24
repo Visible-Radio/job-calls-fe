@@ -2,8 +2,6 @@
 /*
 refactor for the react chart.js library
 
-layout bug on mobile with classification picker
-better layout overall, maybe try out Grid
 
 maybe need to modify the db schema
 create a table with columns for companies and company id
@@ -31,7 +29,7 @@ import StartEndDates from './Components/StartEndDates/StartEndDates';
 import SearchBox from './Components/SearchBox/SearchBox';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
 import CallCardList from './Components/CallCardList/CallCardList';
-import CompanyRankings from './Components/CompanyRankings/CompanyRankings';
+import Loader from './Components/Loader/Loader';
 import handleFetch from './utils/HandleFetch';
 import { colors } from './config';
 
@@ -50,8 +48,10 @@ const App = () => {
   const [view, setView] = useState('Charts');
 
   const handlePickerSize = () => {
-    const picker = document.querySelector('.ClassificationPicker');
-    picker.classList.toggle('close');
+    if (view === 'Charts') {
+      const picker = document.querySelector('.ClassificationPicker');
+      picker.classList.toggle('close');
+    }
   }
 
   const onToggleView = () => {
@@ -180,54 +180,57 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="layoutMaster">
-        <StartEndDates
-          start={start}
-          end={end}
-          company={company}
-        />
-        <ClassificationPicker
-          companies={companies}
-          colors={colors}
-          onButtonSubmit={onButtonSubmit}
-          onToggleView={onToggleView}
-          handlePickerSize={handlePickerSize}
-          view = {view}
-        />
-        {
-        (function(){
-          if (view === 'Charts') {
-            return (
-              <div className="graphGrid">
-                <div className="leftSubGrid">
-                  <DoughnutGraph datasets={chartData} colors={colors} />
-                  {/* <CompanyRankings /> */}
+      <Loader datasets={chartData}>
+        <div className="layoutMaster">
+          <StartEndDates
+            start={start}
+            end={end}
+            company={company}
+          />
+          <ClassificationPicker
+            companies={companies}
+            colors={colors}
+            onButtonSubmit={onButtonSubmit}
+            onToggleView={onToggleView}
+            handlePickerSize={handlePickerSize}
+            view = {view}
+          />
+
+          {
+          (function(){
+            if (view === 'Charts') {
+              return (
+                <div className="graphGrid">
+                  <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                    {/* <CompanyRankings /> */}
+                  </div>
+                  <LineGraph datasets={chartData} colors={colors} />
+                  <ColorLegend datasets={chartData} colors={colors} />
+                  <TotalLineGraph datasets={chartData} />
                 </div>
-                <LineGraph datasets={chartData} colors={colors} />
-                <ColorLegend datasets={chartData} colors={colors} />
-                <TotalLineGraph datasets={chartData} />
-              </div>
-            )
-          } else if (view === "Calls") {
-            return (
-              <div className="callGrid">
-                <SearchBox
-                  searchChange={onSearchChange}
-                  count={filteredCalls.length}
-                  staleCalls={staleCalls}
-                />
-                <CallCardList
-                  filteredCalls={filteredCalls}
-                  colors={colors}
-                  staleCalls={staleCalls}
-                />
-              </div>
-            )
+              )
+            } else if (view === "Calls") {
+              return (
+                <div className="callGrid">
+                  <SearchBox
+                    searchChange={onSearchChange}
+                    count={filteredCalls.length}
+                    staleCalls={staleCalls}
+                  />
+                  <CallCardList
+                    filteredCalls={filteredCalls}
+                    colors={colors}
+                    staleCalls={staleCalls}
+                  />
+                </div>
+              )
+            }
+          }())
           }
-        }())
-        }
-      </div>{/* end of layout master */}
-    </div>
+        </div>{/* end of layout master */}
+      </Loader>
+    </div> /* end of App */
   );
 }
 
