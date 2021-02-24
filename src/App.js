@@ -48,10 +48,8 @@ const App = () => {
   const [view, setView] = useState('Charts');
 
   const handlePickerSize = () => {
-    if (view === 'Charts') {
-      const picker = document.querySelector('.ClassificationPicker');
-      picker.classList.toggle('close');
-    }
+    const picker = document.querySelector('.ClassificationPicker');
+    picker.classList.toggle('close');
   }
 
   const onToggleView = () => {
@@ -90,7 +88,7 @@ const App = () => {
     setClicked(checked);
     setCallCardData([]);
     setChartData({});
-    setTimeout(handlePickerSize,500);
+    if (view === 'Charts') setTimeout(handlePickerSize,500);
   }
 
   useEffect(() => {
