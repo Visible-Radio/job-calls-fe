@@ -216,6 +216,9 @@ const App = () => {
                     count={filteredCalls.length}
                     staleCalls={staleCalls}
                   />
+                  <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                  </div>
                   <CallCardList
                     filteredCalls={filteredCalls}
                     colors={colors}
