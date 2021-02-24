@@ -1,5 +1,14 @@
+:root {
+	--greenText: rgb(0, 250, 200);
+	--greyCyan: 	rgb(0, 200, 200);
+	/* maybe we can grab this in react and pass it to the charts */
+}
+
+
 html {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 *,
 *:before,
@@ -9,62 +18,202 @@ html {
 
 body {
 	background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center fixed;
+
 }
 
 .App {
 	display: flex;
 	justify-content: center;
 	box-sizing: border-box;
+	padding: 0;
+
 }
 .layoutMaster {
 	display: grid;
 	grid-template-columns: 280px 1fr;
-	grid-template-rows: auto 1fr auto;
-	align-items: start;
-	/* grid-gap: 5px; */
-	max-width: 1500px;
+	grid-template-rows: min-content 1fr 15px;
+	max-width: 2000px;
 	width: 100vw;
 	height: 100vh;
-}
-.graphGrid {
-	display: grid;
-	grid-column: 2 / 3;
-	grid-row: 2 / 3;
-	width: 100%;
 	padding: 0;
 	margin: 0;
-	grid-gap: 10px;
+	grid-gap: 0;
+	overflow: hidden;
 }
-.graphBg {
-	background-color: #1c243a;
-	padding-bottom: 1rem;
-	border: 3px solid #1c243a;
-}
-.totalLineGraph {
 
+.graphGrid {
+	display: grid;
+	grid-column: 1 / 3;
+	grid-row: 2 / 3;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	align-content: start;
+	grid-template-columns: 280px 1fr 0px 10px;
+	grid-template-rows: auto auto 1fr;
+	align-items: start;
+	overflow-y: auto;
 }
+
+.callGrid {
+	display: grid;
+	grid-column: 1 / 3;
+	grid-row: 2 / 3;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	align-content: start;
+	grid-template-columns: 280px 1fr;
+	grid-template-rows: auto 1fr;
+	align-items: start;
+	overflow-y: auto;
+}
+
+.SearchBox {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	padding: 5px 10px 10px 35px;
+	width: 100%;
+	grid-column: 2 / -1;
+	grid-row: 1 / 2;
+	font-size: 15px;
+}
+
+.CallCardList {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 0 10px 10px 10px;
+	width: 100%;
+	height: 100%;
+	grid-column: 2 / -1;
+	grid-row: 2 / 3;
+	overflow-y: auto;
+	margin: 0;
+}
+
+.leftSubGrid {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	justify-content: space-around;
+	width: 100%;
+	height: auto;
+	grid-column: 1 / 2;
+	grid-row: 1 / 4;
+	padding: 0 5px 5px 5px;
+}
+
+.SearchBox p {
+	margin: 0;
+}
+
+.CompanyRankings {
+	border: 5px solid #1c243a;
+	border-radius: 5px;
+	padding: 0.5rem;
+	flex: 1;
+	min-width: 250px;
+	max-width: 280px;
+	margin: 0;
+}
+
+.graphBg {
+	position: relative;
+	background-color: #1c243a;
+	border-radius: 5px;
+	padding: 15px;
+}
+
+/* .loadingRef {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	grid-column: 2 / 4;
+	grid-row: 1 / 2;
+} */
+
 .LineGraph {
-	max-height: 100%;
-	max-width: 100%;
+	width: 100%;
+	margin: 0;
+	grid-column: 2 / 4;
+	grid-row: 1 / 2;
 }
+
+.totalLineGraph {
+	grid-column: 2 / 4;
+	grid-row: 3 / 4;
+	width: 100%;
+	margin: 0;
+}
+
 .DoughnutGraph {
 	position: relative;
+	background: none;
+	max-width: 280px;
+	max-height: 280px;
 }
+
 #grandTotal {
 	position: absolute;
-	top: 45%;
-	color: rgb(0, 200, 200);
+	top: 48%;
+	color: rgb(0, 250, 200);
 	margin: 0;
 	line-height: 90%;
 	text-align: center;
 }
+
 .ColorLegend {
 	border: 5px solid #1c243a;
+	border-radius: 5px;
 	background-color: #001320;
 	padding: 0.5rem;
 	max-width: 100%;
-	grid-column: 1 / 3;
+	grid-column: 2 / 4;
+	grid-row: 2 / 3;
+	margin: 10px 0px
 }
+
+.rotate {
+	transform: rotate(90deg);
+}
+
+@media screen and (max-width:840px) {
+	.ColorLegend {
+		grid-column: 1 / 4;
+	}
+	.totalLineGraph {
+		grid-column: 1 / 4;
+	}
+	.LineGraph {
+		grid-column: 1 / 4;
+	}
+	.leftSubGrid {
+		grid-column: 1 / 4;
+		grid-row: 4 / 5;
+	}
+	.SearchBox {
+		grid-column: 1 / 4;
+		grid-row: 1 / 2;
+	}
+	.CallCardList {
+		grid-column: 1 / 4;
+		grid-row: 2;
+	}
+}
+@media screen and (max-width:450px) {
+	/* native date pickers on mobile don't respect widths */
+	.wrapperR {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+}
+
+
 ul.legend {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -86,7 +235,7 @@ li {
 h1 {
 	margin: 0 1rem 0 1rem;
 	letter-spacing: 0.2rem;
-	color: rgb(0,200,200);
+	color:var(--greyCyan);
 	z-index: 1;
 }
 #header {
@@ -102,27 +251,17 @@ h1 {
 	align-self: start;
 }
 
-h2 {
-	text-align: center;
-	color: #f174d8;
-	margin-bottom: 0;
-	margin-top: 0;
-	font-size: 1.1rem;
-	letter-spacing: 0.2rem;
-	background: #1c243a;
-	border: 3px solid #1c243a;
-}
-
 /* START END DATE COMPONENT*/
 #StartEndDates h3 {
 	margin: 0;
-	color: rgb(0,200,200);
+	color: var(--greyCyan);
 	font-size: 12px;
 	min-width: max-content;
 	margin-bottom: 0;
 }
 #StartEndDates {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-content: center;
 	margin-bottom: 0;
@@ -136,53 +275,74 @@ h2 {
 #StartEndDates >*:nth-child(2) {
 	justify-self: end;
 }
-.SearchBox {
-	text-align: center;
-	background-color: #1c243a;
-	border-radius: 20px;
-	margin: 0;
-}
 .SearchBox input {
+	height: 100%;
 	text-align: center;
-	font-size: 1rem;
+	border-radius: 5px;
+	border: none;
+	background-color: var(--greyCyan);
+	font-size: 15px;
 }
 .SearchBox p {
-	color: rgb(0,200,200);
+	color: var(--greyCyan);
+	font-size: 15px;
 }
 
-.CallCardContainer {
-	display: grid;
-	align-items: center;
-	width: 100%;
-
-}
 .CallCard {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	color: rgb(0,200,200);
-	margin-top: 1rem;
-	border: 5px solid #1c243a;
-	border-radius: 0 0 20px 20px;
-	background-color: #1c243a;
-
+	margin-bottom: 25px;
+	color: var(--greyCyan);
+	border-radius: 20px;
+	font-size: 15px;
+	padding: 6px;
+	align-content: flex-start;
+	height: max-content;
 }
+
+/* .CallCard {
+	width: 100%;
+	grid-template-columns: 70px repeat(auto-fill, minmax(200px, 1fr));
+	display: grid;
+	margin-bottom: 25px;
+	color: var(--greyCyan);
+	background-color: #1c243a;
+	font-size: 15px;
+} */
+
 .CallCard div {
-	border: 2px solid #1c243a;
-	margin: 0.25rem;
+	margin: 4px 4px 4px 4px;
 	background-color: #0c142a;
-	border-radius: 0 0 15px 15px;
+	text-align: center;
 }
 .CallCard p {
 	margin: 0.5rem 1rem 1rem 1rem;
 }
 .lbl {
-	background-color: #015b00;
-	border: 3px solid #015b00;
-	margin: 2px;
+	margin: 0;
+	color: #1c243a;
 	font-size: 1rem;
-	font-weight: normal;
+	font-weight: 600;
 	text-align: center;
+}
+.classShield {
+	border-radius: 0 0 25px 25px;
+	text-align: center;
+	padding: 0;
+	width: 60px;
+}
+.classShield p {
+	margin: 7px 0 0 0;
+}
+.stale >.staleBadge {
+	order: -1;
+	align-self: flex-start;
+	top: -30px;
+	left: 85%;
+}
+.notStale >.staleBadge {
+	display: none;
 }
 
 /* Main Picker Component */
@@ -192,11 +352,12 @@ h2 {
 	background-color: #001320;
 	font-size: 15px;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	margin: 0;
 	transition-property: transform;
 	transition-duration: 0.5s;
 	border: 3px solid #6d1158;
+	align-self: start;
 	grid-column: 1 / 2;
 	grid-row: 2 / 3 ;
 	display: flex;
@@ -233,9 +394,9 @@ h2 {
 	margin-top: 0;
 }
 .ClassificationPicker > h2:hover {
-	background-color: rgb(0,200,200);
+	background-color: var(--greyCyan);
 	color: #001320;
-	border-color: rgb(0,200,200);
+	border-color: var(--greyCyan);
 }
 .ClassificationPicker form {
 display: flex;
@@ -283,18 +444,18 @@ span.acronymClassification {
 		border-width: 8px;
 }
 .ClassificationPickerCheckbox:focus {
-    outline-color: rgb(0,200,200);
+    outline-color: var(--greyCyan);
     outline-style: dashed;
 }
 
 button {
 	border: none;
 	font-size: 15px;
-	background-color: rgb(0,200,200);
+	background-color: var(--greyCyan);
 	height: 25px;
 }
 button:focus, #startPicker:focus, #endPicker:focus, #companySelect:focus{
-    outline-color: rgb(0,200,200);
+    outline-color: var(--greyCyan);
     outline-style: dashed;
 }
 button:hover, #startPicker:hover, #endPicker:hover {
@@ -311,27 +472,40 @@ button:active {
 #viewRecords {
 	width: 100%;
 }
+
+#toggleView {
+	align-self: center;
+	margin: 15px 0 5px 0;
+	width: 50%;
+	border-radius: 10px;
+}
 #openPickers {
 	align-self: center;
 	width: 25%;
 	margin: 3px;
 }
 #startPicker, #endPicker {
-	background-color: rgb(0,200,200);
+	background-color: var(--greyCyan);
 	margin: 0;
 	font-size: 14px;
 	text-align: center;
 	width: 100%;
+	max-width: 131px;
 	border: none;
 }
+.flatpickr-input {
+	/* for mobile native date pickers that don't obey... */
+	width: 131px;
+}
+
 label[for="startPicker"] {
-	color: rgb(0,200,200);
+	color: var(--greyCyan);
 }
 label[for="endPicker"] {
-	color: rgb(0,200,200);
+	color: var(--greyCyan);
 }
 label[for="companySelect"] {
-	color: rgb(0,200,200);
+	color: var(--greyCyan);
 }
 .wrapperC {
 	display: flex;
@@ -339,7 +513,7 @@ label[for="companySelect"] {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	border: 1px solid #1c243a;
+	margin: 1px;
 }
 .wrapperR {
 	display: flex;
@@ -348,18 +522,23 @@ label[for="companySelect"] {
 	margin: 2px;
 }
 
-#companySelect {
+.CompanySelect select {
 	margin-top: 0;
 	font-size: 14px;
 	padding: 0.1rem;
-	background-color: rgb(0,200,200);
+	background-color: var(--greyCyan);
 	text-align: center;
 	width: 100%;
 	border: none;
 }
-#companySelect:hover {
+.CcompanySelect select:hover {
 	background-color: rgb(0,255,255);
 	transition-duration: 0.2s;
+}
+.CompanySelect select:disabled {
+	background-color: rgb(113, 57, 14);
+	max-width: 100%;
+	min-width: 266px;
 }
 ::placeholder {
 	color: black;
@@ -368,10 +547,8 @@ label[for="companySelect"] {
 .loadingRef {
 	position: relative;
 	width: 100%;
-	/* height: 100%; */
 	margin: 0;
 	padding: 0;
-	grid-column: 1 / -1;
 }
 .loadingFlex {
 	position: absolute;
@@ -394,5 +571,7 @@ label[for="companySelect"] {
 	color: rgb(240,240,0);
 	border: 2px solid rgb(240,240,0);
 	border-radius: 5px;
+	background: black;
+	z-index: 3;
 }
 

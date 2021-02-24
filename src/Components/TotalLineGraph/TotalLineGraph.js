@@ -17,7 +17,7 @@ const TotalLineGraph = ({ datasets }) => {
 			      backgroundColor: 'rgba(0, 50, 100, 0)',
 			      borderColor: 'rgb(255, 255, 0)',
 			      borderWidth: 2,
-			      pointRadius: 5,
+			      pointRadius: 2,
 			      data: datasets?.Total
 		    	}
         ]
@@ -28,7 +28,7 @@ const TotalLineGraph = ({ datasets }) => {
             display: true,
             fontSize: 16,
             position: 'top',
-            fontColor: "rgb(0, 200, 200)",
+            fontColor: "rgb(0, 250, 200)",
             text: `Total Members Needed`
         },
 	    	legend: {
@@ -42,27 +42,27 @@ const TotalLineGraph = ({ datasets }) => {
           yAxes: [{
           	// display: false,
           	gridLines: {
-	        		display: true,
+	        		display: false,
 	        		color: 'rgb(0, 50, 50)',
 	        		lineWidth: 1
         		},
             ticks: {
-                fontColor: "rgb(0, 200, 200)",
-                fontSize: 12,
-                stepSize: 1,
-                beginAtZero: true
+                fontColor: "rgb(0, 250, 200)",
+                fontSize: 10,
+                stepSize: 5,
+                beginAtZero: false
             }
           }],
           xAxes: [{
           	// display: false,
           	gridLines: {
-          		display: true,
+          		display: false,
 	        		color: 'rgb(0, 50, 100)',
 	        		lineWidth: 1
         		},
 	          ticks: {
-	              fontColor: "rgb(0, 200, 200)",
-	              fontSize: 12,
+	              fontColor: "rgb(0, 250, 200)",
+	              fontSize: 10,
 	              stepSize: 1,
 	              beginAtZero: true
 	          }

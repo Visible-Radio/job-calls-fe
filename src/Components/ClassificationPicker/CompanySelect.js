@@ -1,5 +1,4 @@
 const CompanySelect = ({ companies }) => {
-  if (!companies) console.log('loading');
 
   return (
     <div className='CompanySelect'>
@@ -15,8 +14,8 @@ const CompanySelect = ({ companies }) => {
                 })}
             </select>
           :
-            <select disabled>
-              <option>{'Fetching Company List'}</option>
+            <select disabled id ='companySelect' defaultValue={'All Companies'}>
+              <option value={'All Companies'}>{'Fetching Company List'}</option>
             </select>
         }
       </div>

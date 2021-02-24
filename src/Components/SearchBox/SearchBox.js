@@ -1,19 +1,17 @@
 import React from 'react';
 
-const SearchBox = ({ searchChange, count }) => {
+const SearchBox = ({ searchChange, count, staleCalls }) => {
+	const uniqueCalls = count - staleCalls.count;
 	return (
-		<div className='SearchBox'>			
-			<p>Filter results by description</p>
-			<input				
+		<div className='SearchBox'>
+			<input
 				type='search'
-				placeholder='filter by details'
+				placeholder='Filter Calls by Details'
 				onChange={searchChange}
 			/>
-			<p>e.g. 'fire alarm', 'conduit', 'short term', 'slab', 'tenant', 'outdoor', 'overtime', 'distribution', 'CFAE'</p>
-			<p>{count} job calls matched the filter terms</p>
-			<p>Keep in mind descriptions do not use standardized language</p>
-			<p>Searching 'conduit' will screen out calls that mention 'EMT'</p>
-		</div>	
+			<p>{uniqueCalls} unique job calls matched the filter terms</p>
+			<p>{staleCalls.count} more appeared multiple days</p>
+		</div>
 	);
 }
 
