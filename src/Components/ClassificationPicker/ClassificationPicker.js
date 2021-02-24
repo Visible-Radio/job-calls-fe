@@ -17,7 +17,6 @@ const ClassificationPicker = (props) => {
 			    	id={property + "_checkbox"}
 			    	name={property}
 			    	value={property}
-			    	// onClick={props.onCheckBoxClick}
 			    	style={
 			    		{borderColor: props.colors[property]}
 			    	}
@@ -26,7 +25,7 @@ const ClassificationPicker = (props) => {
 			    	htmlFor={property + "_checkbox"}
 			    	style={{color: props.colors[property]}}
 			    	>
-			    		<div className="acronymClassification"><span>{property}</span></div>
+			    		<span className="acronymClassification">{property}</span>
 			    		<span className="readableClassification">{readableClassification[property]}</span>
 			    </label>
 		  	</div>
@@ -44,36 +43,41 @@ const ClassificationPicker = (props) => {
 	const defaultEnd = Options.maxDate;
 
 	return (
-		<div className="ClassificationPicker">
-			<button id="openPickers" onClick={props.handlePickerSize}>Select Period and Classifications</button>
-			<label htmlFor="startPicker">Start Date</label>
-			<Flatpickr
-				id = "startPicker"
-				options={Options}
-        value={defaultStart}
-        onChange={props.onDatePick}
-      />
-      <label htmlFor="endPicker">End Date</label>
-      <Flatpickr
-      	id = "endPicker"
-        value={defaultEnd}
-        options={Options}
-      />
-      {/* <div>
-      <label htmlFor="companyInput">Company</label>
-	      <input
-					id = "companyInput"
-					type='search'
-					placeholder='Leave blank for all'
-					maxLength="25"
+		<div id="ClassificationPicker" className="ClassificationPicker">
+			<button id="pickerHandle" onClick={props.handlePickerSize}>☰</button>
+			<div className="wrapperR">
+				<div className="wrapperC">
+					<label htmlFor="startPicker">Start</label>
+					<Flatpickr
+						id = "startPicker"
+						options={Options}
+						value={defaultStart}
+						onChange={props.onDatePick}
 					/>
-			</div> */}
+				</div>
+				<div className="wrapperC">
+					<label htmlFor="endPicker">End</label>
+					<Flatpickr
+						id = "endPicker"
+						value={defaultEnd}
+						options={Options}
+					/>
+				</div>
+			</div>
 			<CompanySelect companies={props.companies}></CompanySelect>
+
 			<form>
 		  	{checkBoxes}
 			</form>
+
 			<button id="viewRecords"
-				onClick={props.onButtonSubmit}>View Records</button>
+				onClick={props.onButtonSubmit}>Get Records</button>
+
+			<button
+				id="toggleView"
+				onClick={props.onToggleView}
+				>{`Toggle ${props.view === 'Charts' ? 'Calls' : 'Charts'}`}
+			</button>
 		</div>
 	);
 }

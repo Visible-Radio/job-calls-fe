@@ -13,7 +13,7 @@ const ColorLegend = (props) => {
 					style={{backgroundColor: props.colors[key]}}>
 				</div>
 				<span
-					className="acronymClassifciation"
+					className="acronymClassification"
 					style={{color: props.colors[key]}}
 					>
 					{key}
@@ -30,19 +30,16 @@ const ColorLegend = (props) => {
 	}
 
 	return (
-		<div>
-			<h2>Selected Classifications</h2>
-			<div className="ColorLegend">
-				<ul className="legend">
-					{legendBlocks}
-					<li key={"ColorLegendTotal_static_li"}>
-						<div className="legendBlock"
-							style={{backgroundColor: 'rgb(200, 200, 0)'}}>
-						</div>
-						<span style={{color: 'rgb(255, 255, 0)'}}>Total</span>
-					</li>
-				</ul>
-			</div>
+		<div className="ColorLegend">
+			<ul className="legend">
+				{legendBlocks}
+				<li key={"ColorLegendTotal_static_li"}>
+					<div className="legendBlock"
+						style={{backgroundColor: 'rgb(200, 200, 0)'}}>
+					</div>
+					<span className="acronymClassification" style={{color: 'rgb(255, 255, 0)'}}>Total</span>
+				</li>
+			</ul>
 		</div>
 	);
 }

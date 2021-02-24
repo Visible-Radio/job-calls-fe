@@ -2,8 +2,6 @@
 /*
 refactor for the react chart.js library
 
-layout bug on mobile with classification picker
-better layout overall, maybe try out Grid
 
 maybe need to modify the db schema
 create a table with columns for companies and company id
@@ -28,35 +26,43 @@ import TotalLineGraph from './Components/TotalLineGraph/TotalLineGraph';
 import DoughnutGraph from './Components/DoughnutGraph/DoughnutGraph';
 import ColorLegend from './Components/ColorLegend/ColorLegend';
 import StartEndDates from './Components/StartEndDates/StartEndDates';
+import SearchBox from './Components/SearchBox/SearchBox';
 import ClassificationPicker from './Components/ClassificationPicker/ClassificationPicker';
 import CallCardList from './Components/CallCardList/CallCardList';
+import Loader from './Components/Loader/Loader';
 import handleFetch from './utils/HandleFetch';
 import { colors } from './config';
 
 const App = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
-  const [start, setStart] = useState('2020-12-05');
-  const [end, setEnd] = useState('2021-01-30');
+  const [start, setStart] = useState('2020-12-04');
+  const [end, setEnd] = useState(() => {
+    let start = new Date();
+    return start.toISOString().slice(0, 10);
+  });
   const [clicked, setClicked] = useState([]);
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState();
+  const [searchField, setSearchField] = useState('');
+  const [view, setView] = useState('Charts');
 
   const handlePickerSize = () => {
     const picker = document.querySelector('.ClassificationPicker');
-    const currentHeight = picker.offsetHeight;
-    if (currentHeight > 34) {
-      picker.style.height = "34px"
-    } else {
-      picker.style.height = "650px"
+    picker.classList.toggle('close');
+  }
+
+  const onToggleView = () => {
+    if (view === 'Charts') {
+      setView('Calls')
+    } else if (view ==="Calls") {
+      setView('Charts')
     }
   }
 
   const onButtonSubmit = () => {
     const start = document.querySelector('#startPicker').value;
     const end = document.querySelector('#endPicker').value;
-    // replaced with select menu
-    // const company = document.querySelector('#companyInput').value;
     const companySelect = document.querySelector('#companySelect').value;
 
     // convert to date objects and compare to make sure end is later than start
@@ -67,7 +73,7 @@ const App = () => {
     setEnd(end);
 
     // only permit alphanumeric chars
-    const pattern = /^[a-zA-Z0-9 \.\-\(\)\&\\\/]*$/
+    const pattern = /^[a-zA-Z0-9 .\-()&\\/]*$/
     if (!pattern.test(companySelect)) {
       return alert("Invalid characters in company input");
     }
@@ -82,62 +88,151 @@ const App = () => {
     setClicked(checked);
     setCallCardData([]);
     setChartData({});
-    setTimeout(handlePickerSize,500);
+    if (view === 'Charts') setTimeout(handlePickerSize,500);
   }
 
   useEffect(() => {
-        handleFetch(clicked, start, end, company).then(data => {
-        setCallCardData(data.callCardData);
-        setChartData(data.chartData);
-        setCompanies(data.companies);
-      });
+    handleFetch(clicked, start, end, company).then(data => {
+      if (data === 1) {
+        console.log('failed to fetch from API');
+        return;
+      };
+      setCallCardData(data.callCardData);
+      setChartData(data.chartData);
+      setCompanies(data.companies);
+    });
    },[clicked, start, end, company]);
 
-    return (
-      <div className="App">
+  const onSearchChange = (event) => {
+    setSearchField(event.target.value);
+  }
+
+  const filteredCalls = callCardData.filter(call => {
+    return call.summary.toLowerCase().includes(searchField.toLowerCase());
+  })
+
+  function findDuplicates(callSheet) {
+    // console.log(callSheet);
+    //can't modify callSheet as it is a reference to callCardData
+
+    /* move through the callCardData
+    store the first union_call_id
+    check it against every other call in the array of call objects
+    on the first duplicate found, start a new duplicate object
+    insert the company, dates and the indicies of callCardData where they were found
+
+    on the next pass don't check the indexes we've already found duplicates at
+    */
+
+    let duplicates = {};
+    // array of indicies not to check since we've already found dupes there
+    let found = [];
+    let totalDuplicateMembers = 0;
+
+    for (let i = 0; i < callSheet.length; i++) {
+      if (found.includes(i)) continue;
+      let current = callSheet[i].union_call_id;
+
+      for (let j = i + 1; j < callSheet.length; j++) {
+        if (callSheet[j].union_call_id === current) {
+          if (!duplicates[current]) {
+            // start a new duplicate object
+            duplicates[current] = {
+              company: callSheet[j].company,
+              duplicate_dates: [],
+              duplicate_indicies: [],
+              duplicate_members: callSheet[j].members_needed,
+            }
+            duplicates[current]
+              .duplicate_dates
+              .push(callSheet[i].call_date_from_html, callSheet[j].call_date_from_html);
+            duplicates[current]
+              .duplicate_indicies
+              .push(i, j);
+            found.push(j);
+          } else {
+            // push our values into the exisiting duplicate object
+            duplicates[current]
+              .duplicate_dates
+              .push(callSheet[j].call_date_from_html);
+            duplicates[current]
+              .duplicate_indicies
+              .push(j);
+            duplicates[current]
+              .duplicate_members
+              += callSheet[j].members_needed;
+            totalDuplicateMembers += callSheet[j].members_needed;
+            found.push(j);
+          }
+        }
+      }
+    }
+    return ({
+      duplicates,
+      found,
+      count: found.length,
+      totalDuplicateMembers
+    });
+  }
+  const staleCalls = findDuplicates(filteredCalls);
+
+  return (
+    <div className="App">
+      <Loader datasets={chartData}>
         <div className="layoutMaster">
-        <div id="header">
-          <h1>IBEW LOCAL 353</h1>
-          <h1>JOB CALLS DATABASE</h1>
-        </div>
+          <StartEndDates
+            start={start}
+            end={end}
+            company={company}
+          />
           <ClassificationPicker
             companies={companies}
             colors={colors}
-            // onCheckBoxClick={onCheckBoxClick}
-            // onDatePick={onDatePick}
             onButtonSubmit={onButtonSubmit}
+            onToggleView={onToggleView}
             handlePickerSize={handlePickerSize}
+            view = {view}
           />
-          <div className="graphMaster">
-            <StartEndDates
-              start={start}
-              end={end}
-              company={company}
-            />
-            <div className="multiGraphContainer">
-              <LineGraph
-                datasets={chartData}
-                colors={colors}
-              />
-            </div>
-            <div className="multiGraphContainer">
-              <TotalLineGraph
-                datasets={chartData}
-              />
-              <DoughnutGraph
-                datasets={chartData}
-                colors={colors}
-              />
-            </div>
-            <ColorLegend datasets={chartData} colors={colors} />
-          </div>
-          <CallCardList
-            callCardData={callCardData}
-            colors={colors}
-          />
-        </div>
-      </div>
-    );
+
+          {
+          (function(){
+            if (view === 'Charts') {
+              return (
+                <div className="graphGrid">
+                  <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                    {/* <CompanyRankings /> */}
+                  </div>
+                  <LineGraph datasets={chartData} colors={colors} />
+                  <ColorLegend datasets={chartData} colors={colors} />
+                  <TotalLineGraph datasets={chartData} />
+                </div>
+              )
+            } else if (view === "Calls") {
+              return (
+                <div className="callGrid">
+                  <SearchBox
+                    searchChange={onSearchChange}
+                    count={filteredCalls.length}
+                    staleCalls={staleCalls}
+                  />
+                  <div className="leftSubGrid">
+                    <DoughnutGraph datasets={chartData} colors={colors} />
+                  </div>
+                  <CallCardList
+                    filteredCalls={filteredCalls}
+                    colors={colors}
+                    staleCalls={staleCalls}
+                  />
+                </div>
+              )
+            }
+          }())
+          }
+        </div>{/* end of layout master */}
+      </Loader>
+    </div> /* end of App */
+  );
 }
 
 export default App;

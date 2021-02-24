@@ -58,7 +58,7 @@ const DoughnutGraph = ({ datasets, colors }) => {
 						display: true,
 						fontSize: 16,
 						position: 'top',
-						fontColor: "rgb(0, 200, 200)",
+						fontColor: "rgb(0, 250, 200)",
 						text: 'Classification Totals for Period'
 				},
 				legend: {
@@ -77,6 +77,7 @@ const DoughnutGraph = ({ datasets, colors }) => {
 
 		return function cleanup() {
 			myChart.destroy();
+			window.removeEventListener('resize', scaleDoughnutText);
 		};
 	})
 
