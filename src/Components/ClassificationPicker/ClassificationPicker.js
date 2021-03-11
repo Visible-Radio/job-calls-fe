@@ -3,6 +3,7 @@ import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
 import CompanySelect from './CompanySelect';
+import { createDate } from '../../utils/createDate';
 
 const ClassificationPicker = (props) => {
 
@@ -35,11 +36,13 @@ const ClassificationPicker = (props) => {
 	const Options = {
 		mode: "single",
 		allowInput: false,
+		//no records older than this minDate
 		minDate: "2020-12-04",
 		maxDate: new Date(),
 	}
 
-	const defaultStart = "2020-12-04";
+	// determine the range of calls to initially fetch
+	const defaultStart = createDate(0, -1, 0);
 	const defaultEnd = Options.maxDate;
 
 	return (
