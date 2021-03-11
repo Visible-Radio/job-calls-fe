@@ -3,6 +3,7 @@ import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
 import CompanySelect from './CompanySelect';
+import { createDate } from '../../utils/createDate';
 
 const ClassificationPicker = (props) => {
 
@@ -35,12 +36,14 @@ const ClassificationPicker = (props) => {
 	const Options = {
 		mode: "single",
 		allowInput: false,
+		//no records older than this minDate
 		minDate: "2020-12-04",
 		maxDate: new Date(),
 	}
 
-	const defaultStart = "2020-12-04";
-	const defaultEnd = Options.maxDate;
+	// determine the range of calls to initially fetch
+	// const defaultStart = props.start;
+	// const defaultEnd = props.end;
 
 	return (
 		<div id="ClassificationPicker" className="ClassificationPicker">
@@ -51,7 +54,7 @@ const ClassificationPicker = (props) => {
 					<Flatpickr
 						id = "startPicker"
 						options={Options}
-						value={defaultStart}
+						value={props.start}
 						onChange={props.onDatePick}
 					/>
 				</div>
@@ -59,7 +62,7 @@ const ClassificationPicker = (props) => {
 					<label htmlFor="endPicker">End</label>
 					<Flatpickr
 						id = "endPicker"
-						value={defaultEnd}
+						value={props.end}
 						options={Options}
 					/>
 				</div>
@@ -76,7 +79,7 @@ const ClassificationPicker = (props) => {
 			<button
 				id="toggleView"
 				onClick={props.onToggleView}
-				>{`Toggle ${props.view === 'Charts' ? 'Calls' : 'Charts'}`}
+				>{`View ${props.view === 'Charts' ? 'Call Sheets' : 'Charts'}`}
 			</button>
 		</div>
 	);

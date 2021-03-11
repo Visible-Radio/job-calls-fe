@@ -32,11 +32,12 @@ import CallCardList from './Components/CallCardList/CallCardList';
 import Loader from './Components/Loader/Loader';
 import handleFetch from './utils/HandleFetch';
 import { colors } from './config';
+import { createDate } from './utils/createDate';
 
 const App = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
-  const [start, setStart] = useState('2020-12-04');
+  const [start, setStart] = useState(createDate(0, -1, 0));
   const [end, setEnd] = useState(() => {
     let start = new Date();
     return start.toISOString().slice(0, 10);
@@ -192,6 +193,8 @@ const App = () => {
             onToggleView={onToggleView}
             handlePickerSize={handlePickerSize}
             view = {view}
+            start={start}
+            end={end}
           />
 
           {
