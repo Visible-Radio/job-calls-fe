@@ -42,8 +42,8 @@ const ClassificationPicker = (props) => {
 	}
 
 	// determine the range of calls to initially fetch
-	const defaultStart = createDate(0, -1, 0);
-	const defaultEnd = Options.maxDate;
+	// const defaultStart = props.start;
+	// const defaultEnd = props.end;
 
 	return (
 		<div id="ClassificationPicker" className="ClassificationPicker">
@@ -54,7 +54,7 @@ const ClassificationPicker = (props) => {
 					<Flatpickr
 						id = "startPicker"
 						options={Options}
-						value={defaultStart}
+						value={props.start}
 						onChange={props.onDatePick}
 					/>
 				</div>
@@ -62,7 +62,7 @@ const ClassificationPicker = (props) => {
 					<label htmlFor="endPicker">End</label>
 					<Flatpickr
 						id = "endPicker"
-						value={defaultEnd}
+						value={props.end}
 						options={Options}
 					/>
 				</div>
@@ -79,7 +79,7 @@ const ClassificationPicker = (props) => {
 			<button
 				id="toggleView"
 				onClick={props.onToggleView}
-				>{`Toggle ${props.view === 'Charts' ? 'Calls' : 'Charts'}`}
+				>{`View ${props.view === 'Charts' ? 'Call Sheets' : 'Charts'}`}
 			</button>
 		</div>
 	);

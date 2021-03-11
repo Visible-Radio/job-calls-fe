@@ -193,6 +193,8 @@ const App = () => {
             onToggleView={onToggleView}
             handlePickerSize={handlePickerSize}
             view = {view}
+            start={start}
+            end={end}
           />
 
           {
