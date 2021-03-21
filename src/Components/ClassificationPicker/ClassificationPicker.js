@@ -4,7 +4,17 @@ import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
 import CompanySelect from './CompanySelect';
 
-const ClassificationPicker = (props) => {
+const ClassificationPicker = (
+	{
+		colors,
+		companies,
+		end,
+		handlePickerSize,
+		onButtonSubmit,
+		onToggleView,
+		start,
+		view
+	}) => {
 
 	const checkBoxes = [];
 
@@ -18,12 +28,12 @@ const ClassificationPicker = (props) => {
 			    	name={property}
 			    	value={property}
 			    	style={
-			    		{borderColor: props.colors[property]}
+			    		{borderColor: colors[property]}
 			    	}
 			    />
 			    <label
 			    	htmlFor={property + "_checkbox"}
-			    	style={{color: props.colors[property]}}
+			    	style={{color: colors[property]}}
 			    	>
 			    		<span className="acronymClassification">{property}</span>
 			    		<span className="readableClassification">{readableClassification[property]}</span>
@@ -40,45 +50,40 @@ const ClassificationPicker = (props) => {
 		maxDate: new Date(),
 	}
 
-	// determine the range of calls to initially fetch
-	// const defaultStart = props.start;
-	// const defaultEnd = props.end;
-
 	return (
 		<div id="ClassificationPicker" className="ClassificationPicker">
-			<button id="pickerHandle" onClick={props.handlePickerSize}>☰</button>
+			<button id="pickerHandle" onClick={handlePickerSize}>☰</button>
 			<div className="wrapperR">
 				<div className="wrapperC">
 					<label htmlFor="startPicker">Start</label>
 					<Flatpickr
 						id = "startPicker"
 						options={Options}
-						value={props.start}
-						onChange={props.onDatePick}
+						value={start}
 					/>
 				</div>
 				<div className="wrapperC">
 					<label htmlFor="endPicker">End</label>
 					<Flatpickr
 						id = "endPicker"
-						value={props.end}
+						value={end}
 						options={Options}
 					/>
 				</div>
 			</div>
-			<CompanySelect companies={props.companies}></CompanySelect>
+			<CompanySelect companies={companies}></CompanySelect>
 
 			<form>
 		  	{checkBoxes}
 			</form>
 
 			<button id="viewRecords"
-				onClick={props.onButtonSubmit}>Get Records</button>
+				onClick={onButtonSubmit}>Get Records</button>
 
 			<button
 				id="toggleView"
-				onClick={props.onToggleView}
-				>{`View ${props.view === 'Charts' ? 'Call Sheets' : 'Charts'}`}
+				onClick={onToggleView}
+				>{`View ${view === 'Charts' ? 'Call Sheets' : 'Charts'}`}
 			</button>
 		</div>
 	);

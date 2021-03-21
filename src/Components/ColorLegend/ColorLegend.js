@@ -1,26 +1,26 @@
 import React from 'react';
 import { readableClassification } from '../../config'
 
-const ColorLegend = (props) => {
+const ColorLegend = ({ colors, datasets}) => {
 
 	const legendBlocks = [];
 	let index = 0;
-	for (let key in props.datasets) {
+	for (let key in datasets) {
 		if (key === 'Total' || key === "Date") continue;
 		legendBlocks.push(
 			<li key={key + index}>
 				<div className="legendBlock"
-					style={{backgroundColor: props.colors[key]}}>
+					style={{backgroundColor: colors[key]}}>
 				</div>
 				<span
 					className="acronymClassification"
-					style={{color: props.colors[key]}}
+					style={{color: colors[key]}}
 					>
 					{key}
 				</span>
 				<span
 					className="readableClassification"
-					style={{color: props.colors[key]}}
+					style={{color: colors[key]}}
 					>
 					{readableClassification[key]}
 				</span>
