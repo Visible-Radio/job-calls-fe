@@ -3,7 +3,6 @@ import "flatpickr/dist/themes/dark.css";
 import Flatpickr from "react-flatpickr";
 import { readableClassification } from '../../config';
 import CompanySelect from './CompanySelect';
-import { createDate } from '../../utils/createDate';
 
 const ClassificationPicker = (props) => {
 

@@ -15,6 +15,7 @@ const colors = {
   ETN: "#424242",
   JCS: "#9e9e9e",
   U: "#795548",
+  GEO: "#199958",
 }
 
 const readableClassification = {
@@ -34,6 +35,7 @@ const readableClassification = {
   ETN: "Electronics Technician",
   JCS: "Journeyman Cable Splicer",
   U: "Utility Man",
+  GEO: "Ground Man",
 }
 
 export {colors, readableClassification};

@@ -24,7 +24,6 @@ const LineGraph = ({ datasets, colors }) => {
 	}
 
 	useEffect(()=> {
-		/*init graph instance...this runs every render??*/
 		const myChart = new Chart(canvasRef.current, {
 			type: 'line',
 			// The data for our dataset
