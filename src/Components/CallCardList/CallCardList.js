@@ -1,13 +1,11 @@
 import CallCard from '../CallCard/CallCard';
 
 const CallCardList = ({ filteredCalls, colors, staleCalls }) => {
-
 	return (
 		<div className="CallCardList">
 			{
 				filteredCalls?.map((call, i) => {
 					if (staleCalls.found.includes(i)) return null;
-
 					let occurences = 1;
 					if (staleCalls.duplicates.hasOwnProperty(call.union_call_id)) {
 

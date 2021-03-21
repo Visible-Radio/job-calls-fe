@@ -6,12 +6,6 @@ const CallCard = ({ data, color, index, occurences }) => {
 	return (
 		<div className={`CallCard ${stale}`} style={{border: `6px solid ${color + '77'}`}}>
 
-			{/* <div>
-				added for development
-				<h5 style={{backgroundColor: color}} className="lbl">index</h5>
-				<p>{index}</p>
-			</div> */}
-
 			<div className="classShield" style={{backgroundColor: color}}>
 				<h5 className="lbl">Class</h5>
 				<p style={{color: "#1c243a", fontWeight: "bold"}}>{data?.member_class}</p>
