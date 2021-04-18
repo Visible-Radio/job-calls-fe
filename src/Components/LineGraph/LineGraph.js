@@ -38,7 +38,7 @@ const LineGraph = ({ datasets, colors }) => {
             fontSize: 15,
             position: 'top',
             fontColor: "rgb(0, 250, 200)",
-            text: `Members Needed by Classification`
+            text: `Members Requested by Classification for Each Day`
         },
 	    	legend: {
 	    		display: false,

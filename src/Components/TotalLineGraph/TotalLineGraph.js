@@ -29,7 +29,7 @@ const TotalLineGraph = ({ datasets }) => {
             fontSize: 16,
             position: 'top',
             fontColor: "rgb(0, 250, 200)",
-            text: `Total Members Needed`
+            text: `Total Number of Members Requested for Each Day`
         },
 	    	legend: {
 	    		display: false,
