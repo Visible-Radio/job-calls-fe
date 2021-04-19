@@ -1,5 +1,3 @@
-import { readableClassification } from "../config";
-
 export default function findUniqueTotals(callCardData) {
   // look through callCardData
   // create a unique set of job calls where any given union call id appears only once
@@ -14,7 +12,7 @@ export default function findUniqueTotals(callCardData) {
   callCardData.forEach((call) => {
     if (
       uniques.hasOwnProperty(call.union_call_id) &&
-      uniques[call.union_call_id] < call.union_call_id
+      uniques[call.union_call_id].members_needed < call.members_needed
     ) {
       // only overwrite a call if the members needed value is larger
       uniques[call.union_call_id] = call;
@@ -25,7 +23,7 @@ export default function findUniqueTotals(callCardData) {
   });
 
   // uniques now only has the unique job calls with the largest members needed value.
-  console.log("uniques :>> ", Object.values(uniques));
+  // console.log("uniques :>> ", uniques);
 
   // now we need the sum of members needed for all calls for each classification
   const uniqueJobsByClassification = {};

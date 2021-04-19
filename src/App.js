@@ -14,6 +14,7 @@ import findDuplicates from "./utils/findDuplicates";
 import { colors } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
+import findUniqueTotals_2 from "./utils/findUniqueTotals_2";
 
 const App = () => {
   const [chartData, setChartData] = useState({});
@@ -100,7 +101,8 @@ const App = () => {
   );
 
   const staleCalls = findDuplicates(filteredCalls);
-  findUniqueTotals(callCardData);
+  // findUniqueTotals(callCardData);
+  findUniqueTotals_2(callCardData);
 
   return (
     <div className="App">
