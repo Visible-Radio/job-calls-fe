@@ -3,6 +3,7 @@ import Chart from 'chart.js';
 
 const DoughnutGraph = ({ datasets, colors }) => {
 	const canvasRef = useRef();
+	console.log('datasets :>> ', datasets);
 
 	const scaleDoughnutText = () => {
 		const doughnutGraphElement = document.querySelector('.DoughnutGraph');

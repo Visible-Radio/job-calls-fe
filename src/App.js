@@ -3,6 +3,7 @@ import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
 import DoughnutGraph from "./Components/DoughnutGraph/DoughnutGraph";
+import DoughnutGraphUniqueJobs from "./Components/DoughnutGraph/DoughnutGraphUniqueJobs";
 import ColorLegend from "./Components/ColorLegend/ColorLegend";
 import StartEndDates from "./Components/StartEndDates/StartEndDates";
 import SearchBox from "./Components/SearchBox/SearchBox";
@@ -14,7 +15,6 @@ import findDuplicates from "./utils/findDuplicates";
 import { colors } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
-import findUniqueTotals_2 from "./utils/findUniqueTotals_2";
 
 const App = () => {
   const [chartData, setChartData] = useState({});
@@ -101,8 +101,8 @@ const App = () => {
   );
 
   const staleCalls = findDuplicates(filteredCalls);
-  // findUniqueTotals(callCardData);
-  findUniqueTotals_2(callCardData);
+  const { uniqueJobsByClassification } = findUniqueTotals(callCardData);
+
 
   return (
     <div className="App">
@@ -126,7 +126,7 @@ const App = () => {
                 <div className="graphGrid">
                   <div className="leftSubGrid">
                     <DoughnutGraph datasets={chartData} colors={colors} />
-                    {/* <CompanyRankings /> */}
+                    <DoughnutGraphUniqueJobs datasets={uniqueJobsByClassification} colors={colors} />
                   </div>
                   <LineGraph datasets={chartData} colors={colors} />
                   <ColorLegend datasets={chartData} colors={colors} />
@@ -143,6 +143,7 @@ const App = () => {
                   />
                   <div className="leftSubGrid">
                     <DoughnutGraph datasets={chartData} colors={colors} />
+                    <DoughnutGraphUniqueJobs datasets={uniqueJobsByClassification} colors={colors} />
                   </div>
                   <CallCardList
                     filteredCalls={filteredCalls}

@@ -150,14 +150,14 @@ body {
 	margin: 0;
 }
 
-.DoughnutGraph {
+.DoughnutGraph, .DoughnutGraph2 {
 	position: relative;
 	background: none;
 	max-width: 280px;
 	max-height: 280px;
 }
 
-#grandTotal {
+#grandTotal, #grandTotal2 {
 	position: absolute;
 	top: 48%;
 	color: rgb(0, 250, 200);

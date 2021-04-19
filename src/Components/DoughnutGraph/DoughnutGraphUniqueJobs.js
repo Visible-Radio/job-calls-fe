@@ -3,10 +3,11 @@ import Chart from 'chart.js';
 
 const DoughnutGraph = ({ datasets, colors }) => {
 	const canvasRef = useRef();
+	console.log('datasets :>> ', datasets);
 
 	const scaleDoughnutText = () => {
-		const doughnutGraphElement = document.querySelector('.DoughnutGraph');
-		const grandTotalElement = document.querySelector('#grandTotal');
+		const doughnutGraphElement = document.querySelector('.DoughnutGraph2');
+		const grandTotalElement = document.querySelector('#grandTotal2');
 		const width = doughnutGraphElement.offsetWidth;
 		grandTotalElement.style.fontSize = `${width/10}px`
 		const textWidth = grandTotalElement.offsetWidth;
@@ -15,22 +16,23 @@ const DoughnutGraph = ({ datasets, colors }) => {
 	}
 
   const initChartData = (myChart) => {
-  	myChart.data.datasets[0].data = [];
-  	myChart.data.labels = [];
+  	myChart.data.datasets[0].data = Object.values(datasets);
+  	myChart.data.labels = Object.keys(datasets);
   	myChart.data.datasets[0].backgroundColor = [];
 
-  	for (let key in datasets) {
+		for (let key in datasets) {
 			if (key === "Date" || key === "Total") continue;
       myChart.data.labels.push(key);
-      const reduced = datasets[key].reduce((acc, element) =>	acc += Number(element),0);
-      myChart.data.datasets[0].data.push(reduced);
+
       myChart.data.datasets[0].backgroundColor.push(colors[key]);
   	}
+
+
   }
 
   const grandTotal = () => {
-  	const grandTotal = datasets?.Total?.reduce((acc, element) =>	acc += Number(element),0);
-  	return grandTotal
+  	const grandTotal = Object.values(datasets).reduce((acc, element) =>	acc += Number(element),0);
+  	return grandTotal;
   }
 
 	useEffect(()=> {
@@ -59,7 +61,7 @@ const DoughnutGraph = ({ datasets, colors }) => {
 						fontSize: 16,
 						position: 'top',
 						fontColor: "rgb(0, 250, 200)",
-						text: 'Classification Day Totals for Period'
+						text: 'Unique Jobs By Class For Period'
 				},
 				legend: {
 					display: false,
@@ -82,8 +84,8 @@ const DoughnutGraph = ({ datasets, colors }) => {
 	})
 
 		return (
-				<div className="DoughnutGraph graphBg" >
-					<span id="grandTotal"><div id="grandTotalLabel">Total:</div><div>{grandTotal()}</div></span>
+				<div className="DoughnutGraph2 graphBg" >
+					<span id="grandTotal2"><div id="grandTotalLabel2">Total:</div><div>{grandTotal()}</div></span>
 					<canvas ref={ canvasRef } />
 				</div>
 			);

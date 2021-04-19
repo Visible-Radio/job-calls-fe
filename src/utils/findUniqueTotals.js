@@ -1,42 +1,53 @@
 export default function findUniqueTotals(callCardData) {
-  // look through callCardData
-  // create a unique set of job calls where any given union call id appears only once
-  // if a union call id appears multiple times, return the one with the largest number of members needed
-  // then find the total actual jobs created for each classification
-
-  // we could also include an array of the dates on which the call appeared,
-  // or the first and last dates it appeared
+  // The purpose of this function is to find the total actual jobs created for each classification in the given range.
+  // The difficulty is that calls may persist for several days, and companies may revise the number of members requested over time.
+  // As in this array, representing the members requested for a given union_call_id :[3, 1, 2, 2, 2, 2]
+  // This actually represents 4 unique jobs
+  // The company originally asks for 3.  2 get picked up, and then they revise the request to ask for another member.
 
   // object from an array of objects where we use one of the object's properties as its key
-  const uniques = {};
+  const callsById = {};
   callCardData.forEach((call) => {
-    if (
-      uniques.hasOwnProperty(call.union_call_id) &&
-      uniques[call.union_call_id].members_needed < call.members_needed
-    ) {
-      // only overwrite a call if the members needed value is larger
-      uniques[call.union_call_id] = call;
-    } else if (!uniques.hasOwnProperty(call.union_call_id)) {
-      // if we don't already have this call add it
-      uniques[call.union_call_id] = call;
+    if (callsById.hasOwnProperty(call.union_call_id)) {
+      callsById[call.union_call_id].instances.push(call);
+      callsById[call.union_call_id].members_needed.push(call.members_needed);
+    } else {
+      // create an object referred to by the current union_call_id
+      callsById[call.union_call_id] = {
+        instances: [call],
+        members_needed: [call.members_needed],
+      };
     }
   });
 
-  // uniques now only has the unique job calls with the largest members needed value.
-  // console.log("uniques :>> ", uniques);
-
   // now we need the sum of members needed for all calls for each classification
   const uniqueJobsByClassification = {};
-  for (let call in uniques) {
-    if (uniqueJobsByClassification.hasOwnProperty(uniques[call].member_class)) {
-      uniqueJobsByClassification[uniques[call].member_class] +=
-        uniques[call].members_needed;
+  for (let id in callsById) {
+    const { members_needed, instances } = callsById[id];
+    const { member_class } = instances[0];
+    // travesrse the members_needed array to determine number of real jobs for the lifecycle of the call
+    const realJobsCreated = countRealJobs([...members_needed]);
+
+    if (uniqueJobsByClassification.hasOwnProperty(member_class)) {
+      uniqueJobsByClassification[member_class] += realJobsCreated;
     } else {
-      uniqueJobsByClassification[uniques[call].member_class] =
-        uniques[call].members_needed;
+      uniqueJobsByClassification[member_class] = realJobsCreated;
     }
   }
 
-  // uniqueJobsByClassification now has the totals by classification for ONLY UNIQUE JOBS
-  console.log("uniqueJobsByClassification :>> ", uniqueJobsByClassification);
+  // This function analyzes the members_needed array for a given union_call_id and determines for that call how many actual jobs were available
+  function countRealJobs(members_needed) {
+    return members_needed.reduce((acc, memberRequest, i, arr) => {
+      if (memberRequest > arr[i - 1]) {
+        const increase = memberRequest - arr[i - 1];
+        return acc + increase;
+      }
+      return acc;
+    }, members_needed[0]);
+  }
+
+  return {
+    uniqueJobsByClassification,
+    callsById
+  }
 }
