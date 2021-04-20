@@ -115,9 +115,11 @@ body {
 	position: absolute;
 	background-color: #6d1158;
 	color: #e932bf;
-	top: -25px;
+	top: -100px;
+	height: 40px;
+	width: 40px;
 	left: 0;
-	border-radius: 5px 5px 0 0;
+	border-radius: 50%;
 }
 
 .mobileChartDrawer {
@@ -224,10 +226,11 @@ body {
     grid-row: 2;
   }
 	#doughnutHandle {
-		display: block;
+		display: inline-block;
+		left: 90%;
 	}
 	.mobileChartDrawer {
-		border-top: 3px solid #6d1158
+		border-top: 3px solid #6d1158;
 	}
 }
 @media screen and (max-width: 450px) {
@@ -325,16 +328,6 @@ h1 {
   align-content: flex-start;
   height: max-content;
 }
-
-/* .CallCard {
-	width: 100%;
-	grid-template-columns: 70px repeat(auto-fill, minmax(200px, 1fr));
-	display: grid;
-	margin-bottom: 25px;
-	color: var(--greyCyan);
-	background-color: #1c243a;
-	font-size: 15px;
-} */
 
 .CallCard div {
   margin: 4px 4px 4px 4px;
