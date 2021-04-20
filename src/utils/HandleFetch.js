@@ -1,6 +1,6 @@
 const handleFetch = async (clicked, start, end, company) => {
-  const remote = 'https://evening-plateau-74700.herokuapp.com';
-  // const remote = 'http://127.0.0.1:4000';
+  // const remote = 'https://evening-plateau-74700.herokuapp.com';
+  const remote = 'http://127.0.0.1:4000';
 
   const getData = async (url) => {
     const body = {
@@ -11,8 +11,9 @@ const handleFetch = async (clicked, start, end, company) => {
       body.member_class = clicked;
     }
     if (company?.length) {
-      body.company = company;
+      body.company = [company];
     }
+
     return fetch(url, {
       method: 'post',
       headers: {'Content-type': 'application/json'},

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
-import DoughnutGraph from "./Components/DoughnutGraph/DoughnutGraph";
 import DoughnutGraphUniqueJobs from "./Components/DoughnutGraph/DoughnutGraphUniqueJobs";
 import ColorLegend from "./Components/ColorLegend/ColorLegend";
 import StartEndDates from "./Components/StartEndDates/StartEndDates";
@@ -33,6 +32,11 @@ const App = () => {
   const handlePickerSize = () => {
     const picker = document.querySelector(".ClassificationPicker");
     picker.classList.toggle("close");
+  };
+
+  const toggleDoughnut = () => {
+    const drawer = document.querySelector(".mobileChartDrawer");
+    drawer.classList.toggle("hideDoughnutOnMobile");
   };
 
   const onToggleView = () => {
@@ -103,7 +107,6 @@ const App = () => {
   const staleCalls = findDuplicates(filteredCalls);
   const { uniqueJobsByClassification } = findUniqueTotals(callCardData);
 
-
   return (
     <div className="App">
       <Loader datasets={chartData}>
@@ -120,40 +123,40 @@ const App = () => {
             end={end}
           />
 
-          {(function () {
-            if (view === "Charts") {
-              return (
-                <div className="graphGrid">
-                  <div className="leftSubGrid">
-                    <DoughnutGraph datasets={chartData} colors={colors} />
-                    <DoughnutGraphUniqueJobs datasets={uniqueJobsByClassification} colors={colors} />
-                  </div>
-                  <LineGraph datasets={chartData} colors={colors} />
-                  <ColorLegend datasets={chartData} colors={colors} />
-                  <TotalLineGraph datasets={chartData} />
-                </div>
-              );
-            } else if (view === "Calls") {
-              return (
-                <div className="callGrid">
-                  <SearchBox
-                    searchChange={onSearchChange}
-                    count={filteredCalls.length}
-                    staleCalls={staleCalls}
-                  />
-                  <div className="leftSubGrid">
-                    <DoughnutGraph datasets={chartData} colors={colors} />
-                    <DoughnutGraphUniqueJobs datasets={uniqueJobsByClassification} colors={colors} />
-                  </div>
-                  <CallCardList
-                    filteredCalls={filteredCalls}
-                    colors={colors}
-                    staleCalls={staleCalls}
-                  />
-                </div>
-              );
-            }
-          })()}
+          {view === "Charts" && (
+            <div className="graphGrid">
+              <div className="leftSubGrid">
+                <DoughnutGraphUniqueJobs
+                  datasets={uniqueJobsByClassification}
+                  colors={colors}
+                />
+              </div>
+              <LineGraph datasets={chartData} colors={colors} />
+              <ColorLegend datasets={chartData} colors={colors} />
+              <TotalLineGraph datasets={chartData} />
+            </div>
+          )}
+          {view === "Calls" && (
+            <div className="callGrid">
+              <SearchBox
+                searchChange={onSearchChange}
+                count={filteredCalls.length}
+                staleCalls={staleCalls}
+              />
+              <div className="leftSubGrid mobileChartDrawer hideDoughnutOnMobile">
+                <button id="doughnutHandle" onClick={toggleDoughnut}>☰</button>
+                <DoughnutGraphUniqueJobs
+                  datasets={uniqueJobsByClassification}
+                  colors={colors}
+                />
+              </div>
+              <CallCardList
+                filteredCalls={filteredCalls}
+                colors={colors}
+                staleCalls={staleCalls}
+              />
+            </div>
+          )}
         </div>
         {/* end of layout master */}
       </Loader>
