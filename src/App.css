@@ -353,87 +353,12 @@ h1 {
 .classShield p {
   margin: 7px 0 0 0;
 }
-.stale > .staleBadge {
-  order: -1;
-  align-self: flex-start;
-  top: -30px;
-  left: 85%;
-}
-.notStale > .staleBadge {
-  display: none;
-}
 
-/* Main Picker Component */
-.ClassificationPicker {
-  position: relative;
-  align-self: end;
-  background-color: #001320;
-  font-size: 15px;
-  width: 100%;
-  height: auto;
-  margin: 0;
-  transition-property: transform;
-  transition-duration: 0.5s;
-  border: 3px solid #6d1158;
-  align-self: start;
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  z-index: 1;
-  transform: translateX(0);
-}
-#pickerHandle {
-  position: absolute;
-  left: calc(100% + 3px);
-  top: -3px;
-  background-color: #6d1158;
-  height: auto;
-  /* width: 20px; */
-  border-radius: 0 5px 5px 0;
-  z-index: -1;
-  writing-mode: vertical-rl;
-  letter-spacing: 3px;
-  color: #e932bf;
-}
-#pickerHandle:hover {
-  filter: brightness(1.5);
-}
 .open {
   transform: translateX(0);
 }
-.close {
-  transform: translateX(-100%);
-}
 
-.ClassificationPicker > h2 {
-  cursor: pointer;
-  margin-top: 0;
-}
-.ClassificationPicker > h2:hover {
-  background-color: var(--greyCyan);
-  color: #001320;
-  border-color: var(--greyCyan);
-}
-.ClassificationPicker form {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0 10px 0;
-}
-.ClassificationPickerItem {
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  margin: 0;
-}
-.ClassificationPickerItem label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
+/* these two might be used in the legend */
 span.readableClassification {
   font-size: 15px;
   opacity: 0.8;
@@ -442,27 +367,6 @@ span.readableClassification {
 span.acronymClassification {
   margin: 0 5px 0 5px;
   min-width: 50px;
-}
-
-.ClassificationPickerCheckbox {
-  margin: 0;
-  cursor: pointer;
-  appearance: none;
-  height: 16px;
-  width: 16px;
-  border: 2px solid #2c344a;
-  box-sizing: border-box;
-  transition-property: border-width;
-  transition-duration: 0.2s;
-}
-.ClassificationPickerCheckbox:checked {
-  transition-property: border-width;
-  transition-duration: 0.2s;
-  border-width: 8px;
-}
-.ClassificationPickerCheckbox:focus {
-  outline-color: var(--greyCyan);
-  outline-style: dashed;
 }
 
 button {
@@ -521,16 +425,7 @@ button:active {
   width: 131px;
 }
 
-label[for="startPicker"] {
-  color: var(--greyCyan);
-}
-label[for="endPicker"] {
-  color: var(--greyCyan);
-}
-label[for="companySelect"] {
-  color: var(--greyCyan);
-}
-.wrapperC {
+/* .wrapperC {
   display: flex;
   padding: 2px;
   flex-direction: column;
@@ -543,7 +438,7 @@ label[for="companySelect"] {
 }
 .wrapperC label {
   margin: 2px;
-}
+} */
 
 .CompanySelect select {
   margin-top: 0;
@@ -554,7 +449,7 @@ label[for="companySelect"] {
   width: 100%;
   border: none;
 }
-.CcompanySelect select:hover {
+.CompanySelect select:hover {
   background-color: rgb(0, 255, 255);
   transition-duration: 0.2s;
 }

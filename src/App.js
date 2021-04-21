@@ -28,11 +28,11 @@ const App = () => {
   const [companies, setCompanies] = useState();
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Charts");
+  const [ pickerIsOpen, setPickerIsOpen ] = useState(true);
 
-  const handlePickerSize = () => {
-    const picker = document.querySelector(".ClassificationPicker");
-    picker.classList.toggle("close");
-  };
+  const togglePicker = (event) => {
+    setPickerIsOpen(!pickerIsOpen);
+  }
 
   const toggleDoughnut = () => {
     const drawer = document.querySelector(".mobileChartDrawer");
@@ -47,7 +47,7 @@ const App = () => {
     }
   };
 
-  const onButtonSubmit = () => {
+  const onButtonSubmit = (event) => {
     const start = document.querySelector("#startPicker").value;
     const end = document.querySelector("#endPicker").value;
     const companySelect = document.querySelector("#companySelect").value;
@@ -70,18 +70,10 @@ const App = () => {
     }
     setCompany(companySelect === "All Companies" ? "" : companySelect);
 
-    const checkboxes = document.querySelectorAll(
-      ".ClassificationPickerCheckbox"
-    );
-
-    let checked = [];
-    checkboxes.forEach((box) => {
-      if (box.checked) checked.push(box.value);
-    });
-    setClicked(checked);
+    setClicked(JSON.parse(event.target.dataset.value));
     setCallCardData([]);
     setChartData({});
-    if (view === "Charts") setTimeout(handlePickerSize, 500);
+    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
   useEffect(() => {
@@ -114,11 +106,11 @@ const App = () => {
           <StartEndDates start={start} end={end} company={company} />
           <ClassificationPicker
             companies={companies}
-            colors={colors}
             onButtonSubmit={onButtonSubmit}
             onToggleView={onToggleView}
-            handlePickerSize={handlePickerSize}
+            togglePicker={togglePicker}
             view={view}
+            pickerIsOpen={pickerIsOpen}
             start={start}
             end={end}
           />

@@ -46,7 +46,6 @@ const CallCard = ({ data, color, index, occurences }) => {
 				<h5 style={{backgroundColor: color}} className="lbl">Details</h5>
 				<p>{data?.summary}</p>
 			</div>
-			{/* <div className="staleBadge">Stale Call</div> */}
 		</div>
 		);
 }
