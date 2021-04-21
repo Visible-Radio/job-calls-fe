@@ -43,6 +43,33 @@ const ClassPickerStyles = styled.div`
   label[for="companySelect"] {
     color: var(--greyCyan);
   }
+
+  .wrapperC {
+  display: flex;
+  padding: 2px;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 1px;
+  }
+
+  .wrapperR {
+    display: flex;
+  }
+
+  .wrapperC label {
+    margin: 2px;
+  }
+
+  @media screen and (max-width: 450px) {
+  /* native date pickers on mobile don't respect widths */
+  .wrapperR {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
 `;
 
 export default ClassPickerStyles;

@@ -233,14 +233,6 @@ body {
 		border-top: 3px solid #6d1158;
 	}
 }
-@media screen and (max-width: 450px) {
-  /* native date pickers on mobile don't respect widths */
-  .wrapperR {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-}
 
 ul.legend {
   display: grid;
@@ -424,21 +416,6 @@ button:active {
   /* for mobile native date pickers that don't obey... */
   width: 131px;
 }
-
-/* .wrapperC {
-  display: flex;
-  padding: 2px;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: 1px;
-}
-.wrapperR {
-  display: flex;
-}
-.wrapperC label {
-  margin: 2px;
-} */
 
 .CompanySelect select {
   margin-top: 0;
