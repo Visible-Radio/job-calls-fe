@@ -6,7 +6,7 @@ const Box = styled.input`
   appearance: none;
   height: 16px;
   width: 16px;
-  border: 2px solid #2c344a;
+  border: 2px solid var(--greyCyan);
   border-color: ${(props) => props.color};
   box-sizing: border-box;
   transition-property: border-width;
@@ -22,6 +22,11 @@ const Box = styled.input`
     transition-duration: 0.2s;
     border-width: 8px;
   }
+
+  &:hover {
+    background-color: transparent;
+  }
+
 `;
 
 export default function CheckBoxStyled({ name, value, color, id, onChange, checked }) {

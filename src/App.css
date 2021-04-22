@@ -1,24 +1,3 @@
-:root {
-  --greenText: rgb(0, 250, 200);
-  --greyCyan: rgb(0, 200, 200);
-  /* maybe we can grab this in react and pass it to the charts */
-}
-
-html {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-body {
-  background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center
-    fixed;
-}
 
 .App {
   display: flex;
@@ -113,8 +92,8 @@ body {
 #doughnutHandle {
 	display: none;
 	position: absolute;
-	background-color: #6d1158;
-	color: #e932bf;
+	background-color: var(--magenta);
+	color: var(--brightMagenta);
 	top: -100px;
 	height: 40px;
 	width: 40px;
@@ -129,32 +108,12 @@ body {
 .SearchBox p {
   margin: 0;
 }
-
-.CompanyRankings {
-  border: 5px solid #1c243a;
-  border-radius: 5px;
-  padding: 0.5rem;
-  flex: 1;
-  min-width: 250px;
-  max-width: 280px;
-  margin: 0;
-}
-
 .graphBg {
   position: relative;
-  background-color: #1c243a;
+  background-color: var(--slate);
   border-radius: 5px;
   padding: 15px;
 }
-
-/* .loadingRef {
-	position: relative;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	grid-column: 2 / 4;
-	grid-row: 1 / 2;
-} */
 
 .LineGraph {
   width: 100%;
@@ -182,25 +141,21 @@ body {
 #grandTotal2 {
   position: absolute;
   top: 48%;
-  color: rgb(0, 250, 200);
+  color: var(--greenText);
   margin: 0;
   line-height: 90%;
   text-align: center;
 }
 
 .ColorLegend {
-  border: 5px solid #1c243a;
+  border: 5px solid var(--slate);
   border-radius: 5px;
-  background-color: #001320;
+  background-color: var(--lightBlack);
   padding: 0.5rem;
   max-width: 100%;
   grid-column: 2 / 4;
   grid-row: 2 / 3;
   margin: 10px 0px;
-}
-
-.rotate {
-  transform: rotate(90deg);
 }
 
 @media screen and (max-width: 840px) {
@@ -230,7 +185,7 @@ body {
 		left: 90%;
 	}
 	.mobileChartDrawer {
-		border-top: 3px solid #6d1158;
+		border-top: 3px solid var(--magenta);
 	}
 }
 
@@ -331,7 +286,7 @@ h1 {
 }
 .lbl {
   margin: 0;
-  color: #1c243a;
+  color: var(--slate);
   font-size: 1rem;
   font-weight: 600;
   text-align: center;
@@ -361,83 +316,7 @@ span.acronymClassification {
   min-width: 50px;
 }
 
-button {
-  border: none;
-  font-size: 15px;
-  background-color: var(--greyCyan);
-  height: 25px;
-}
-button:focus,
-#startPicker:focus,
-#endPicker:focus,
-#companySelect:focus {
-  outline-color: var(--greyCyan);
-  outline-style: dashed;
-}
-button:hover,
-#startPicker:hover,
-#endPicker:hover {
-  cursor: pointer;
-  background-color: rgb(0, 255, 255);
-  transition-duration: 0.2s;
-}
-button:active {
-  background-color: rgb(0, 255, 255);
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.1s;
-}
-#viewRecords {
-  width: 100%;
-}
 
-#toggleView {
-  align-self: center;
-  margin: 15px 0 5px 0;
-  width: 50%;
-  border-radius: 10px;
-}
-#openPickers {
-  align-self: center;
-  width: 25%;
-  margin: 3px;
-}
-#startPicker,
-#endPicker {
-  background-color: var(--greyCyan);
-  margin: 0;
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  max-width: 131px;
-  border: none;
-}
-.flatpickr-input {
-  /* for mobile native date pickers that don't obey... */
-  width: 131px;
-}
-
-.CompanySelect select {
-  margin-top: 0;
-  font-size: 14px;
-  padding: 0.1rem;
-  background-color: var(--greyCyan);
-  text-align: center;
-  width: 100%;
-  border: none;
-}
-.CompanySelect select:hover {
-  background-color: rgb(0, 255, 255);
-  transition-duration: 0.2s;
-}
-.CompanySelect select:disabled {
-  background-color: rgb(113, 57, 14);
-  max-width: 100%;
-  min-width: 266px;
-}
-::placeholder {
-  color: black;
-}
 /* =========================waiting for database indicator=========================== */
 .loadingRef {
   position: relative;
@@ -463,8 +342,8 @@ button:active {
   font-size: 18px;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: rgb(240, 240, 0);
-  border: 2px solid rgb(240, 240, 0);
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
   border-radius: 5px;
   background: black;
   z-index: 3;

@@ -7,7 +7,7 @@ import { useState } from "react";
 import ClassPickerStyles from "./ClassPickerStyles";
 
 const ClassificationPicker = ({
-  companies,
+  companiesOnRecord,
   start,
   end,
   togglePicker,
@@ -16,7 +16,6 @@ const ClassificationPicker = ({
   view,
   pickerIsOpen,
 }) => {
-
   const initialSelection = Object.fromEntries(
     Object.keys(readableClassification).map((memberClass) => [
       memberClass,
@@ -25,6 +24,9 @@ const ClassificationPicker = ({
   );
 
   const [selectedClasses, setSelectedClasses] = useState(initialSelection);
+  const [selectedCompany, setSelectedCompany] = useState('All Companies');
+  const [selectedStartDate, setSelectedStartDate] = useState(start)
+  const [selectedEndDate, setSelectedEndDate] = useState(end)
 
   const handleBoxClick = (event) => {
     const clicked = event.target.value;
@@ -34,12 +36,24 @@ const ClassificationPicker = ({
     }));
   };
 
-  const transformStateToArray = () => {
+  const transformCheckBoxStateToArray = () => {
     // this array will be attached via data-value to our button
     return Object.entries(selectedClasses)
       .filter(([memberClass, checked]) => checked)
       .map((pair) => pair[0]);
   };
+
+  const handleCompanyChange = (event) => {
+    setSelectedCompany([event.target.value]);
+  };
+
+  const handleStartDateChange = (event) => {
+    setSelectedStartDate(new Date(event[0]).toISOString().slice(0, 10));
+  }
+
+  const handleEndDateChange = (event) => {
+    setSelectedEndDate(new Date(event[0]).toISOString().slice(0, 10));
+  }
 
   const Options = {
     mode: "single",
@@ -52,20 +66,24 @@ const ClassificationPicker = ({
   return (
     <ClassPickerStyles pickerIsOpen={pickerIsOpen}>
       <button id="pickerHandle" onClick={togglePicker}>
-        ☰
+        {pickerIsOpen ? "☰" : "×"}
       </button>
       <div className="wrapperR">
         <div className="wrapperC">
           <label htmlFor="startPicker">Start</label>
-          <Flatpickr id="startPicker" options={Options} value={start} />
+          <Flatpickr id="startPicker" options={Options} value={selectedStartDate} onChange={handleStartDateChange} />
         </div>
         <div className="wrapperC">
           <label htmlFor="endPicker">End</label>
-          <Flatpickr id="endPicker" value={end} options={Options} />
+          <Flatpickr id="endPicker" value={selectedEndDate} options={Options} onChange={handleEndDateChange} />
         </div>
       </div>
 
-      <CompanySelect companies={companies}></CompanySelect>
+      <CompanySelect
+        companiesOnRecord={companiesOnRecord}
+        handleCompanyChange={handleCompanyChange}
+        value={selectedCompany}
+      ></CompanySelect>
 
       <form style={{ cursor: "pointer" }}>
         {Object.keys(readableClassification).map((memberClass, i) => {
@@ -84,7 +102,9 @@ const ClassificationPicker = ({
       <button
         id="viewRecords"
         onClick={onButtonSubmit}
-        data-value={JSON.stringify(transformStateToArray())}
+        data-classes={JSON.stringify(transformCheckBoxStateToArray())}
+        data-company={JSON.stringify(selectedCompany)}
+        data-range={JSON.stringify([selectedStartDate, selectedEndDate])}
       >
         Get Records
       </button>
@@ -92,7 +112,6 @@ const ClassificationPicker = ({
       <button id="toggleView" onClick={onToggleView}>
         {`View ${view === "Charts" ? "Call Sheets" : "Charts"}`}
       </button>
-
     </ClassPickerStyles>
   );
 };

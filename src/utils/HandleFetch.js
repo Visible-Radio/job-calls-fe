@@ -1,4 +1,4 @@
-const handleFetch = async (clicked, start, end, company) => {
+const handleFetch = async (selectedClasses, start, end, selectedCompanies) => {
   const remote = 'https://evening-plateau-74700.herokuapp.com';
   // const remote = 'http://127.0.0.1:4000';
 
@@ -7,11 +7,11 @@ const handleFetch = async (clicked, start, end, company) => {
       "start": start,
       "end": end,
     }
-    if (clicked?.length > 0) {
-      body.member_class = clicked;
+    if (selectedClasses?.length > 0) {
+      body.member_class = selectedClasses;
     }
-    if (company?.length) {
-      body.company = [company];
+    if (!selectedCompanies.includes('All Companies')) {
+      body.company = selectedCompanies;
     }
 
     return fetch(url, {

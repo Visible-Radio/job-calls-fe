@@ -14,6 +14,7 @@ import findDuplicates from "./utils/findDuplicates";
 import { colors } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
+import validateDateInput from "./utils/validateDateInput";
 
 const App = () => {
   const [chartData, setChartData] = useState({});
@@ -23,16 +24,16 @@ const App = () => {
     let start = new Date();
     return start.toISOString().slice(0, 10);
   });
-  const [clicked, setClicked] = useState([]);
-  const [company, setCompany] = useState("");
-  const [companies, setCompanies] = useState();
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [selectedCompanies, setSelectedCompanies] = useState("All Companies");
+  const [companiesOnRecord, setCompaniesOnRecord] = useState();
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Charts");
-  const [ pickerIsOpen, setPickerIsOpen ] = useState(true);
+  const [pickerIsOpen, setPickerIsOpen] = useState(true);
 
   const togglePicker = (event) => {
     setPickerIsOpen(!pickerIsOpen);
-  }
+  };
 
   const toggleDoughnut = () => {
     const drawer = document.querySelector(".mobileChartDrawer");
@@ -48,45 +49,28 @@ const App = () => {
   };
 
   const onButtonSubmit = (event) => {
-    const start = document.querySelector("#startPicker").value;
-    const end = document.querySelector("#endPicker").value;
-    const companySelect = document.querySelector("#companySelect").value;
-
-    // convert to date objects and compare to make sure end is later than start
-    if (
-      new Date(start) > new Date(end) ||
-      start.length === 0 ||
-      end.length === 0
-    ) {
-      return alert("Invalid date input");
-    }
+    const [ start, end ] = JSON.parse(event.target.dataset.range)
+    if (!validateDateInput(start, end)) return;
     setStart(start);
     setEnd(end);
-
-    // only permit alphanumeric chars
-    const pattern = /^[a-zA-Z0-9 .\-()&\\/]*$/;
-    if (!pattern.test(companySelect)) {
-      return alert("Invalid characters in company input");
-    }
-    setCompany(companySelect === "All Companies" ? "" : companySelect);
-
-    setClicked(JSON.parse(event.target.dataset.value));
+    setSelectedClasses(JSON.parse(event.target.dataset.classes));
+    setSelectedCompanies(JSON.parse(event.target.dataset.company));
     setCallCardData([]);
     setChartData({});
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
   useEffect(() => {
-    handleFetch(clicked, start, end, company).then((data) => {
+    handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
       if (data === 1) {
         console.log("failed to fetch from API");
         return;
       }
       setCallCardData(data.callCardData);
       setChartData(data.chartData);
-      setCompanies(data.companies);
+      setCompaniesOnRecord(data.companies);
     });
-  }, [clicked, start, end, company]);
+  }, [selectedClasses, start, end, selectedCompanies]);
 
   const onSearchChange = (event) => {
     setSearchField(event.target.value);
@@ -101,11 +85,12 @@ const App = () => {
 
   return (
     <div className="App">
+      {console.log('rendering')}
       <Loader datasets={chartData}>
         <div className="layoutMaster">
-          <StartEndDates start={start} end={end} company={company} />
+          <StartEndDates start={start} end={end} company={selectedCompanies} />
           <ClassificationPicker
-            companies={companies}
+            companiesOnRecord={companiesOnRecord}
             onButtonSubmit={onButtonSubmit}
             onToggleView={onToggleView}
             togglePicker={togglePicker}
@@ -128,6 +113,7 @@ const App = () => {
               <TotalLineGraph datasets={chartData} />
             </div>
           )}
+
           {view === "Calls" && (
             <div className="callGrid">
               <SearchBox
@@ -136,7 +122,9 @@ const App = () => {
                 staleCalls={staleCalls}
               />
               <div className="leftSubGrid mobileChartDrawer hideDoughnutOnMobile">
-                <button id="doughnutHandle" onClick={toggleDoughnut}>☰</button>
+                <button id="doughnutHandle" onClick={toggleDoughnut}>
+                  ☰
+                </button>
                 <DoughnutGraphUniqueJobs
                   datasets={uniqueJobsByClassification}
                   colors={colors}

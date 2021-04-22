@@ -1,17 +1,21 @@
-const CompanySelect = ({ companies }) => {
+const CompanySelect = ({ companiesOnRecord, handleCompanyChange, selectedCompany }) => {
 
   return (
     <div className='CompanySelect'>
       <div className="wrapperC">
         <label htmlFor="companySelect">Company</label>
         {
-          companies
+          companiesOnRecord
           ?
-            <select id ='companySelect' defaultValue={'All Companies'}>
-                <option value={'All Companies'}>{'All Companies'}</option>
-                {companies?.map((company, index) => {
-                  return <option value={company} key={index}>{company}</option>
-                })}
+            <select
+              id ='companySelect'
+              value={selectedCompany}
+              onChange={handleCompanyChange}
+            >
+              <option value={'All Companies'}>{'All Companies'}</option>
+              {companiesOnRecord?.map((company, index) => {
+                return <option value={company} key={index}>{company}</option>
+              })}
             </select>
           :
             <select disabled id ='companySelect' defaultValue={'All Companies'}>
