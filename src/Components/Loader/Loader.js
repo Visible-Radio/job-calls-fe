@@ -1,10 +1,30 @@
-import React from 'react';
+import styled from "styled-components";
 
-const Loader = ( { children, datasets }) => {
+const LoaderStyles = styled.div`
+	position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+	.loadingFlex {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+		display: flex;
+	}
+
+`;
+
+const Loader = ( { children, isLoading }) => {
+
   let waitingOpacity = 0;
 	let scale = 1;
 	const loadingOverlay = document.querySelector('.loadingFlex');
-	if (datasets && Object.keys(datasets).length === 0) {
+	if (isLoading) {
 		waitingOpacity = 1;
 		scale = 'scale(1)';
 		if (loadingOverlay) loadingOverlay.style.setProperty('display', 'flex');
@@ -18,7 +38,7 @@ const Loader = ( { children, datasets }) => {
 		}
 	}
   return (
-    <div className='loadingRef'>
+    <div>
 			<div className='loadingFlex' style={{display: 'flex'}}>
 				<h1 className='noData' style={{opacity: waitingOpacity, transform: scale}}>Fetching Data</h1>
 			</div>
@@ -29,7 +49,3 @@ const Loader = ( { children, datasets }) => {
 }
 
 export default Loader;
-
-
-
-
