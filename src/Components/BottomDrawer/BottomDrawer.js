@@ -11,6 +11,7 @@ const Drawer = styled.div`
   align-content: flex-start;
   justify-content: space-around;
   width: 100%;
+  height: auto;
   height: 285px;
   height: ${props => props.isOpen ? '285px' : '0px'};
   padding: 0 5px 5px 5px;
@@ -64,5 +65,4 @@ export default function BottomDrawer({ children }) {
       {children}
     </Drawer>
   )
-/*  */
 }

@@ -36,7 +36,8 @@
   grid-template-columns: 280px 1fr;
   grid-template-rows: auto 1fr;
   align-items: start;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+  overflow-y: hidden;
 }
 
 .SearchBox {
@@ -50,19 +51,6 @@
   grid-column: 2 / -1;
   grid-row: 1 / 2;
   font-size: 15px;
-}
-
-.CallCardList {
-  content-visibility: auto;
-  display: flex;
-  flex-flow: row wrap;
-  padding: 0 10px 10px 10px;
-  width: 100%;
-  height: 100%;
-  grid-column: 2 / -1;
-  grid-row: 2 / 3;
-  overflow-y: auto;
-  margin: 0;
 }
 
 .leftSubGrid {
@@ -150,10 +138,6 @@
     grid-column: 1 / 4;
     grid-row: 1 / 2;
   }
-  .CallCardList {
-    grid-column: 1 / 4;
-    grid-row: 2;
-  }
 }
 
 ul.legend {
@@ -230,45 +214,6 @@ h1 {
   font-size: 15px;
 }
 
-.CallCard {
-  content-visibility: auto;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 25px;
-  color: var(--greyCyan);
-  border-radius: 20px;
-  font-size: 15px;
-  padding: 6px;
-  align-content: flex-start;
-  height: max-content;
-}
-
-.CallCard div {
-  margin: 4px 4px 4px 4px;
-  background-color: #0c142a;
-  text-align: center;
-}
-.CallCard p {
-  margin: 0.5rem 1rem 1rem 1rem;
-}
-.lbl {
-  margin: 0;
-  color: var(--slate);
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-}
-.classShield {
-  border-radius: 0 0 25px 25px;
-  text-align: center;
-  padding: 0;
-  width: 60px;
-}
-.classShield p {
-  margin: 7px 0 0 0;
-}
-
 .open {
   transform: translateX(0);
 }
@@ -282,31 +227,4 @@ span.readableClassification {
 span.acronymClassification {
   margin: 0 5px 0 5px;
   min-width: 50px;
-}
-
-/* =========================waiting for database indicator=========================== */
-
-.loadingFlex {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-.noData {
-  transition-property: all;
-  transition-duration: 1s;
-  margin: 0;
-  padding: 1%;
-  font-size: 18px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--yellow);
-  border: 2px solid var(--yellow);
-  border-radius: 5px;
-  background: black;
-  z-index: 3;
 }

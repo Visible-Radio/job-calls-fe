@@ -1,53 +1,132 @@
-import React from 'react';
+import { useState } from "react";
+import styled from "styled-components";
+import { FancyButton } from "../FancyButton/FancyButtonStyled";
 
-const CallCard = ({ data, color, index, occurences }) => {
-	let stale = 'notStale';
-	if (occurences > 1) stale = 'stale'
-	return (
-		<div className={`CallCard ${stale}`} style={{border: `6px solid ${color + '77'}`}}>
+const CallCardStyled = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: ${props => props.isOpen ? '25px 0' : '5px 0'};
+  color: var(--greyCyan);
+  border-radius: 20px;
+  font-size: 15px;
+  padding: 6px;
+  align-content: flex-start;
+  height: max-content;
+  border: 6px solid transparent;
+  border-color: ${(props) => props.color + 77};
 
-			<div className="classShield" style={{backgroundColor: color}}>
-				<h5 className="lbl">Class</h5>
-				<p style={{color: "#1c243a", fontWeight: "bold"}}>{data?.member_class}</p>
+  div {
+    margin: 4px 4px 4px 4px;
+    background-color: #0c142a;
+    text-align: center;
+  }
+
+  p {
+    margin: 0.5rem 1rem 1rem 1rem;
+  }
+
+  h5 {
+    margin: 0;
+    color: var(--slate);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    background-color: ${(props) => props.color};
+  }
+
+	.compact {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: transparent;
+		color: ${(props) => props.color};
+		filter: contrast(1.5) brightness(1.25);
+	}
+
+  .classShield {
+    border-radius: 0 0 25px 25px;
+    display: flex;
+		align-items: flex-start;
+		justify-content: center;
+    padding: 0;
+    width: 60px;
+		height: 60px;
+    background-color: ${(props) => props.color};
+		filter: brightness(1.25);
+
+    h3 {
+      font-weight: bold;
+      color: var(--slate);
+    }
+  }
+
+	h2 {
+		padding: 0;
+		margin: 1rem;
+	}
+
+	.expanded {
+		display: ${props => props.isOpen ? 'flex' : 'none'};
+		flex-flow: row wrap;
+	}
+`;
+
+const CallCard = ({ data, color, instances }) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const handleClick = () => {
+		setIsOpen(!isOpen);
+	}
+
+  return (
+    <CallCardStyled color={color} isOpen={isOpen}>
+
+			<div className="compact">
+				<div className="classShield">
+					<h3>{data?.member_class}</h3>
+				</div>
+				<h2>{data?.company}</h2>
+				<FancyButton color={color} isOpen={isOpen} onClick={handleClick}></FancyButton>
 			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Call Date</h5>
-				<p>{data?.call_date_from_html}</p>
+
+			<div className="expanded">
+				<div>
+					<h5>Call Date</h5>
+					<p>{data?.call_date_from_html}</p>
+				</div>
+				<div>
+					<h5>Start Date</h5>
+					<p>{data?.start_date_from_html}</p>
+				</div>
+				<div>
+					<h5>Location</h5>
+					<p>{data?.location}</p>
+				</div>
+				<div>
+					<h5>Start Time</h5>
+					<p>{data?.start_time}</p>
+				</div>
+				<div>
+					<h5>Members</h5>
+					<p>{data?.members_needed}</p>
+				</div>
+				<div>
+					<h5>Union Call ID</h5>
+					<p>{data?.union_call_id}</p>
+				</div>
+				<div>
+					<h5>Occurences</h5>
+					<p>{instances}</p>
+				</div>
+				<div>
+					<h5>Details</h5>
+					<p>{data?.summary}</p>
+				</div>
 			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Start Date</h5>
-				<p>{data?.start_date_from_html}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Company</h5>
-				<p>{data?.company}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Location</h5>
-				<p>{data?.location}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Start Time</h5>
-				<p>{data?.start_time}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Members</h5>
-				<p>{data?.members_needed}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Union Call ID</h5>
-				<p>{data?.union_call_id}</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Occurences</h5>
-				<p>{ occurences }</p>
-			</div>
-			<div>
-				<h5 style={{backgroundColor: color}} className="lbl">Details</h5>
-				<p>{data?.summary}</p>
-			</div>
-		</div>
-		);
-}
+    </CallCardStyled>
+  );
+};
 
 export default CallCard;

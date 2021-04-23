@@ -26,7 +26,8 @@ const ClassPickerStyles = styled.div`
     left: calc(100% + 3px);
     top: -3px;
     background-color: var(--magenta);
-    height: auto;
+    height: 25px;
+    width: 30px;
     border-radius: 0 5px 5px 0;
     z-index: -1;
     writing-mode: vertical-rl;

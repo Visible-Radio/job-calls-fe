@@ -50,6 +50,8 @@ const GlobalStyles = createGlobalStyle`
   #companySelect:focus {
     outline-color: var(--greyCyan);
     outline-style: dashed;
+    outline-width: 2px;
+    outline-offset: 2px;
   }
   button:hover, input:hover {
     cursor: pointer;

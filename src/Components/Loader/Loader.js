@@ -6,7 +6,7 @@ const LoaderStyles = styled.div`
   margin: 0;
   padding: 0;
 
-	.loadingFlex {
+	.loader {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -14,38 +14,39 @@ const LoaderStyles = styled.div`
 		height: 100%;
 		justify-content: center;
 		align-items: center;
-		display: flex;
-	}
+		display: ${props => props.isLoading ? 'flex' : 'none'};
 
-`;
-
-const Loader = ( { children, isLoading }) => {
-
-  let waitingOpacity = 0;
-	let scale = 1;
-	const loadingOverlay = document.querySelector('.loadingFlex');
-	if (isLoading) {
-		waitingOpacity = 1;
-		scale = 'scale(1)';
-		if (loadingOverlay) loadingOverlay.style.setProperty('display', 'flex');
-	} else {
-		waitingOpacity = 0;
-		scale = 'scale(0)';
-		if (loadingOverlay) {
-			setTimeout(()=> {
-				loadingOverlay.style.setProperty('display', 'none');
-			},1000);
+		h1 {
+			transition-property: all;
+			transition-duration: 1s;
+			margin: 0;
+			padding: 1%;
+			font-size: 18px;
+			letter-spacing: 5px;
+			text-transform: uppercase;
+			color: var(--yellow);
+			border: 2px solid var(--yellow);
+			border-radius: 5px;
+			background: black;
+			z-index: 3;
+			opacity: ${props => props.isLoading ? '1' : '0'};
 		}
 	}
+`;
+
+const Loader = ( { children, datasets }) => {
+	let isLoading = false;
+	if (datasets && Object.keys(datasets).length === 0) {
+		isLoading = true;
+	}
   return (
-    <div>
-			<div className='loadingFlex' style={{display: 'flex'}}>
-				<h1 className='noData' style={{opacity: waitingOpacity, transform: scale}}>Fetching Data</h1>
+    <LoaderStyles isLoading={isLoading}>
+			<div className="loader">
+				<h1>Fetching Data</h1>
 			</div>
 			{children}
-		</div>
+		</LoaderStyles>
   )
-
 }
 
 export default Loader;

@@ -10,7 +10,6 @@ import ClassificationPicker from "./Components/ClassificationPicker/Classificati
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
 import handleFetch from "./utils/HandleFetch";
-import findDuplicates from "./utils/findDuplicates";
 import { colors } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
@@ -28,7 +27,6 @@ const App = () => {
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Charts");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
-  let isLoading = true;
 
   const onButtonSubmit = (event) => {
     const [ start, end ] = JSON.parse(event.target.dataset.range)
@@ -57,6 +55,7 @@ const App = () => {
 
   const onToggleView = () => {
     setView(view === "Charts" ? "Calls" : "Charts");
+    setSearchField("");
   };
 
   const onSearchChange = (event) => {
@@ -67,13 +66,12 @@ const App = () => {
     call.summary.toLowerCase().includes(searchField.toLowerCase())
   );
 
-  const staleCalls = findDuplicates(filteredCalls);
-  const { uniqueJobsByClassification } = findUniqueTotals(callCardData);
+  const { uniqueJobsByClassification, callsById } = findUniqueTotals(filteredCalls);
 
   return (
     <>
       {console.log('rendering')}
-      <Loader isLoading={isLoading}>
+      <Loader datasets={chartData}>
         <div className="layoutMaster">
           <StartEndDates start={start} end={end} company={selectedCompanies} />
           <ClassificationPicker
@@ -105,8 +103,8 @@ const App = () => {
             <div className="callGrid">
               <SearchBox
                 searchChange={onSearchChange}
-                count={filteredCalls.length}
-                staleCalls={staleCalls}
+                totalCalls={filteredCalls.length}
+                uniqueCalls={Object.keys(callsById).length}
               />
               <BottomDrawer>
                 <DoughnutGraphUniqueJobs
@@ -115,9 +113,8 @@ const App = () => {
                 />
               </BottomDrawer>
               <CallCardList
-                filteredCalls={filteredCalls}
                 colors={colors}
-                staleCalls={staleCalls}
+                callsById={callsById}
               />
             </div>
           )}
