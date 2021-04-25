@@ -27,25 +27,28 @@ const App = () => {
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Charts");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const onButtonSubmit = (event) => {
-    const [ start, end ] = JSON.parse(event.target.dataset.range)
+    const [start, end] = JSON.parse(event.target.dataset.range);
     if (!validateDateInput(start, end)) return;
     setStart(start);
     setEnd(end);
     setSelectedClasses(JSON.parse(event.target.dataset.classes));
     setSelectedCompanies(JSON.parse(event.target.dataset.company));
-    setCallCardData([]);
-    setChartData({});
+    // setCallCardData([]);
+    // setChartData({});
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
   useEffect(() => {
+    setLoading(true);
     handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
       if (data === 1) return alert("failed to fetch from API");
       setCallCardData(data.callCardData);
       setChartData(data.chartData);
       setCompaniesOnRecord(data.companies);
+      setLoading(false);
     });
   }, [selectedClasses, start, end, selectedCompanies]);
 
@@ -66,12 +69,14 @@ const App = () => {
     call.summary.toLowerCase().includes(searchField.toLowerCase())
   );
 
-  const { uniqueJobsByClassification, callsById } = findUniqueTotals(filteredCalls);
+  const { uniqueJobsByClassification, callsById } = findUniqueTotals(
+    filteredCalls
+  );
 
   return (
     <>
-      {console.log('rendering')}
-      <Loader datasets={chartData}>
+      {console.log("rendering")}
+      <Loader datasets={chartData} loading={loading}>
         <div className="layoutMaster">
           <StartEndDates start={start} end={end} company={selectedCompanies} />
           <ClassificationPicker
@@ -112,10 +117,7 @@ const App = () => {
                   colors={colors}
                 />
               </BottomDrawer>
-              <CallCardList
-                colors={colors}
-                callsById={callsById}
-              />
+              <CallCardList colors={colors} callsById={callsById} />
             </div>
           )}
         </div>

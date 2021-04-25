@@ -16,7 +16,6 @@ export const FancyButton = styled.button`
   &::after, &::before {
     content: '';
     display: inline-block;
-    border-radius: 2px;
     background-color: ${props => props.color};
     position: absolute;
   }

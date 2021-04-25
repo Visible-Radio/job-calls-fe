@@ -6,6 +6,9 @@ export default function findUniqueTotals(callCardData) {
   // The company originally asks for 3.  2 get picked up, and then they revise the request to ask for another member.
 
   // object from an array of objects where we use one of the object's properties as its key
+
+  console.log('findUniqueTotals Called');
+
   const callsById = {};
   callCardData.forEach((call) => {
     if (callsById.hasOwnProperty(call.union_call_id)) {

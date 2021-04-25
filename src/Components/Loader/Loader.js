@@ -34,13 +34,9 @@ const LoaderStyles = styled.div`
 	}
 `;
 
-const Loader = ( { children, datasets }) => {
-	let isLoading = false;
-	if (datasets && Object.keys(datasets).length === 0) {
-		isLoading = true;
-	}
+const Loader = ( { children, datasets, loading }) => {
   return (
-    <LoaderStyles isLoading={isLoading}>
+    <LoaderStyles isLoading={loading}>
 			<div className="loader">
 				<h1>Fetching Data</h1>
 			</div>

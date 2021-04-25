@@ -5,8 +5,6 @@ const CallCardListStyles = styled.div`
   grid-column: 2 / -1;
   grid-row: 2 / 3;
 
-	/* display: flex; */
-  /* flex-flow: row wrap; */
   padding: 0 10px 10px 10px;
   width: 100%;
   height: 100%;

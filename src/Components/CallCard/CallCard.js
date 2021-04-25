@@ -6,15 +6,17 @@ const CallCardStyled = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  margin: ${props => props.isOpen ? '25px 0' : '5px 0'};
+  margin-bottom: 5px;
   color: var(--greyCyan);
   border-radius: 20px;
   font-size: 15px;
   padding: 6px;
   align-content: flex-start;
   height: max-content;
-  border: 6px solid transparent;
+  border: 3px solid transparent;
   border-color: ${(props) => props.color + 77};
+	transition: height 1s;
+	content-visibility: auto;
 
   div {
     margin: 4px 4px 4px 4px;
@@ -42,7 +44,6 @@ const CallCardStyled = styled.div`
 		align-items: center;
 		background-color: transparent;
 		color: ${(props) => props.color};
-		filter: contrast(1.5) brightness(1.25);
 	}
 
   .classShield {
@@ -54,7 +55,6 @@ const CallCardStyled = styled.div`
     width: 60px;
 		height: 60px;
     background-color: ${(props) => props.color};
-		filter: brightness(1.25);
 
     h3 {
       font-weight: bold;
@@ -68,8 +68,12 @@ const CallCardStyled = styled.div`
 	}
 
 	.expanded {
-		display: ${props => props.isOpen ? 'flex' : 'none'};
+		display: flex;
 		flex-flow: row wrap;
+		justify-content: center;
+		max-height: ${props => props.isOpen ? '1000px' : '0px'};
+		transition: max-height 0.5s;
+		overflow-y: hidden;
 	}
 `;
 
