@@ -25,6 +25,7 @@
   background: none;
   max-width: 280px;
   max-height: 280px;
+  margin-top: 20px;
 }
 
 #grandTotal,
@@ -43,5 +44,8 @@
   }
   .LineGraph {
     grid-column: 1 / 4;
+  }
+  .DoughnutGraph2 {
+    margin-top: -10px;
   }
 }

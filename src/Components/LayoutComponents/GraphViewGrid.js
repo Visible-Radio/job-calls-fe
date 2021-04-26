@@ -9,7 +9,7 @@ const GraphViewGridStyles = styled.div`
   display: grid;
   margin: 0;
   grid-template-columns: 280px 1fr 0px 10px;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto;
   align-content: start;
   align-items: start;
   overflow-y: auto;

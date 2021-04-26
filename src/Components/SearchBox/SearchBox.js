@@ -11,10 +11,11 @@ const SearchBoxStyles = styled.div`
   margin: 0;
   padding: 5px 10px 10px 35px;
   width: 100%;
+  min-height: 45px;
   font-size: 15px;
 
   p {
-    margin: 0;
+    margin: 0 40px 0 0;
     color: var(--greyCyan);
     font-size: 15px;
   }
@@ -26,6 +27,7 @@ const SearchBoxStyles = styled.div`
     border: none;
     background-color: var(--greyCyan);
     font-size: 15px;
+    margin-right: 10px;
   }
 
   @media screen and (max-width: 840px) {

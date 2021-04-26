@@ -3,7 +3,7 @@ import styled from "styled-components";
 const ExploreRouteGridStyles = styled.div`
   display: grid;
   grid-template-columns: 280px 1fr;
-  grid-template-rows: min-content 1fr 15px;
+  grid-template-rows: min-content 1fr;
   max-width: 2000px;
   width: 100vw;
   height: 100vh;
