@@ -46,13 +46,8 @@ const LoaderStyles = styled.div`
 
 const Loader = ( { children, loading }) => {
 	const [lagToggle, setLagToggle] = useState(true);
-
 	// lag behind loading by some amount
 	setTimeout(() => setLagToggle(loading), 150);
-
-
-
-
 
   return (
     <LoaderStyles isLoading={loading} lagToggle={lagToggle}>

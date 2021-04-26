@@ -36,8 +36,6 @@ const App = () => {
     setEnd(end);
     setSelectedClasses(JSON.parse(event.target.dataset.classes));
     setSelectedCompanies(JSON.parse(event.target.dataset.company));
-    // setCallCardData([]);
-    // setChartData({});
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
