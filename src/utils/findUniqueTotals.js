@@ -25,9 +25,11 @@ export default function findUniqueTotals(callCardData) {
 
   // now we need the sum of members needed for all calls for each classification
   const uniqueJobsByClassification = {};
+  let count = 0;
   for (let id in callsById) {
     const { members_needed, instances } = callsById[id];
     const { member_class } = instances[0];
+    count ++;
     // travesrse the members_needed array to determine number of real jobs for the lifecycle of the call
     const realJobsCreated = countRealJobs([...members_needed]);
 
@@ -51,6 +53,7 @@ export default function findUniqueTotals(callCardData) {
 
   return {
     uniqueJobsByClassification,
-    callsById
+    callsById,
+    count
   }
 }

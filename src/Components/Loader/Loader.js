@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const LoaderStyles = styled.div`
@@ -7,6 +8,8 @@ const LoaderStyles = styled.div`
   padding: 0;
 
 	.loader {
+		transition: all, 0.3s;
+		background-color: ${props => props.lagToggle ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0)'};
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -14,11 +17,11 @@ const LoaderStyles = styled.div`
 		height: 100%;
 		justify-content: center;
 		align-items: center;
-		display: ${props => props.isLoading ? 'flex' : 'none'};
+		display: ${props => props.isLoading || props.lagToggle ? 'flex' : 'none'};
+
+		z-index: 1;
 
 		h1 {
-			transition-property: all;
-			transition-duration: 1s;
 			margin: 0;
 			padding: 1%;
 			font-size: 18px;
@@ -29,18 +32,36 @@ const LoaderStyles = styled.div`
 			border-radius: 5px;
 			background: black;
 			z-index: 3;
-			opacity: ${props => props.isLoading ? '1' : '0'};
+			opacity: ${props => props.lagToggle && props.isLoading ? '1' : '0'};
+			transform: ${props => props.lagToggle && props.isLoading ? 'scale(1)' : 'scale(0.1)'};
+			transition: all, 0.3s;
 		}
+	}
+
+	.children {
+		transition: filter, 0.4s;
+		filter: ${props => props.isLoading ? 'blur(5px)' : 'blur(0)'};;
 	}
 `;
 
-const Loader = ( { children, datasets, loading }) => {
+const Loader = ( { children, loading }) => {
+	const [lagToggle, setLagToggle] = useState(true);
+
+	// lag behind loading by some amount
+	setTimeout(() => setLagToggle(loading), 150);
+
+
+
+
+
   return (
-    <LoaderStyles isLoading={loading}>
+    <LoaderStyles isLoading={loading} lagToggle={lagToggle}>
 			<div className="loader">
 				<h1>Fetching Data</h1>
 			</div>
+			<div className="children">
 			{children}
+			</div>
 		</LoaderStyles>
   )
 }

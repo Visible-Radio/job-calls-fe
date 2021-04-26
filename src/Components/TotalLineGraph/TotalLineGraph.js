@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 
-const TotalLineGraph = ({ datasets }) => {
+const TotalLineGraph = ({ datasets, loading }) => {
 	const canvasRef = useRef();
 
 	useEffect(() => {

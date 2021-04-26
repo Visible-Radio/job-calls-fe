@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
@@ -65,13 +65,13 @@ const App = () => {
     setSearchField(event.target.value);
   };
 
-  const filteredCalls = callCardData.filter((call) =>
+  const filteredCalls = useMemo(() => callCardData.filter((call) =>
     call.summary.toLowerCase().includes(searchField.toLowerCase())
-  );
+  ),[callCardData, searchField]);
 
-  const { uniqueJobsByClassification, callsById } = findUniqueTotals(
+  const { uniqueJobsByClassification, callsById, count } = useMemo(() => findUniqueTotals(
     filteredCalls
-  );
+  ), [filteredCalls]);
 
   return (
     <>
@@ -109,7 +109,7 @@ const App = () => {
               <SearchBox
                 searchChange={onSearchChange}
                 totalCalls={filteredCalls.length}
-                uniqueCalls={Object.keys(callsById).length}
+                uniqueCalls={count}
               />
               <BottomDrawer>
                 <DoughnutGraphUniqueJobs
