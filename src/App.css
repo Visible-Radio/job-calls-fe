@@ -1,31 +1,3 @@
-:root {
-  --greenText: rgb(0, 250, 200);
-  --greyCyan: rgb(0, 200, 200);
-  /* maybe we can grab this in react and pass it to the charts */
-}
-
-html {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-body {
-  background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center
-    fixed;
-}
-
-.App {
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 0;
-}
 .layoutMaster {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -64,7 +36,8 @@ body {
   grid-template-columns: 280px 1fr;
   grid-template-rows: auto 1fr;
   align-items: start;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+  overflow-y: hidden;
 }
 
 .SearchBox {
@@ -78,18 +51,6 @@ body {
   grid-column: 2 / -1;
   grid-row: 1 / 2;
   font-size: 15px;
-}
-
-.CallCardList {
-  display: flex;
-  flex-flow: row wrap;
-  padding: 0 10px 10px 10px;
-  width: 100%;
-  height: 100%;
-  grid-column: 2 / -1;
-  grid-row: 2 / 3;
-  overflow-y: auto;
-  margin: 0;
 }
 
 .leftSubGrid {
@@ -106,55 +67,15 @@ body {
 	transition: height 0.5s;
 }
 
-.hideDoughnutOnMobile {
-	height: 0px;
-}
-
-#doughnutHandle {
-	display: none;
-	position: absolute;
-	background-color: #6d1158;
-	color: #e932bf;
-	top: -100px;
-	height: 40px;
-	width: 40px;
-	left: 0;
-	border-radius: 50%;
-}
-
-.mobileChartDrawer {
-	border-top: none;
-}
-
 .SearchBox p {
   margin: 0;
 }
-
-.CompanyRankings {
-  border: 5px solid #1c243a;
-  border-radius: 5px;
-  padding: 0.5rem;
-  flex: 1;
-  min-width: 250px;
-  max-width: 280px;
-  margin: 0;
-}
-
 .graphBg {
   position: relative;
-  background-color: #1c243a;
+  background-color: var(--slate);
   border-radius: 5px;
   padding: 15px;
 }
-
-/* .loadingRef {
-	position: relative;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	grid-column: 2 / 4;
-	grid-row: 1 / 2;
-} */
 
 .LineGraph {
   width: 100%;
@@ -182,25 +103,21 @@ body {
 #grandTotal2 {
   position: absolute;
   top: 48%;
-  color: rgb(0, 250, 200);
+  color: var(--greenText);
   margin: 0;
   line-height: 90%;
   text-align: center;
 }
 
 .ColorLegend {
-  border: 5px solid #1c243a;
+  border: 5px solid var(--slate);
   border-radius: 5px;
-  background-color: #001320;
+  background-color: var(--lightBlack);
   padding: 0.5rem;
   max-width: 100%;
   grid-column: 2 / 4;
   grid-row: 2 / 3;
   margin: 10px 0px;
-}
-
-.rotate {
-  transform: rotate(90deg);
 }
 
 @media screen and (max-width: 840px) {
@@ -220,25 +137,6 @@ body {
   .SearchBox {
     grid-column: 1 / 4;
     grid-row: 1 / 2;
-  }
-  .CallCardList {
-    grid-column: 1 / 4;
-    grid-row: 2;
-  }
-	#doughnutHandle {
-		display: inline-block;
-		left: 90%;
-	}
-	.mobileChartDrawer {
-		border-top: 3px solid #6d1158;
-	}
-}
-@media screen and (max-width: 450px) {
-  /* native date pickers on mobile don't respect widths */
-  .wrapperR {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
   }
 }
 
@@ -316,124 +214,11 @@ h1 {
   font-size: 15px;
 }
 
-.CallCard {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 25px;
-  color: var(--greyCyan);
-  border-radius: 20px;
-  font-size: 15px;
-  padding: 6px;
-  align-content: flex-start;
-  height: max-content;
-}
-
-.CallCard div {
-  margin: 4px 4px 4px 4px;
-  background-color: #0c142a;
-  text-align: center;
-}
-.CallCard p {
-  margin: 0.5rem 1rem 1rem 1rem;
-}
-.lbl {
-  margin: 0;
-  color: #1c243a;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-}
-.classShield {
-  border-radius: 0 0 25px 25px;
-  text-align: center;
-  padding: 0;
-  width: 60px;
-}
-.classShield p {
-  margin: 7px 0 0 0;
-}
-.stale > .staleBadge {
-  order: -1;
-  align-self: flex-start;
-  top: -30px;
-  left: 85%;
-}
-.notStale > .staleBadge {
-  display: none;
-}
-
-/* Main Picker Component */
-.ClassificationPicker {
-  position: relative;
-  align-self: end;
-  background-color: #001320;
-  font-size: 15px;
-  width: 100%;
-  height: auto;
-  margin: 0;
-  transition-property: transform;
-  transition-duration: 0.5s;
-  border: 3px solid #6d1158;
-  align-self: start;
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  z-index: 1;
-  transform: translateX(0);
-}
-#pickerHandle {
-  position: absolute;
-  left: calc(100% + 3px);
-  top: -3px;
-  background-color: #6d1158;
-  height: auto;
-  /* width: 20px; */
-  border-radius: 0 5px 5px 0;
-  z-index: -1;
-  writing-mode: vertical-rl;
-  letter-spacing: 3px;
-  color: #e932bf;
-}
-#pickerHandle:hover {
-  filter: brightness(1.5);
-}
 .open {
   transform: translateX(0);
 }
-.close {
-  transform: translateX(-100%);
-}
 
-.ClassificationPicker > h2 {
-  cursor: pointer;
-  margin-top: 0;
-}
-.ClassificationPicker > h2:hover {
-  background-color: var(--greyCyan);
-  color: #001320;
-  border-color: var(--greyCyan);
-}
-.ClassificationPicker form {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0 10px 0;
-}
-.ClassificationPickerItem {
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  margin: 0;
-}
-.ClassificationPickerItem label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
+/* these two might be used in the legend */
 span.readableClassification {
   font-size: 15px;
   opacity: 0.8;
@@ -442,158 +227,4 @@ span.readableClassification {
 span.acronymClassification {
   margin: 0 5px 0 5px;
   min-width: 50px;
-}
-
-.ClassificationPickerCheckbox {
-  margin: 0;
-  cursor: pointer;
-  appearance: none;
-  height: 16px;
-  width: 16px;
-  border: 2px solid #2c344a;
-  box-sizing: border-box;
-  transition-property: border-width;
-  transition-duration: 0.2s;
-}
-.ClassificationPickerCheckbox:checked {
-  transition-property: border-width;
-  transition-duration: 0.2s;
-  border-width: 8px;
-}
-.ClassificationPickerCheckbox:focus {
-  outline-color: var(--greyCyan);
-  outline-style: dashed;
-}
-
-button {
-  border: none;
-  font-size: 15px;
-  background-color: var(--greyCyan);
-  height: 25px;
-}
-button:focus,
-#startPicker:focus,
-#endPicker:focus,
-#companySelect:focus {
-  outline-color: var(--greyCyan);
-  outline-style: dashed;
-}
-button:hover,
-#startPicker:hover,
-#endPicker:hover {
-  cursor: pointer;
-  background-color: rgb(0, 255, 255);
-  transition-duration: 0.2s;
-}
-button:active {
-  background-color: rgb(0, 255, 255);
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.1s;
-}
-#viewRecords {
-  width: 100%;
-}
-
-#toggleView {
-  align-self: center;
-  margin: 15px 0 5px 0;
-  width: 50%;
-  border-radius: 10px;
-}
-#openPickers {
-  align-self: center;
-  width: 25%;
-  margin: 3px;
-}
-#startPicker,
-#endPicker {
-  background-color: var(--greyCyan);
-  margin: 0;
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  max-width: 131px;
-  border: none;
-}
-.flatpickr-input {
-  /* for mobile native date pickers that don't obey... */
-  width: 131px;
-}
-
-label[for="startPicker"] {
-  color: var(--greyCyan);
-}
-label[for="endPicker"] {
-  color: var(--greyCyan);
-}
-label[for="companySelect"] {
-  color: var(--greyCyan);
-}
-.wrapperC {
-  display: flex;
-  padding: 2px;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: 1px;
-}
-.wrapperR {
-  display: flex;
-}
-.wrapperC label {
-  margin: 2px;
-}
-
-.CompanySelect select {
-  margin-top: 0;
-  font-size: 14px;
-  padding: 0.1rem;
-  background-color: var(--greyCyan);
-  text-align: center;
-  width: 100%;
-  border: none;
-}
-.CcompanySelect select:hover {
-  background-color: rgb(0, 255, 255);
-  transition-duration: 0.2s;
-}
-.CompanySelect select:disabled {
-  background-color: rgb(113, 57, 14);
-  max-width: 100%;
-  min-width: 266px;
-}
-::placeholder {
-  color: black;
-}
-/* =========================waiting for database indicator=========================== */
-.loadingRef {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-.loadingFlex {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-.noData {
-  transition-property: all;
-  transition-duration: 1s;
-  margin: 0;
-  padding: 1%;
-  font-size: 18px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: rgb(240, 240, 0);
-  border: 2px solid rgb(240, 240, 0);
-  border-radius: 5px;
-  background: black;
-  z-index: 3;
 }

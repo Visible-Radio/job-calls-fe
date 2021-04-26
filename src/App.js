@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
@@ -10,115 +10,80 @@ import ClassificationPicker from "./Components/ClassificationPicker/Classificati
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
 import handleFetch from "./utils/HandleFetch";
-import findDuplicates from "./utils/findDuplicates";
 import { colors } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
+import validateDateInput from "./utils/validateDateInput";
+import BottomDrawer from "./Components/BottomDrawer/BottomDrawer";
 
 const App = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
   const [start, setStart] = useState(createDate(0, -1, 0));
-  const [end, setEnd] = useState(() => {
-    let start = new Date();
-    return start.toISOString().slice(0, 10);
-  });
-  const [clicked, setClicked] = useState([]);
-  const [company, setCompany] = useState("");
-  const [companies, setCompanies] = useState();
+  const [end, setEnd] = useState(() => new Date().toISOString().slice(0, 10));
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [selectedCompanies, setSelectedCompanies] = useState("All Companies");
+  const [companiesOnRecord, setCompaniesOnRecord] = useState();
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Charts");
+  const [pickerIsOpen, setPickerIsOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const handlePickerSize = () => {
-    const picker = document.querySelector(".ClassificationPicker");
-    picker.classList.toggle("close");
-  };
-
-  const toggleDoughnut = () => {
-    const drawer = document.querySelector(".mobileChartDrawer");
-    drawer.classList.toggle("hideDoughnutOnMobile");
-  };
-
-  const onToggleView = () => {
-    if (view === "Charts") {
-      setView("Calls");
-    } else if (view === "Calls") {
-      setView("Charts");
-    }
-  };
-
-  const onButtonSubmit = () => {
-    const start = document.querySelector("#startPicker").value;
-    const end = document.querySelector("#endPicker").value;
-    const companySelect = document.querySelector("#companySelect").value;
-
-    // convert to date objects and compare to make sure end is later than start
-    if (
-      new Date(start) > new Date(end) ||
-      start.length === 0 ||
-      end.length === 0
-    ) {
-      return alert("Invalid date input");
-    }
+  const onButtonSubmit = (event) => {
+    const [start, end] = JSON.parse(event.target.dataset.range);
+    if (!validateDateInput(start, end)) return;
     setStart(start);
     setEnd(end);
-
-    // only permit alphanumeric chars
-    const pattern = /^[a-zA-Z0-9 .\-()&\\/]*$/;
-    if (!pattern.test(companySelect)) {
-      return alert("Invalid characters in company input");
-    }
-    setCompany(companySelect === "All Companies" ? "" : companySelect);
-
-    const checkboxes = document.querySelectorAll(
-      ".ClassificationPickerCheckbox"
-    );
-
-    let checked = [];
-    checkboxes.forEach((box) => {
-      if (box.checked) checked.push(box.value);
-    });
-    setClicked(checked);
-    setCallCardData([]);
-    setChartData({});
-    if (view === "Charts") setTimeout(handlePickerSize, 500);
+    setSelectedClasses(JSON.parse(event.target.dataset.classes));
+    setSelectedCompanies(JSON.parse(event.target.dataset.company));
+    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
   useEffect(() => {
-    handleFetch(clicked, start, end, company).then((data) => {
-      if (data === 1) {
-        console.log("failed to fetch from API");
-        return;
-      }
+    setLoading(true);
+    handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
+      if (data === 1) return alert("failed to fetch from API");
       setCallCardData(data.callCardData);
       setChartData(data.chartData);
-      setCompanies(data.companies);
+      setCompaniesOnRecord(data.companies);
+      setLoading(false);
     });
-  }, [clicked, start, end, company]);
+  }, [selectedClasses, start, end, selectedCompanies]);
+
+  const togglePicker = () => {
+    setPickerIsOpen(!pickerIsOpen);
+  };
+
+  const onToggleView = () => {
+    setView(view === "Charts" ? "Calls" : "Charts");
+    setSearchField("");
+  };
 
   const onSearchChange = (event) => {
     setSearchField(event.target.value);
   };
 
-  const filteredCalls = callCardData.filter((call) =>
+  const filteredCalls = useMemo(() => callCardData.filter((call) =>
     call.summary.toLowerCase().includes(searchField.toLowerCase())
-  );
+  ),[callCardData, searchField]);
 
-  const staleCalls = findDuplicates(filteredCalls);
-  const { uniqueJobsByClassification } = findUniqueTotals(callCardData);
+  const { uniqueJobsByClassification, callsById, count } = useMemo(() => findUniqueTotals(
+    filteredCalls
+  ), [filteredCalls]);
 
   return (
-    <div className="App">
-      <Loader datasets={chartData}>
+    <>
+      {console.log("rendering")}
+      <Loader datasets={chartData} loading={loading}>
         <div className="layoutMaster">
-          <StartEndDates start={start} end={end} company={company} />
+          <StartEndDates start={start} end={end} company={selectedCompanies} />
           <ClassificationPicker
-            companies={companies}
-            colors={colors}
+            companiesOnRecord={companiesOnRecord}
             onButtonSubmit={onButtonSubmit}
             onToggleView={onToggleView}
-            handlePickerSize={handlePickerSize}
+            togglePicker={togglePicker}
             view={view}
+            pickerIsOpen={pickerIsOpen}
             start={start}
             end={end}
           />
@@ -136,31 +101,27 @@ const App = () => {
               <TotalLineGraph datasets={chartData} />
             </div>
           )}
+
           {view === "Calls" && (
             <div className="callGrid">
               <SearchBox
                 searchChange={onSearchChange}
-                count={filteredCalls.length}
-                staleCalls={staleCalls}
+                totalCalls={filteredCalls.length}
+                uniqueCalls={count}
               />
-              <div className="leftSubGrid mobileChartDrawer hideDoughnutOnMobile">
-                <button id="doughnutHandle" onClick={toggleDoughnut}>☰</button>
+              <BottomDrawer>
                 <DoughnutGraphUniqueJobs
                   datasets={uniqueJobsByClassification}
                   colors={colors}
                 />
-              </div>
-              <CallCardList
-                filteredCalls={filteredCalls}
-                colors={colors}
-                staleCalls={staleCalls}
-              />
+              </BottomDrawer>
+              <CallCardList colors={colors} callsById={callsById} />
             </div>
           )}
         </div>
         {/* end of layout master */}
       </Loader>
-    </div> /* end of App */
+    </>
   );
 };
 

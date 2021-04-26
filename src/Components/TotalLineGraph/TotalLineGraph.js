@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 
-const TotalLineGraph = ({ datasets }) => {
+const TotalLineGraph = ({ datasets, loading }) => {
 	const canvasRef = useRef();
 
 	useEffect(() => {
@@ -15,7 +15,7 @@ const TotalLineGraph = ({ datasets }) => {
 		        label: "Sum of selected classifications",
 			      lineTension: 0.3,
 			      backgroundColor: 'rgba(0, 50, 100, 0)',
-			      borderColor: 'rgb(255, 255, 0)',
+			      borderColor: 'rgb(250, 250, 250)',
 			      borderWidth: 2,
 			      pointRadius: 2,
 			      data: datasets?.Total

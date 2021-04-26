@@ -35,9 +35,9 @@ const ColorLegend = ({ colors, datasets}) => {
 				{legendBlocks}
 				<li key={"ColorLegendTotal_static_li"}>
 					<div className="legendBlock"
-						style={{backgroundColor: 'rgb(200, 200, 0)'}}>
+						style={{backgroundColor: 'rgb(250, 250, 250)'}}>
 					</div>
-					<span className="acronymClassification" style={{color: 'rgb(255, 255, 0)'}}>Total</span>
+					<span className="acronymClassification" style={{color: 'rgb(250, 250, 250)'}}>Total</span>
 				</li>
 			</ul>
 		</div>
