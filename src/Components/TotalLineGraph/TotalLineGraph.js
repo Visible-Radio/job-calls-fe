@@ -87,4 +87,4 @@ const TotalLineGraph = ({ datasets, loading }) => {
 		);
 }
 
-export default TotalLineGraph
+export default React.memo(TotalLineGraph);

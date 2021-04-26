@@ -94,4 +94,4 @@ const LineGraph = ({ datasets, colors }) => {
 	);
 }
 
-export default LineGraph
+export default React.memo(LineGraph);

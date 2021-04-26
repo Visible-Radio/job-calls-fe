@@ -7,8 +7,6 @@ export default function findUniqueTotals(callCardData) {
 
   // object from an array of objects where we use one of the object's properties as its key
 
-  console.log('findUniqueTotals Called');
-
   const callsById = {};
   callCardData.forEach((call) => {
     if (callsById.hasOwnProperty(call.union_call_id)) {

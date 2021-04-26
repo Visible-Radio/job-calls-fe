@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import CallCard from "../CallCard/CallCard";
 
@@ -36,4 +37,4 @@ const CallCardList = ({ colors, callsById }) => {
   );
 };
 
-export default CallCardList;
+export default React.memo(CallCardList);

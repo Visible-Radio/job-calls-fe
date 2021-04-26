@@ -94,4 +94,4 @@ const DoughnutGraph = ({ datasets, colors }) => {
   );
 };
 
-export default DoughnutGraph;
+export default React.memo(DoughnutGraph);
