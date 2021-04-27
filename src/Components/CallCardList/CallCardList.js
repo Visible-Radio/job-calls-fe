@@ -22,13 +22,15 @@ const CallCardListStyles = styled.div`
 const CallCardList = ({ colors, callsById }) => {
   return (
     <CallCardListStyles>
-      {Object.values(callsById)?.map(({ instances }, i) => {
+      {Object.values(callsById)?.map(({ instances, uniqueJobsForLifeCycle, members_needed }, i) => {
         return (
           <CallCard
             index={i}
-						instances={instances.length}
-            data={instances[0]}
-            key={"reactKey" + i}
+						instanceCount={instances.length}
+            uniqueJobsForLifeCycle={uniqueJobsForLifeCycle}
+            instances={instances}
+            members_needed={members_needed}
+            key={instances[0].union_call_id}
             color={colors[instances[0].member_class]}
           />
         );

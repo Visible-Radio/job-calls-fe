@@ -9,7 +9,7 @@ const LoaderStyles = styled.div`
 
 	.loader {
 		transition: all, 0.3s;
-		background-color: ${props => props.lagToggle ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0)'};
+		background-color: ${props => props.lagToggle ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0)'};
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -40,7 +40,7 @@ const LoaderStyles = styled.div`
 
 	.children {
 		transition: filter, 0.4s;
-		filter: ${props => props.isLoading ? 'blur(5px)' : 'blur(0)'};;
+		filter: ${props => props.isLoading ? 'blur(2px)' : 'blur(0)'};;
 	}
 `;
 
