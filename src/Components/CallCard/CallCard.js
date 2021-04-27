@@ -177,25 +177,23 @@ const CallCard = ({
           <h5>Union Call ID</h5>
           <p>{callAttributes?.union_call_id}</p>
         </div>
-        {!searchField.length && (
+        {searchField.length === 0 && (
           <div>
             <h5>Details</h5>
             <p>{callAttributes?.summary}</p>
           </div>
         )}
-        {searchField.length && (
+        {searchField.length > 0 && (
           <div>
             <h5>Details</h5>
             <p>
               {
-							<p>{
-								callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
-									.map(textSegment => {
-										return textSegment.toLowerCase() === searchField.toLowerCase()
-											? <span className="highlight">{textSegment}</span>
-											: textSegment;
-									})
-							}</p>
+              callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
+                .map((textSegment, i) => {
+                  return textSegment.toLowerCase() === searchField.toLowerCase()
+                    ? <span key="i" className="highlight">{textSegment}</span>
+                    : textSegment;
+                })
               }
             </p>
           </div>
