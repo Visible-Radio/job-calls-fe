@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const SearchBoxStyles = styled.div`
@@ -15,19 +16,27 @@ const SearchBoxStyles = styled.div`
   font-size: 15px;
 
   p {
-    margin: 0 40px 0 0;
+    margin: 5px 40px 5px 5px;
     color: var(--greyCyan);
     font-size: 15px;
   }
 
   input {
-    height: 100%;
+    min-height: 25px;
     text-align: center;
     border-radius: 5px;
     border: none;
     background-color: var(--greyCyan);
     font-size: 15px;
     margin-right: 10px;
+
+    &::placeholder {
+      color: black;
+    }
+
+    &:focus {
+      background-color: var(--brightCyan);
+    }
   }
 
   @media screen and (max-width: 840px) {
@@ -37,12 +46,31 @@ const SearchBoxStyles = styled.div`
 `;
 
 const SearchBox = ({ searchChange, totalCalls, uniqueCalls }) => {
+  const [placeHolder, setPlaceHolder] = useState('Filter Calls By Details');
+
+  const handleFocus = (event) => {
+    setPlaceHolder('');
+  }
+
+  const handleInput = (event) => {
+    if (!event.target.value.length)
+    setPlaceHolder('Filter Calls By Details');
+  }
+
+  const handleBlur = (event) => {
+    if (!event.target.value.length)
+    setPlaceHolder('Filter Calls By Details');
+  }
+
   return (
     <SearchBoxStyles>
       <input
         type="search"
-        placeholder="Filter Calls by Details"
+        placeholder={placeHolder}
         onChange={searchChange}
+        onFocus={handleFocus}
+        onInput={handleInput}
+        onBlur={handleBlur}
       />
       <p>{uniqueCalls} unique job calls matched the filter terms</p>
       <p>{totalCalls - uniqueCalls} more appeared multiple days</p>

@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
   --slate: #1c243a;
   --lightBlack: #001320;
   --disabledInput: rgb(113, 57, 14);
+  --brightOrange: rgb(150, 255, 0);
   }
 
   html {
@@ -63,10 +64,6 @@ const GlobalStyles = createGlobalStyle`
     transform: scale(0.9);
     transition-property: transform;
     transition-duration: 0.1s;
-  }
-
-  ::placeholder {
-    color: black;
   }
 
 `;

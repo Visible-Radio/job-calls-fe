@@ -123,7 +123,7 @@ const ExploreRoute = () => {
                   colors={colors}
                 />
               </BottomDrawer>
-              <CallCardList colors={colors} callsById={callsById} />
+              <CallCardList colors={colors} callsById={callsById} searchField={searchField} />
             </CallsViewGrid>
           )}
         </ExploreRouteGrid>
