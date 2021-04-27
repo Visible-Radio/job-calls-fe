@@ -4,7 +4,7 @@ const colors = {
   JHW: "#ff11ff",
   AHW: "#aa11ff",
   RJW: "#0088ff",
-  JL: "#2196ff",
+  JL: "#9696bb",
   AL: "#00bcd4",
   TEC1: "#ffff00",
   TEC2: "#ff9800",

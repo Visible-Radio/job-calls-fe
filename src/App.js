@@ -15,8 +15,12 @@ import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
 import validateDateInput from "./utils/validateDateInput";
 import BottomDrawer from "./Components/BottomDrawer/BottomDrawer";
+import CallsViewGrid from "./Components/LayoutComponents/CallsViewGrid";
+import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
+import GraphViewGrid from "./Components/LayoutComponents/GraphViewGrid";
+import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 
-const App = () => {
+const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
   const [start, setStart] = useState(createDate(0, -1, 0));
@@ -29,16 +33,6 @@ const App = () => {
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const onButtonSubmit = (event) => {
-    const [start, end] = JSON.parse(event.target.dataset.range);
-    if (!validateDateInput(start, end)) return;
-    setStart(start);
-    setEnd(end);
-    setSelectedClasses(JSON.parse(event.target.dataset.classes));
-    setSelectedCompanies(JSON.parse(event.target.dataset.company));
-    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
-  };
-
   useEffect(() => {
     setLoading(true);
     handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
@@ -49,6 +43,16 @@ const App = () => {
       setLoading(false);
     });
   }, [selectedClasses, start, end, selectedCompanies]);
+
+  const onButtonSubmit = (event) => {
+    const [start, end] = JSON.parse(event.target.dataset.range);
+    if (!validateDateInput(start, end)) return;
+    setStart(start);
+    setEnd(end);
+    setSelectedClasses(JSON.parse(event.target.dataset.classes));
+    setSelectedCompanies(JSON.parse(event.target.dataset.company));
+    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
+  };
 
   const togglePicker = () => {
     setPickerIsOpen(!pickerIsOpen);
@@ -63,19 +67,23 @@ const App = () => {
     setSearchField(event.target.value);
   };
 
-  const filteredCalls = useMemo(() => callCardData.filter((call) =>
-    call.summary.toLowerCase().includes(searchField.toLowerCase())
-  ),[callCardData, searchField]);
+  const filteredCalls = useMemo(
+    () =>
+      callCardData.filter((call) =>
+        call.summary.toLowerCase().includes(searchField.toLowerCase())
+      ),
+    [callCardData, searchField]
+  );
 
-  const { uniqueJobsByClassification, callsById, count } = useMemo(() => findUniqueTotals(
-    filteredCalls
-  ), [filteredCalls]);
+  const { uniqueJobsByClassification, callsById, count } = useMemo(
+    () => findUniqueTotals(filteredCalls),
+    [filteredCalls]
+  );
 
   return (
     <>
-      {console.log("rendering")}
       <Loader datasets={chartData} loading={loading}>
-        <div className="layoutMaster">
+        <ExploreRouteGrid>
           <StartEndDates start={start} end={end} company={selectedCompanies} />
           <ClassificationPicker
             companiesOnRecord={companiesOnRecord}
@@ -89,21 +97,21 @@ const App = () => {
           />
 
           {view === "Charts" && (
-            <div className="graphGrid">
-              <div className="leftSubGrid">
+            <GraphViewGrid>
+              <GraphViewSubGrid>
                 <DoughnutGraphUniqueJobs
                   datasets={uniqueJobsByClassification}
                   colors={colors}
                 />
-              </div>
+              </GraphViewSubGrid>
               <LineGraph datasets={chartData} colors={colors} />
               <ColorLegend datasets={chartData} colors={colors} />
               <TotalLineGraph datasets={chartData} />
-            </div>
+            </GraphViewGrid>
           )}
 
           {view === "Calls" && (
-            <div className="callGrid">
+            <CallsViewGrid>
               <SearchBox
                 searchChange={onSearchChange}
                 totalCalls={filteredCalls.length}
@@ -116,13 +124,12 @@ const App = () => {
                 />
               </BottomDrawer>
               <CallCardList colors={colors} callsById={callsById} />
-            </div>
+            </CallsViewGrid>
           )}
-        </div>
-        {/* end of layout master */}
+        </ExploreRouteGrid>
       </Loader>
     </>
   );
 };
 
-export default App;
+export default ExploreRoute;

@@ -1,75 +1,3 @@
-.layoutMaster {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  grid-template-rows: min-content 1fr 15px;
-  max-width: 2000px;
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  grid-gap: 0;
-  overflow: hidden;
-}
-
-.graphGrid {
-  display: grid;
-  grid-column: 1 / 3;
-  grid-row: 2 / 3;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  align-content: start;
-  grid-template-columns: 280px 1fr 0px 10px;
-  grid-template-rows: auto auto 1fr;
-  align-items: start;
-  overflow-y: auto;
-}
-
-.callGrid {
-  display: grid;
-  grid-column: 1 / 3;
-  grid-row: 2 / 3;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  align-content: start;
-  grid-template-columns: 280px 1fr;
-  grid-template-rows: auto 1fr;
-  align-items: start;
-  /* overflow-y: auto; */
-  overflow-y: hidden;
-}
-
-.SearchBox {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0;
-  padding: 5px 10px 10px 35px;
-  width: 100%;
-  grid-column: 2 / -1;
-  grid-row: 1 / 2;
-  font-size: 15px;
-}
-
-.leftSubGrid {
-	position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: space-around;
-  width: 100%;
-  height: 285px;
-  grid-column: 1 / 2;
-  grid-row: 1 / 4;
-  padding: 0 5px 5px 5px;
-	transition: height 0.5s;
-}
-
-.SearchBox p {
-  margin: 0;
-}
 .graphBg {
   position: relative;
   background-color: var(--slate);
@@ -97,6 +25,7 @@
   background: none;
   max-width: 280px;
   max-height: 280px;
+  margin-top: 20px;
 }
 
 #grandTotal,
@@ -109,122 +38,14 @@
   text-align: center;
 }
 
-.ColorLegend {
-  border: 5px solid var(--slate);
-  border-radius: 5px;
-  background-color: var(--lightBlack);
-  padding: 0.5rem;
-  max-width: 100%;
-  grid-column: 2 / 4;
-  grid-row: 2 / 3;
-  margin: 10px 0px;
-}
-
 @media screen and (max-width: 840px) {
-  .ColorLegend {
-    grid-column: 1 / 4;
-  }
   .totalLineGraph {
     grid-column: 1 / 4;
   }
   .LineGraph {
     grid-column: 1 / 4;
   }
-  .leftSubGrid {
-    grid-column: 1 / 4;
-    grid-row: 4 / 5;
+  .DoughnutGraph2 {
+    margin-top: -10px;
   }
-  .SearchBox {
-    grid-column: 1 / 4;
-    grid-row: 1 / 2;
-  }
-}
-
-ul.legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  max-height: 400px;
-}
-.legendBlock {
-  display: block;
-  height: 15px;
-  width: 15px;
-}
-li {
-  display: flex;
-  align-items: center;
-}
-
-h1 {
-  margin: 0 1rem 0 1rem;
-  letter-spacing: 0.2rem;
-  color: var(--greyCyan);
-  z-index: 1;
-}
-#header {
-  display: grid;
-  grid-template-rows: 50vh 50vh;
-  justify-items: center;
-  width: 100%;
-}
-#header > *:nth-child(1) {
-  align-self: end;
-}
-#header > *:nth-child(2) {
-  align-self: start;
-}
-
-/* START END DATE COMPONENT*/
-#StartEndDates h3 {
-  margin: 0;
-  color: var(--greyCyan);
-  font-size: 12px;
-  min-width: max-content;
-  margin-bottom: 0;
-}
-#StartEndDates {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: center;
-  margin-bottom: 0;
-  padding: 5px;
-  width: 100%;
-  grid-column: 1 / 3;
-}
-#StartEndDates > *:nth-child(1) {
-  justify-self: start;
-}
-#StartEndDates > *:nth-child(2) {
-  justify-self: end;
-}
-.SearchBox input {
-  height: 100%;
-  text-align: center;
-  border-radius: 5px;
-  border: none;
-  background-color: var(--greyCyan);
-  font-size: 15px;
-}
-.SearchBox p {
-  color: var(--greyCyan);
-  font-size: 15px;
-}
-
-.open {
-  transform: translateX(0);
-}
-
-/* these two might be used in the legend */
-span.readableClassification {
-  font-size: 15px;
-  opacity: 0.8;
-  margin: 0;
-}
-span.acronymClassification {
-  margin: 0 5px 0 5px;
-  min-width: 50px;
 }

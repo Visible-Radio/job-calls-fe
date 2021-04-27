@@ -21,12 +21,13 @@ const ClassPickerStyles = styled.div`
   transform: translateX(0);
   transform: ${(props) => props.pickerIsOpen && "translateX(-100%)"};
 
+
   #pickerHandle {
     position: absolute;
     left: calc(100% + 3px);
     top: -3px;
     background-color: var(--magenta);
-    height: 25px;
+    height: 40px;
     width: 30px;
     border-radius: 0 5px 5px 0;
     z-index: -1;

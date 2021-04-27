@@ -74,59 +74,90 @@ const CallCardStyled = styled.div`
 		max-height: ${props => props.isOpen ? '1000px' : '0px'};
 		transition: max-height 0.5s;
 		overflow-y: hidden;
+		background-color: transparent;
 	}
 `;
 
-const CallCard = ({ data, color, instances }) => {
+const CallCard = ({ instances, members_needed, color, instanceCount, uniqueJobsForLifeCycle }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleClick = () => {
 		setIsOpen(!isOpen);
 	}
 
+	const callAttributes = instances[0];
+	const firstAppeared = instances[0].call_date_from_html;
+	const lastAppeared = instances[instances.length - 1].call_date_from_html;
   return (
     <CallCardStyled color={color} isOpen={isOpen}>
 
 			<div className="compact">
 				<div className="classShield">
-					<h3>{data?.member_class}</h3>
+					<h3>{callAttributes?.member_class}</h3>
 				</div>
-				<h2>{data?.company}</h2>
+				<h2>{callAttributes?.company}</h2>
 				<FancyButton color={color} isOpen={isOpen} onClick={handleClick}></FancyButton>
 			</div>
-
 			<div className="expanded">
-				<div>
-					<h5>Call Date</h5>
-					<p>{data?.call_date_from_html}</p>
-				</div>
+				{instanceCount > 1 &&
+					<>
+						<div>
+							<h5>First Call Date</h5>
+							<p>{firstAppeared}</p>
+						</div>
+						<div>
+							<h5>Last Call Date</h5>
+							<p>{lastAppeared}</p>
+						</div>
+					</>
+				}
+				{ instanceCount === 1 &&
+					<>
+						<div>
+							<h5>Call Date</h5>
+							<p>{firstAppeared}</p>
+						</div>
+					</>
+				}
 				<div>
 					<h5>Start Date</h5>
-					<p>{data?.start_date_from_html}</p>
+					<p>{callAttributes?.start_date_from_html}</p>
 				</div>
 				<div>
 					<h5>Location</h5>
-					<p>{data?.location}</p>
+					<p>{callAttributes?.location}</p>
 				</div>
 				<div>
 					<h5>Start Time</h5>
-					<p>{data?.start_time}</p>
+					<p>{callAttributes?.start_time}</p>
+				</div>
+				{ instanceCount === 1 &&
+					<div>
+						<h5>Members</h5>
+						<p>{members_needed[0]}</p>
+					</div>
+				}
+				{ instanceCount > 1 &&
+					<div>
+						<h5>Members</h5>
+						<p>{members_needed.join(", ")}</p>
+					</div>
+				}
+				<div>
+					<h5>Occurences</h5>
+					<p>{instanceCount}</p>
 				</div>
 				<div>
-					<h5>Members</h5>
-					<p>{data?.members_needed}</p>
+					<h5>Unique Jobs</h5>
+					<p>{uniqueJobsForLifeCycle}</p>
 				</div>
 				<div>
 					<h5>Union Call ID</h5>
-					<p>{data?.union_call_id}</p>
-				</div>
-				<div>
-					<h5>Occurences</h5>
-					<p>{instances}</p>
+					<p>{callAttributes?.union_call_id}</p>
 				</div>
 				<div>
 					<h5>Details</h5>
-					<p>{data?.summary}</p>
+					<p>{callAttributes?.summary}</p>
 				</div>
 			</div>
     </CallCardStyled>

@@ -7,8 +7,6 @@ export default function findUniqueTotals(callCardData) {
 
   // object from an array of objects where we use one of the object's properties as its key
 
-  console.log('findUniqueTotals Called');
-
   const callsById = {};
   callCardData.forEach((call) => {
     if (callsById.hasOwnProperty(call.union_call_id)) {
@@ -19,6 +17,7 @@ export default function findUniqueTotals(callCardData) {
       callsById[call.union_call_id] = {
         instances: [call],
         members_needed: [call.members_needed],
+        uniqueJobsForLifeCycle: []
       };
     }
   });
@@ -32,6 +31,7 @@ export default function findUniqueTotals(callCardData) {
     count ++;
     // travesrse the members_needed array to determine number of real jobs for the lifecycle of the call
     const realJobsCreated = countRealJobs([...members_needed]);
+    callsById[id].uniqueJobsForLifeCycle = realJobsCreated;
 
     if (uniqueJobsByClassification.hasOwnProperty(member_class)) {
       uniqueJobsByClassification[member_class] += realJobsCreated;
