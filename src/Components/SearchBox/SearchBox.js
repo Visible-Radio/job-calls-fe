@@ -16,7 +16,7 @@ const SearchBoxStyles = styled.div`
   font-size: 15px;
 
   p {
-    margin: 5px 40px 5px 5px;
+    margin: 5px 40px 0px 5px;
     color: var(--greyCyan);
     font-size: 15px;
   }
