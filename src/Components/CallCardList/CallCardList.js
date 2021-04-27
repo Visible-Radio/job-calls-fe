@@ -19,7 +19,7 @@ const CallCardListStyles = styled.div`
 
 `;
 
-const CallCardList = ({ colors, callsById }) => {
+const CallCardList = ({ colors, callsById, searchField }) => {
   return (
     <CallCardListStyles>
       {Object.values(callsById)?.map(({ instances, uniqueJobsForLifeCycle, members_needed }, i) => {
@@ -32,6 +32,7 @@ const CallCardList = ({ colors, callsById }) => {
             members_needed={members_needed}
             key={instances[0].union_call_id}
             color={colors[instances[0].member_class]}
+            searchField={searchField}
           />
         );
       })}
