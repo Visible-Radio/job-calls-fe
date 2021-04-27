@@ -191,7 +191,7 @@ const CallCard = ({
               callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
                 .map((textSegment, i) => {
                   return textSegment.toLowerCase() === searchField.toLowerCase()
-                    ? <span key="i" className="highlight">{textSegment}</span>
+                    ? <span key={callAttributes?.union_call_id + i} className="highlight">{textSegment}</span>
                     : textSegment;
                 })
               }
