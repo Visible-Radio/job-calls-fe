@@ -87,7 +87,7 @@ const MultiSelectOuterStyles = styled.div`
     align-content: flex-start;
     height: ${props => props.height ? props.height + 'px' : '0px' };
     height: auto;
-    max-height: 60vh;
+    max-height: 40vh;
     overflow-y: scroll;
     width: 100%;
     padding: 0 1rem 0 1rem;
@@ -164,7 +164,7 @@ const MultiSelectListStyles = styled.div`
   border-radius: 1rem;
   transition: border-color 0.4s;
   overflow-y: scroll;
-  max-height: ${props => props.listIsOpen ? '50vh' : '0vh'};
+  max-height: ${props => props.listIsOpen ? '40vh' : '0vh'};
 
   background-color: var(--greyCyan);
   transition: max-height 0.2s;
