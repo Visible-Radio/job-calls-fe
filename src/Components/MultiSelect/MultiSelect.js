@@ -6,6 +6,7 @@ const MultiSelectOuterStyles = styled.div`
   display: flex;
   flex-flow: row wrap;
   width: 100%;
+  max-height: 100vh;
   border: 2px solid var(--greyCyan);
   background-color: transparent;
   padding: 0;
@@ -86,7 +87,7 @@ const MultiSelectOuterStyles = styled.div`
     align-content: flex-start;
     height: ${props => props.height ? props.height + 'px' : '0px' };
     height: auto;
-    max-height: 100%;
+    max-height: 60vh;
     overflow-y: scroll;
     width: 100%;
     padding: 0 1rem 0 1rem;
@@ -101,7 +102,6 @@ const OutterWrapper = styled.div`
   flex-direction: column;
   position: relative;
   z-index: 2;
-  max-height: 100%;
   max-width: 100%;
 `;
 
@@ -164,7 +164,8 @@ const MultiSelectListStyles = styled.div`
   border-radius: 1rem;
   transition: border-color 0.4s;
   overflow-y: scroll;
-  max-height: ${props => props.listIsOpen ? '1000px' : '0px'};
+  max-height: ${props => props.listIsOpen ? '50vh' : '0vh'};
+
   background-color: var(--greyCyan);
   transition: max-height 0.2s;
 
@@ -188,27 +189,26 @@ const MultiSelectListStyles = styled.div`
   }
 `;
 
-export default function MultiSelect() {
+export default function MultiSelect({ companiesOnRecord }) {
   const textInput = useRef(null);
   const tagWrapper = useRef(null);
 
   const companyOptions = ["ADVANCED CON IND LTD", "AECON EPSCA", "AECON INDUSTRIAL", "AINSWORTH INC.", "AINSWORTH POWER CONSTRUCTION INC", "ALLTRADE INDUSTRIAL CONTRACTORS", "AMBIENT MECHANICAL LTD", "AMP POWER LIMITED", "ARC BROTHERS ELECTRIC LTD.", "AVA ELECTRIC INC", "BASEVIEW ELECTRIC INC.", "BC NORTH", "BEACON UTILITY CONTRACTORS LIMIT", "BERMIS ELECTRIC INC.", "BIRNIE ELECTRIC LIMITED", "BLACK & MCDONALD EPSCA", "BLACK & MCDONALD LIMITED"];
-  const [ options, setOptions ] = useState(companyOptions);
+  const [ options, setOptions ] = useState(companiesOnRecord || []);
   const [ selectedOptions, setSelectedOptions ] = useState([]);
   const [ searchString, setSearchString ] = useState('');
   const [ listIsOpen, setListIsOpen ] = useState(true);
 
   useEffect(()=> {
-    window.addEventListener('click', handleClickOutside);
     window.addEventListener('keydown', removeItemByKeyPress);
     return () => {
       window.removeEventListener('keydown', removeItemByKeyPress);
-      window.removeEventListener('click', handleClickOutside);
     }
   });
 
-  const handleClickOutside = (event) => {
-  }
+  useEffect(() => {
+    setOptions(companiesOnRecord || [])
+  },[companiesOnRecord])
 
   const focusChildOnParentClick = (event) => {
     if (event.target.classList.contains('noFocus')) return;
@@ -264,7 +264,7 @@ export default function MultiSelect() {
         </div>
         <div className="inputWrapper">
           <input placeholder="Search Companies" type="text" ref={textInput} onChange={handleTextInputChange} value={searchString}></input>
-          <button className="control noFocus" onClick={clearInput}>×</button>
+          <button className="control" onClick={clearInput}>×</button>
           <button className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
         </div>
       </MultiSelectOuterStyles>

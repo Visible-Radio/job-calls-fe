@@ -84,7 +84,7 @@ const ExploreRoute = () => {
   return (
     <>
       <div style={{width: '100%'}}>
-        <MultiSelect />
+        <MultiSelect companiesOnRecord={companiesOnRecord} />
       </div>
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
