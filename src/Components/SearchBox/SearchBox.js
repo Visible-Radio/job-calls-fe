@@ -36,6 +36,10 @@ const SearchBoxStyles = styled.div`
 
     &:focus {
       background-color: var(--brightCyan);
+      outline-color: var(--greyCyan);
+      outline-style: dashed;
+      outline-width: 2px;
+      outline-offset: 2px;
     }
   }
 

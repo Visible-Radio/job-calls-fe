@@ -19,6 +19,7 @@ import CallsViewGrid from "./Components/LayoutComponents/CallsViewGrid";
 import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
 import GraphViewGrid from "./Components/LayoutComponents/GraphViewGrid";
 import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
+import MultiSelect from "./Components/MultiSelect/MultiSelect";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
@@ -82,6 +83,9 @@ const ExploreRoute = () => {
 
   return (
     <>
+      <div style={{width: '100%'}}>
+        <MultiSelect />
+      </div>
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
           <StartEndDates start={start} end={end} company={selectedCompanies} />

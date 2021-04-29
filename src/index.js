@@ -40,32 +40,6 @@ const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  button {
-    border: none;
-    font-size: 15px;
-    background-color: var(--greyCyan);
-    height: 25px;
-    transition: background-color 0.2s;
-  }
-  button:focus, input:focus,
-  #companySelect:focus {
-    outline-color: var(--greyCyan);
-    outline-style: dashed;
-    outline-width: 2px;
-    outline-offset: 2px;
-  }
-  button:hover, input:hover {
-    cursor: pointer;
-    background-color: var(--brightCyan);
-    transition: background-color 0.2s;
-  }
-  button:active {
-    background-color: var(--brightCyan);
-    transform: scale(0.9);
-    transition-property: transform;
-    transition-duration: 0.1s;
-  }
-
 `;
 
 ReactDOM.render(
