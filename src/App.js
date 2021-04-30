@@ -33,6 +33,7 @@ const ExploreRoute = () => {
   const [view, setView] = useState("Charts");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [ test, setTest] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -81,19 +82,27 @@ const ExploreRoute = () => {
     [filteredCalls]
   );
 
+  const testFunc = (val) => {
+    setTest(val);
+  }
+
+  console.log('test :>> ', test);
   return (
     <>
       <div style={{width: '100%'}}>
         <MultiSelect
           optionsArray={companiesOnRecord}
           placeholder={'Search companies'}
-          id={"selectCompanies"}
+          loading={loading}
+          testFunc={testFunc}
         />
         <MultiSelect
           optionsArray={Object.keys(colors)}
           longOptions={readableClassification}
           placeholder={'Search classes'} colors={colors}
           id={"selectClasses"}
+          loading={loading}
+          testFunc={testFunc}
         />
       </div>
       <Loader datasets={chartData} loading={loading}>

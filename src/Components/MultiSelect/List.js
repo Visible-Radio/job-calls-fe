@@ -6,7 +6,7 @@ export default function List({ filtered, addItem, listIsOpen, colors, longOption
   return (
     <ListStyles listIsOpen={listIsOpen}>
       {
-        filtered.map((option, i) => {
+        filtered?.map((option, i) => {
           return (
             <ListItem
               color={colors ? colors?.hasOwnProperty(option) ? colors[option] : null : null}

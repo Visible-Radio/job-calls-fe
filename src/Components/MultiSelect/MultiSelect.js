@@ -3,14 +3,15 @@ import List from "./List";
 import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, id}) {
+export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, loading, testFunc }) {
   const textInputRef = useRef(null);
   const outerRef = useRef(null);
 
-  const [ options, setOptions ] = useState(optionsArray || []);
+  const [ options, setOptions ] = useState([]);
   const [ selectedOptions, setSelectedOptions ] = useState([]);
   const [ searchString, setSearchString ] = useState('');
   const [ listIsOpen, setListIsOpen ] = useState(false);
+
 
   useEffect(()=> {
     window.addEventListener('keydown', removeItemByKeyPress);
@@ -22,8 +23,11 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   });
 
   useEffect(() => {
-    setOptions(optionsArray || [])
-  },[optionsArray])
+    if (!loading) {
+      setOptions(optionsArray || []);
+      setSelectedOptions([]);
+    }
+  },[loading])
 
   const handleClick = (event) => {
     if (outerRef.current.contains(event.target)) return;
@@ -41,8 +45,8 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const addItem = (event) => {
-    // const value = event.target.value;
     const value = event.target.dataset.value;
+    testFunc(value);
     setSelectedOptions([...selectedOptions, value])
     setOptions([...options].filter(option => option !== value));
   }
@@ -69,7 +73,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
     setListIsOpen(!listIsOpen);
   }
 
-  const filtered = options.filter(option => option.toLowerCase().includes(searchString.toLowerCase()));
+  const filtered = options?.filter(option => option.toLowerCase().includes(searchString.toLowerCase()));
 
   return (
     <OutterWrapper ref={outerRef}>
@@ -89,7 +93,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
         <div className="inputWrapper">
           <input placeholder={placeholder} type="text" ref={textInputRef} onChange={handleTextInputChange} value={searchString}></input>
           <button className="control" onClick={clearInput}>×</button>
-          <button value={id} className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
+          <button className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
         </div>
       </MultiSelectOuterStyles>
       <List
