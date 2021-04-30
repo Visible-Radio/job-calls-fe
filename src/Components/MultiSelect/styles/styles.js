@@ -92,6 +92,7 @@ export const MultiSelectOuterStyles = styled.div`
     transition: height, 0.2s;
     padding: 2px;
     border-radius: 1rem 1rem 0 0;
+    z-index: 0;
   }
 `;
 
@@ -99,16 +100,17 @@ export const OutterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 2;
   max-width: 100%;
+  margin-bottom: 0.5rem;
 `;
 
+//background-color: var(--greyCyan);
 export const TagStyles = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--greyCyan);
+  background-color: ${props => props.color || 'var(--greyCyan)'};
   border-bottom: 1px solid black;
   border-left: 1px solid black;
   font-size: 0.75rem;
@@ -116,6 +118,7 @@ export const TagStyles = styled.div`
   height: auto;
   width: auto;
   transition: opacity, max-height, max-width 0.5s ease-out;
+  z-index: 0;
 
   span {
     margin: 4px;
@@ -137,53 +140,8 @@ export const TagStyles = styled.div`
     &:hover {
       cursor: pointer;
       background-color: black;
-      color: var(--greyCyan);
+      //color: var(--greyCyan);
+      color: ${props => props.color || 'var(--greyCyan)'};
     }
-  }
-`;
-
-export const ListStyles = styled.div`
-  top: 100%;
-  position: absolute;
-  margin: 8px 0 0 0;
-  display: flex;
-  flex-flow: column;
-  width: 100%;
-  padding: 0;
-  border-radius: 1rem;
-  transition: border-color 0.4s;
-  overflow-y: scroll;
-  max-height: ${props => props.listIsOpen ? '40vh' : '0vh'};
-  background-color: var(--greyCyan);
-  transition: max-height 0.2s;
-
-  &:hover {
-      cursor: pointer;
-    }
-
-  .inputItem {
-    text-align: left;
-    color: black;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border: none;
-    background-color: var(--greyCyan);
-
-    &:focus {
-      outline: none;
-      color: var(--greyCyan);
-      background-color: black;
-      width: 100%;
-      padding: 0.5rem 1rem 0.5rem 1rem;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .highlighted {
-    color: var(--greyCyan);
-    background-color: black;
-    width: 100%;
-    padding: 0.5rem 1rem 0.5rem 1rem;
   }
 `;

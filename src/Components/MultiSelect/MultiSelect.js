@@ -3,13 +3,13 @@ import List from "./List";
 import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray }) {
-  const textInput = useRef(null);
+export default function MultiSelect({ optionsArray, longOptions, colors, placeholder }) {
+  const textInputRef = useRef(null);
 
   const [ options, setOptions ] = useState(optionsArray || []);
   const [ selectedOptions, setSelectedOptions ] = useState([]);
   const [ searchString, setSearchString ] = useState('');
-  const [ listIsOpen, setListIsOpen ] = useState(true);
+  const [ listIsOpen, setListIsOpen ] = useState(false);
 
   useEffect(()=> {
     window.addEventListener('keydown', removeItemByKeyPress);
@@ -24,7 +24,7 @@ export default function MultiSelect({ optionsArray }) {
 
   const focusChildOnParentClick = (event) => {
     if (event.target.classList.contains('noFocus')) return;
-    textInput.current.focus();
+    textInputRef.current.focus();
   }
 
   const handleTextInputChange = (event) => {
@@ -33,13 +33,10 @@ export default function MultiSelect({ optionsArray }) {
   }
 
   const addItem = (event) => {
-    setSelectedOptions([...selectedOptions, event.target.value])
-    setOptions([...options].filter(option => option !== event.target.value));
-  }
-
-  const addItemByKeypress = (item) => {
-    setSelectedOptions([...selectedOptions, item])
-    setOptions([...options].filter(option => option !== item));
+    // const value = event.target.value;
+    const value = event.target.dataset.value;
+    setSelectedOptions([...selectedOptions, value])
+    setOptions([...options].filter(option => option !== value));
   }
 
   const removeItem = (event) => {
@@ -72,20 +69,26 @@ export default function MultiSelect({ optionsArray }) {
         <div className="tagWrapper">
         {
           selectedOptions.map((option, i) => {
-            return <Tag key={i+option} option={option} removeItem={removeItem}/>
+            return <Tag
+              key={i+option}
+              option={option}
+              removeItem={removeItem}
+              color={colors ? colors?.hasOwnProperty(option) ? colors[option] : null : null}
+            />
           })
         }
         </div>
         <div className="inputWrapper">
-          <input placeholder="Search companies" type="text" ref={textInput} onChange={handleTextInputChange} value={searchString}></input>
+          <input placeholder={placeholder} type="text" ref={textInputRef} onChange={handleTextInputChange} value={searchString}></input>
           <button className="control" onClick={clearInput}>×</button>
           <button className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
         </div>
       </MultiSelectOuterStyles>
       <List
+        colors={colors}
         filtered={filtered}
+        longOptions={longOptions}
         addItem={addItem}
-        addItemByKeypress={addItemByKeypress}
         listIsOpen={listIsOpen}
         searchString={searchString}
       />

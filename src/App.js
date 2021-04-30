@@ -10,7 +10,7 @@ import ClassificationPicker from "./Components/ClassificationPicker/Classificati
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
 import handleFetch from "./utils/HandleFetch";
-import { colors } from "./config";
+import { colors, readableClassification } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
 import validateDateInput from "./utils/validateDateInput";
@@ -84,7 +84,10 @@ const ExploreRoute = () => {
   return (
     <>
       <div style={{width: '100%'}}>
-        <MultiSelect optionsArray={companiesOnRecord} />
+        <MultiSelect optionsArray={companiesOnRecord} placeholder={'Search companies'} />
+      </div>
+      <div style={{width: '100%'}}>
+        <MultiSelect optionsArray={Object.keys(colors)} longOptions={readableClassification} placeholder={'Search classes'} colors={colors} />
       </div>
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
