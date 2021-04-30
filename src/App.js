@@ -84,10 +84,17 @@ const ExploreRoute = () => {
   return (
     <>
       <div style={{width: '100%'}}>
-        <MultiSelect optionsArray={companiesOnRecord} placeholder={'Search companies'} />
-      </div>
-      <div style={{width: '100%'}}>
-        <MultiSelect optionsArray={Object.keys(colors)} longOptions={readableClassification} placeholder={'Search classes'} colors={colors} />
+        <MultiSelect
+          optionsArray={companiesOnRecord}
+          placeholder={'Search companies'}
+          id={"selectCompanies"}
+        />
+        <MultiSelect
+          optionsArray={Object.keys(colors)}
+          longOptions={readableClassification}
+          placeholder={'Search classes'} colors={colors}
+          id={"selectClasses"}
+        />
       </div>
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>

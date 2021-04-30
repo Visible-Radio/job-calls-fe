@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom";
 import { ListItemStyles } from "./styles/ListItemStyles";
 
 export default function ListItem({ option, addItem, longOption, color}) {
@@ -10,9 +9,8 @@ export default function ListItem({ option, addItem, longOption, color}) {
       onClick={addItem}
       color={color}
     >
-
       <div data-value={option}>
-        <span className="colorPatch">{option}</span>
+        <span data-value={option} className="colorPatch">{option}</span>
       </div>
       <em data-value={option}>{longOption}</em>
     </ListItemStyles>

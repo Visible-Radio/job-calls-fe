@@ -3,8 +3,9 @@ import List from "./List";
 import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray, longOptions, colors, placeholder }) {
+export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, id}) {
   const textInputRef = useRef(null);
+  const outerRef = useRef(null);
 
   const [ options, setOptions ] = useState(optionsArray || []);
   const [ selectedOptions, setSelectedOptions ] = useState([]);
@@ -13,14 +14,21 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
 
   useEffect(()=> {
     window.addEventListener('keydown', removeItemByKeyPress);
+    window.addEventListener("mousedown", handleClick);
     return () => {
       window.removeEventListener('keydown', removeItemByKeyPress);
+      window.addEventListener("mousedown", handleClick);
     }
   });
 
   useEffect(() => {
     setOptions(optionsArray || [])
   },[optionsArray])
+
+  const handleClick = (event) => {
+    if (outerRef.current.contains(event.target)) return;
+    setListIsOpen(false);
+  }
 
   const focusChildOnParentClick = (event) => {
     if (event.target.classList.contains('noFocus')) return;
@@ -57,14 +65,14 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
     setSelectedOptions([]);
   }
 
-  const toggleList = () => {
+  const toggleList = (event) => {
     setListIsOpen(!listIsOpen);
   }
 
   const filtered = options.filter(option => option.toLowerCase().includes(searchString.toLowerCase()));
 
   return (
-    <OutterWrapper>
+    <OutterWrapper ref={outerRef}>
       <MultiSelectOuterStyles onClick={focusChildOnParentClick} selectedOptions={selectedOptions}>
         <div className="tagWrapper">
         {
@@ -81,7 +89,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
         <div className="inputWrapper">
           <input placeholder={placeholder} type="text" ref={textInputRef} onChange={handleTextInputChange} value={searchString}></input>
           <button className="control" onClick={clearInput}>×</button>
-          <button className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
+          <button value={id} className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
         </div>
       </MultiSelectOuterStyles>
       <List
