@@ -11,6 +11,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   const [ selectedOptions, setSelectedOptions ] = useState([]);
   const [ searchString, setSearchString ] = useState('');
   const [ listIsOpen, setListIsOpen ] = useState(false);
+  testFunc(selectedOptions);
 
 
   useEffect(()=> {
@@ -46,7 +47,6 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
 
   const addItem = (event) => {
     const value = event.target.dataset.value;
-    testFunc(value);
     setSelectedOptions([...selectedOptions, value])
     setOptions([...options].filter(option => option !== value));
   }
