@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
@@ -20,6 +20,10 @@ import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
 import GraphViewGrid from "./Components/LayoutComponents/GraphViewGrid";
 import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 import MultiSelect from "./Components/MultiSelect/MultiSelect";
+import { ButtonStyled } from "./Components/ButtonStyled";
+import QueryBuilder from "./Components/QueryBuilder/QueryBuilder";
+import "flatpickr/dist/themes/dark.css";
+import Flatpickr from "react-flatpickr";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
@@ -33,12 +37,15 @@ const ExploreRoute = () => {
   const [view, setView] = useState("Charts");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [ test, setTest] = useState([]);
+  const [ test, setTest] = useState({});
 
   useEffect(() => {
     setLoading(true);
     handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
-      if (data === 1) return alert("failed to fetch from API");
+      if (data === 1) {
+        setLoading(false);
+        return alert("failed to fetch from API");
+      }
       setCallCardData(data.callCardData);
       setChartData(data.chartData);
       setCompaniesOnRecord(data.companies);
@@ -51,8 +58,8 @@ const ExploreRoute = () => {
     if (!validateDateInput(start, end)) return;
     setStart(start);
     setEnd(end);
-    setSelectedClasses(JSON.parse(event.target.dataset.classes));
-    setSelectedCompanies(JSON.parse(event.target.dataset.company));
+    setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
+    setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
@@ -82,29 +89,44 @@ const ExploreRoute = () => {
     [filteredCalls]
   );
 
-  const testFunc = (val) => {
-    setTest(val);
-  }
+  const reportState = useCallback(
+    (selectedOptions, options, id) => {
+    setTest((prevState) => ({
+      ...prevState,
+      [id]: {selectedOptions, options}
+    }));
+  }, []);
 
-  console.log('test :>> ', test);
   return (
     <>
-      <div style={{width: '100%'}}>
+      <QueryBuilder>
         <MultiSelect
           optionsArray={companiesOnRecord}
           placeholder={'Search companies'}
           loading={loading}
-          testFunc={testFunc}
+          reportState={reportState}
+          id={'multiSelect_companies'}
+          propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
+          propsOptions={test?.multiSelect_companies?.options}
         />
         <MultiSelect
           optionsArray={Object.keys(colors)}
           longOptions={readableClassification}
-          placeholder={'Search classes'} colors={colors}
-          id={"selectClasses"}
+          placeholder={'Search classes'}
+          colors={colors}
           loading={loading}
-          testFunc={testFunc}
+          reportState={reportState}
+          id={'multiSelect_classes'}
+          propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
+          propsOptions={test?.multiSelect_classes?.options}
         />
-      </div>
+        <ButtonStyled onClick={onButtonSubmit}>Get Records</ButtonStyled>
+        <ButtonStyled>Toggle View</ButtonStyled>
+        <ButtonStyled>{true ? '▲' : '▼'}</ButtonStyled>
+        <Flatpickr />
+        <Flatpickr />
+      </QueryBuilder>
+
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
           <StartEndDates start={start} end={end} company={selectedCompanies} />

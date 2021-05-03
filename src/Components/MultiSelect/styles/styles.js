@@ -104,7 +104,7 @@ export const OutterWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-//background-color: var(--greyCyan);
+
 export const TagStyles = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -140,7 +140,6 @@ export const TagStyles = styled.div`
     &:hover {
       cursor: pointer;
       background-color: black;
-      //color: var(--greyCyan);
       color: ${props => props.color || 'var(--greyCyan)'};
     }
   }

@@ -16,7 +16,7 @@ const StartEndDatesStyles = styled.div`
 		margin: 0;
 		color: var(--greyCyan);
 		font-size: 12px;
-		min-width: max-content;
+		min-width: fit-content;
 		margin-bottom: 0;
 	}
 
@@ -36,7 +36,7 @@ const StartEndDates = ({ company, start, end }) => {
   return (
     <StartEndDatesStyles>
       {company.length && company !== 'All Companies' ? (
-        <h3>Results Matching '{company}'</h3>
+        <h3>Results Matching '{company.join(', ')}'</h3>
       ) : (
         <h3>Results For All Companies</h3>
       )}

@@ -186,18 +186,16 @@ const CallCard = ({
         {searchField.length && (
           <div>
             <h5>Details</h5>
-            <p>
-              {
-							<p>{
-								callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
-									.map(textSegment => {
-										return textSegment.toLowerCase() === searchField.toLowerCase()
-											? <span className="highlight">{textSegment}</span>
-											: textSegment;
-									})
-							}</p>
-              }
-            </p>
+            {
+              <p>{
+                callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
+                  .map((textSegment, i) => {
+                    return textSegment.toLowerCase() === searchField.toLowerCase()
+                      ? <span key={i} className="highlight">{textSegment}</span>
+                      : <span key={i}>{textSegment}</span>
+                  })
+              }</p>
+            }
           </div>
         )}
       </div>

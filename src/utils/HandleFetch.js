@@ -2,6 +2,12 @@ const handleFetch = async (selectedClasses, start, end, selectedCompanies) => {
   const remote = 'https://evening-plateau-74700.herokuapp.com';
   // const remote = 'http://127.0.0.1:4000';
 
+  console.log('selectedCompanies :>> ', selectedCompanies);
+  if (Array.isArray(selectedCompanies) && selectedCompanies.length > 8) {
+    alert('Please Select Fewer than 8 companies')
+    return 1;
+  }
+
   const getData = async (url) => {
     const body = {
       "start": start,
@@ -10,8 +16,8 @@ const handleFetch = async (selectedClasses, start, end, selectedCompanies) => {
     if (selectedClasses?.length > 0) {
       body.member_class = selectedClasses;
     }
-    if (!selectedCompanies.includes('All Companies')) {
-      body.company = selectedCompanies;
+    if (!selectedCompanies.includes('All Companies') && selectedCompanies.length) {
+      body.company = selectedCompanies
     }
 
     return fetch(url, {
