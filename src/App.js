@@ -30,7 +30,7 @@ const ExploreRoute = () => {
   const [selectedCompanies, setSelectedCompanies] = useState("All Companies");
   const [companiesOnRecord, setCompaniesOnRecord] = useState();
   const [searchField, setSearchField] = useState("");
-  const [view, setView] = useState("Charts");
+  const [view, setView] = useState("Calls");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
   const [ isOpen, setIsOpen] = useState(true);
@@ -56,10 +56,6 @@ const ExploreRoute = () => {
     setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
     setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
-  };
-
-  const togglePicker = () => {
-    setPickerIsOpen(!pickerIsOpen);
   };
 
   const onToggleView = () => {
@@ -138,7 +134,8 @@ const ExploreRoute = () => {
             propsOptions={test?.multiSelect_classes?.options}
             />
           </QueryBuilder>
-          <div className="handle" style={{gridColumn: '1 / 3', gridRow: '1 / 1', marginLeft: 'auto', width: '100%', borderBottom: '2px solid var(--greyCyan)'}}>
+          <div className="handle" style={{gridColumn: '1 / 3', gridRow: '1 / 1', marginLeft: 'auto', width: '100%', borderBottom: '2px solid var(--greyCyan)', display: 'flex', alignItems: 'center', color: 'var(--greyCyan)'}}>
+            <h3 style={{margin: '0 0 0 10px', padding: '0'}}>Electrical Trades Job Calls Database</h3>
             <MenuButtonStyled onClick={toggleOpen}>{isOpen ? '×' : '☰'}</MenuButtonStyled>
           </div>
           {view === "Charts" && (

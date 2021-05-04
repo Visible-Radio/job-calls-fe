@@ -14,9 +14,8 @@ const CallCardStyled = styled.div`
   align-content: flex-start;
   height: max-content;
   border: 3px solid transparent;
-  border-color: ${(props) => props.color + 77};
+  border-color: var(--greyCyan);
   transition: height 1s;
-  content-visibility: auto;
 
   div {
     margin: 4px 4px 4px 4px;

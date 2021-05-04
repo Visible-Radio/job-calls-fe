@@ -60,14 +60,14 @@ const DoughnutGraph = ({ datasets, colors }) => {
           display: true,
           fontSize: 16,
           position: "top",
-          fontColor: "rgb(0, 250, 200)",
+          fontColor: "rgb(0, 200, 200)",
           text: "Unique Jobs By Class For Period",
         },
         legend: {
           display: false,
           position: "bottom",
           labels: {
-            fontColor: "rgb(150, 120, 255)",
+            fontColor: "rgb(0, 200, 200)",
             fontSize: 18,
           },
         },
