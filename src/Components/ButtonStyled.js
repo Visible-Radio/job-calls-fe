@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const ButtonStyled = styled.button`
   width: min-content;
     display: flex;
-    flex: auto;
+    min-width: 160px;
     align-items: center;
     justify-content: center;
     width: max-content;
     height: 1.5rem;
-    margin-right: 4px;
+    margin: 4px;
     font-size: 1rem;
-    border: 1px solid var(--greyCyan);;
+    border: 2px solid var(--greyCyan);;
     border-radius: 1rem;
     color: var(--greyCyan);
     background-color: transparent;
@@ -26,5 +26,8 @@ export const ButtonStyled = styled.button`
       background-color: var(--greyCyan);
       color: black;
       outline: 1px solid var(--greyCyan);
+    }
+    &:active {
+      transform: scale(0.97);
     }
 `;

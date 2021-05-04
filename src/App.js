@@ -20,10 +20,7 @@ import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
 import GraphViewGrid from "./Components/LayoutComponents/GraphViewGrid";
 import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 import MultiSelect from "./Components/MultiSelect/MultiSelect";
-import { ButtonStyled } from "./Components/ButtonStyled";
 import QueryBuilder from "./Components/QueryBuilder/QueryBuilder";
-import "flatpickr/dist/themes/dark.css";
-import Flatpickr from "react-flatpickr";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
@@ -54,10 +51,8 @@ const ExploreRoute = () => {
   }, [selectedClasses, start, end, selectedCompanies]);
 
   const onButtonSubmit = (event) => {
-    const [start, end] = JSON.parse(event.target.dataset.range);
     if (!validateDateInput(start, end)) return;
-    setStart(start);
-    setEnd(end);
+
     setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
     setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
@@ -89,7 +84,7 @@ const ExploreRoute = () => {
     [filteredCalls]
   );
 
-  const reportState = useCallback(
+  const reportMultiSelectState = useCallback(
     (selectedOptions, options, id) => {
     setTest((prevState) => ({
       ...prevState,
@@ -97,14 +92,28 @@ const ExploreRoute = () => {
     }));
   }, []);
 
+  const reportDates = (localStart, localEnd) => {
+    setStart(localStart);
+    setEnd(localEnd);
+  }
+
   return (
     <>
-      <QueryBuilder>
+      <QueryBuilder
+        onButtonSubmit={onButtonSubmit}
+        start={start}
+        end={end}
+        onToggleView={onToggleView}
+        view={view}
+        setStart={setStart}
+        setEnd={setEnd}
+        reportDates={reportDates}
+      >
         <MultiSelect
           optionsArray={companiesOnRecord}
           placeholder={'Search companies'}
           loading={loading}
-          reportState={reportState}
+          reportMultiSelectState={reportMultiSelectState}
           id={'multiSelect_companies'}
           propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
           propsOptions={test?.multiSelect_companies?.options}
@@ -115,22 +124,17 @@ const ExploreRoute = () => {
           placeholder={'Search classes'}
           colors={colors}
           loading={loading}
-          reportState={reportState}
+          reportMultiSelectState={reportMultiSelectState}
           id={'multiSelect_classes'}
           propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
           propsOptions={test?.multiSelect_classes?.options}
         />
-        <ButtonStyled onClick={onButtonSubmit}>Get Records</ButtonStyled>
-        <ButtonStyled>Toggle View</ButtonStyled>
-        <ButtonStyled>{true ? '▲' : '▼'}</ButtonStyled>
-        <Flatpickr />
-        <Flatpickr />
       </QueryBuilder>
 
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
           <StartEndDates start={start} end={end} company={selectedCompanies} />
-          <ClassificationPicker
+          {/* <ClassificationPicker
             companiesOnRecord={companiesOnRecord}
             onButtonSubmit={onButtonSubmit}
             onToggleView={onToggleView}
@@ -139,7 +143,7 @@ const ExploreRoute = () => {
             pickerIsOpen={pickerIsOpen}
             start={start}
             end={end}
-          />
+          /> */}
 
           {view === "Charts" && (
             <GraphViewGrid>

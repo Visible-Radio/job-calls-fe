@@ -3,7 +3,7 @@ import List from "./List";
 import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, reportState, id, propsSelectedOptions, propsOptions }) {
+export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, reportMultiSelectState, id, propsSelectedOptions, propsOptions }) {
   const textInputRef = useRef(null);
   const outerRef = useRef(null);
 
@@ -36,8 +36,8 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
 
   useEffect(()=> {
     // report state to parent when local state changes
-    reportState(selectedOptions, options, id);
-  }, [selectedOptions, options, reportState, id ])
+    reportMultiSelectState(selectedOptions, options, id);
+  }, [selectedOptions, options, reportMultiSelectState, id ])
 
   const handleClick = (event) => {
     // close list on click outside of component
