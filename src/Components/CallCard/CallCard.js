@@ -176,13 +176,13 @@ const CallCard = ({
           <h5>Union Call ID</h5>
           <p>{callAttributes?.union_call_id}</p>
         </div>
-        {!searchField.length && (
+        {searchField.length === 0 && (
           <div>
             <h5>Details</h5>
             <p>{callAttributes?.summary}</p>
           </div>
         )}
-        {searchField.length && (
+        {searchField.length > 0 && (
           <div>
             <h5>Details</h5>
             {
