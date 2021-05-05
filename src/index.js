@@ -15,6 +15,9 @@ const GlobalStyles = createGlobalStyle`
   --lightBlack: #001320;
   --disabledInput: rgb(113, 57, 14);
   --brightOrange: rgb(150, 255, 0);
+  --gradient1: #110a21;
+  --gradient2: #1f2138;
+  --gradient: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center fixed;
   }
 
   html {
@@ -30,40 +33,14 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center
-      fixed;
+
+    background: var(--lightBlack);
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  button {
-    border: none;
-    font-size: 15px;
-    background-color: var(--greyCyan);
-    height: 25px;
-    transition: background-color 0.2s;
-  }
-  button:focus, input:focus,
-  #companySelect:focus {
-    outline-color: var(--greyCyan);
-    outline-style: dashed;
-    outline-width: 2px;
-    outline-offset: 2px;
-  }
-  button:hover, input:hover {
-    cursor: pointer;
-    background-color: var(--brightCyan);
-    transition: background-color 0.2s;
-  }
-  button:active {
-    background-color: var(--brightCyan);
-    transform: scale(0.9);
-    transition-property: transform;
-    transition-duration: 0.1s;
   }
 
 `;

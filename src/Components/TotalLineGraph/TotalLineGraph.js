@@ -28,7 +28,7 @@ const TotalLineGraph = ({ datasets, loading }) => {
             display: true,
             fontSize: 16,
             position: 'top',
-            fontColor: "rgb(0, 250, 200)",
+            fontColor: "rgb(0, 200, 200)",
             text: `Total Number of Members Requested for Each Day`
         },
 	    	legend: {
@@ -47,7 +47,7 @@ const TotalLineGraph = ({ datasets, loading }) => {
 	        		lineWidth: 1
         		},
             ticks: {
-                fontColor: "rgb(0, 250, 200)",
+                fontColor: "rgb(0, 200, 200)",
                 fontSize: 10,
                 stepSize: 5,
                 beginAtZero: false
@@ -61,7 +61,7 @@ const TotalLineGraph = ({ datasets, loading }) => {
 	        		lineWidth: 1
         		},
 	          ticks: {
-	              fontColor: "rgb(0, 250, 200)",
+	              fontColor: "rgb(0, 200, 200)",
 	              fontSize: 10,
 	              stepSize: 1,
 	              beginAtZero: true

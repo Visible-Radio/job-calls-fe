@@ -37,13 +37,13 @@ const LineGraph = ({ datasets, colors }) => {
             display: true,
             fontSize: 15,
             position: 'top',
-            fontColor: "rgb(0, 250, 200)",
+            fontColor: "rgb(0, 200, 200)",
             text: `Members Requested by Classification for Each Day`
         },
 	    	legend: {
 	    		display: false,
           labels: {
-              fontColor: "rgb(0, 120, 255)",
+              fontColor: "rgb(0, 200, 200)",
               fontSize: 18
           }
         },
@@ -55,7 +55,7 @@ const LineGraph = ({ datasets, colors }) => {
 	        		lineWidth: 1
         		},
             ticks: {
-                fontColor: "rgb(0, 250, 200)",
+                fontColor: "rgb(0, 200, 200)",
                 fontSize: 10,
                 stepSize: 5,
                 beginAtZero: true
@@ -68,7 +68,7 @@ const LineGraph = ({ datasets, colors }) => {
 	        		lineWidth: 1
         		},
 	          ticks: {
-	              fontColor: "rgb(0, 250, 200)",
+	              fontColor: "rgb(0, 200, 200)",
 	              fontSize: 10,
 	              stepSize: 1,
 	              beginAtZero: true
