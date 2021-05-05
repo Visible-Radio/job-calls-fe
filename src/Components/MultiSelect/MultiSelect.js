@@ -3,16 +3,15 @@ import List from "./List";
 import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, loading, testFunc }) {
+export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, reportMultiSelectState, id, propsSelectedOptions, propsOptions }) {
   const textInputRef = useRef(null);
   const outerRef = useRef(null);
 
-  const [ options, setOptions ] = useState([]);
-  const [ selectedOptions, setSelectedOptions ] = useState([]);
+  const [ options, setOptions ] = useState(propsOptions || optionsArray);
+  const [ selectedOptions, setSelectedOptions ] = useState(propsSelectedOptions || []);
   const [ searchString, setSearchString ] = useState('');
   const [ listIsOpen, setListIsOpen ] = useState(false);
-  testFunc(selectedOptions);
-
+  const [ loaded, setLoaded] = useState(false);
 
   useEffect(()=> {
     window.addEventListener('keydown', removeItemByKeyPress);
@@ -24,14 +23,25 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   });
 
   useEffect(() => {
-    if (!loading) {
-      setOptions(optionsArray || []);
-      setSelectedOptions([]);
+    // check that list of options from async source has arrived
+    if (optionsArray && optionsArray.length) setLoaded(true);
+  }, [optionsArray])
+
+  useEffect(() => {
+    // only populate options from master async source once
+    if (loaded && optionsArray)  {
+      setOptions(optionsArray)
     }
-  },[loading])
+  }, [loaded])
+
+  useEffect(()=> {
+    // report state to parent when local state changes
+    reportMultiSelectState(selectedOptions, options, id);
+  }, [selectedOptions, options, reportMultiSelectState, id ])
 
   const handleClick = (event) => {
-    if (outerRef.current.contains(event.target)) return;
+    // close list on click outside of component
+    if (outerRef.current && outerRef.current.contains(event.target)) return;
     setListIsOpen(false);
   }
 
@@ -41,8 +51,8 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const handleTextInputChange = (event) => {
-    setSearchString(event.target.value)
-    setListIsOpen(true);
+    setSearchString(event.target.value);
+    if (event.target.value.length !== 0) setListIsOpen(true);
   }
 
   const addItem = (event) => {
@@ -52,15 +62,18 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const removeItem = (event) => {
+    setSearchString('');
     setOptions([...options, event.target.value]);
     setSelectedOptions([...selectedOptions].filter(option => option !== event.target.value));
   }
 
   const removeItemByKeyPress = (event) => {
     if (event.keyCode !== 8 || selectedOptions.length < 1 || searchString.length) return;
-    const deleted = [...selectedOptions].pop();
-    setSelectedOptions([...selectedOptions].filter(option => option !== deleted));
-    setOptions([...options, deleted].sort());
+    if (outerRef.current.contains(document.activeElement)) {
+      const deleted = [...selectedOptions].pop();
+      setSelectedOptions([...selectedOptions].filter(option => option !== deleted));
+      setOptions([...options, deleted].sort());
+    }
   }
 
   const clearInput = () => {

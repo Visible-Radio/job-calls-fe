@@ -14,9 +14,8 @@ const CallCardStyled = styled.div`
   align-content: flex-start;
   height: max-content;
   border: 3px solid transparent;
-  border-color: ${(props) => props.color + 77};
+  border-color: var(--greyCyan);
   transition: height 1s;
-  content-visibility: auto;
 
   div {
     margin: 4px 4px 4px 4px;
@@ -186,18 +185,16 @@ const CallCard = ({
         {searchField.length && (
           <div>
             <h5>Details</h5>
-            <p>
-              {
-							<p>{
-								callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
-									.map(textSegment => {
-										return textSegment.toLowerCase() === searchField.toLowerCase()
-											? <span className="highlight">{textSegment}</span>
-											: textSegment;
-									})
-							}</p>
-              }
-            </p>
+            {
+              <p>{
+                callAttributes?.summary.split(new RegExp(`(${searchField})`, 'gi'))
+                  .map((textSegment, i) => {
+                    return textSegment.toLowerCase() === searchField.toLowerCase()
+                      ? <span key={i} className="highlight">{textSegment}</span>
+                      : <span key={i}>{textSegment}</span>
+                  })
+              }</p>
+            }
           </div>
         )}
       </div>

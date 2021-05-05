@@ -15,6 +15,9 @@ const GlobalStyles = createGlobalStyle`
   --lightBlack: #001320;
   --disabledInput: rgb(113, 57, 14);
   --brightOrange: rgb(150, 255, 0);
+  --gradient1: #110a21;
+  --gradient2: #1f2138;
+  --gradient: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center fixed;
   }
 
   html {
@@ -30,8 +33,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center
-      fixed;
+
+    background: var(--lightBlack);
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

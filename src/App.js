@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import TotalLineGraph from "./Components/TotalLineGraph/TotalLineGraph";
 import DoughnutGraphUniqueJobs from "./Components/DoughnutGraph/DoughnutGraphUniqueJobs";
 import ColorLegend from "./Components/ColorLegend/ColorLegend";
-import StartEndDates from "./Components/StartEndDates/StartEndDates";
 import SearchBox from "./Components/SearchBox/SearchBox";
-import ClassificationPicker from "./Components/ClassificationPicker/ClassificationPicker";
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
 import handleFetch from "./utils/HandleFetch";
@@ -20,25 +18,31 @@ import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
 import GraphViewGrid from "./Components/LayoutComponents/GraphViewGrid";
 import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 import MultiSelect from "./Components/MultiSelect/MultiSelect";
+import QueryBuilder from "./Components/QueryBuilder/QueryBuilder";
+import { MenuButtonStyled } from "./Components/ButtonStyled";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
-  const [start, setStart] = useState(createDate(0, -1, 0));
+  const [start, setStart] = useState(createDate(-14, 0, 0));
   const [end, setEnd] = useState(() => new Date().toISOString().slice(0, 10));
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [selectedCompanies, setSelectedCompanies] = useState("All Companies");
   const [companiesOnRecord, setCompaniesOnRecord] = useState();
   const [searchField, setSearchField] = useState("");
-  const [view, setView] = useState("Charts");
+  const [view, setView] = useState("Calls");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [ test, setTest] = useState([]);
+  const [ isOpen, setIsOpen] = useState(true);
+  const [ test, setTest] = useState({});
 
   useEffect(() => {
     setLoading(true);
     handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
-      if (data === 1) return alert("failed to fetch from API");
+      if (data === 1) {
+        setLoading(false);
+        return alert("failed to fetch from API");
+      }
       setCallCardData(data.callCardData);
       setChartData(data.chartData);
       setCompaniesOnRecord(data.companies);
@@ -47,17 +51,11 @@ const ExploreRoute = () => {
   }, [selectedClasses, start, end, selectedCompanies]);
 
   const onButtonSubmit = (event) => {
-    const [start, end] = JSON.parse(event.target.dataset.range);
     if (!validateDateInput(start, end)) return;
-    setStart(start);
-    setEnd(end);
-    setSelectedClasses(JSON.parse(event.target.dataset.classes));
-    setSelectedCompanies(JSON.parse(event.target.dataset.company));
-    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
-  };
 
-  const togglePicker = () => {
-    setPickerIsOpen(!pickerIsOpen);
+    setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
+    setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
+    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
   };
 
   const onToggleView = () => {
@@ -82,43 +80,64 @@ const ExploreRoute = () => {
     [filteredCalls]
   );
 
-  const testFunc = (val) => {
-    setTest(val);
+  const reportMultiSelectState = useCallback(
+    (selectedOptions, options, id) => {
+    setTest((prevState) => ({
+      ...prevState,
+      [id]: {selectedOptions, options}
+    }));
+  }, []);
+
+  const reportDates = (localStart, localEnd) => {
+    setStart(localStart);
+    setEnd(localEnd);
   }
 
-  console.log('test :>> ', test);
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  }
+
   return (
     <>
-      <div style={{width: '100%'}}>
-        <MultiSelect
-          optionsArray={companiesOnRecord}
-          placeholder={'Search companies'}
-          loading={loading}
-          testFunc={testFunc}
-        />
-        <MultiSelect
-          optionsArray={Object.keys(colors)}
-          longOptions={readableClassification}
-          placeholder={'Search classes'} colors={colors}
-          id={"selectClasses"}
-          loading={loading}
-          testFunc={testFunc}
-        />
-      </div>
       <Loader datasets={chartData} loading={loading}>
         <ExploreRouteGrid>
-          <StartEndDates start={start} end={end} company={selectedCompanies} />
-          <ClassificationPicker
-            companiesOnRecord={companiesOnRecord}
+          <QueryBuilder
             onButtonSubmit={onButtonSubmit}
-            onToggleView={onToggleView}
-            togglePicker={togglePicker}
-            view={view}
-            pickerIsOpen={pickerIsOpen}
             start={start}
             end={end}
-          />
-
+            onToggleView={onToggleView}
+            view={view}
+            setStart={setStart}
+            setEnd={setEnd}
+            reportDates={reportDates}
+            isOpen={isOpen}
+            toggleOpen={toggleOpen}
+            >
+          <MultiSelect
+            optionsArray={companiesOnRecord}
+            placeholder={'Search companies'}
+            loading={loading}
+            reportMultiSelectState={reportMultiSelectState}
+            id={'multiSelect_companies'}
+            propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
+            propsOptions={test?.multiSelect_companies?.options}
+            />
+          <MultiSelect
+            optionsArray={Object.keys(colors)}
+            longOptions={readableClassification}
+            placeholder={'Search classes'}
+            colors={colors}
+            loading={loading}
+            reportMultiSelectState={reportMultiSelectState}
+            id={'multiSelect_classes'}
+            propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
+            propsOptions={test?.multiSelect_classes?.options}
+            />
+          </QueryBuilder>
+          <div className="handle" style={{gridColumn: '1 / 3', gridRow: '1 / 1', marginLeft: 'auto', width: '100%', borderBottom: '2px solid var(--greyCyan)', display: 'flex', alignItems: 'center', color: 'var(--greyCyan)'}}>
+            <h3 style={{margin: '0 0 0 10px', padding: '0'}}>Electrical Trades Job Calls Database</h3>
+            <MenuButtonStyled onClick={toggleOpen}>{isOpen ? '×' : '☰'}</MenuButtonStyled>
+          </div>
           {view === "Charts" && (
             <GraphViewGrid>
               <GraphViewSubGrid>

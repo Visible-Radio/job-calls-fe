@@ -3,6 +3,7 @@
   background-color: var(--slate);
   border-radius: 5px;
   padding: 15px;
+  margin: 0;
 }
 
 .LineGraph {
@@ -25,14 +26,15 @@
   background: none;
   max-width: 280px;
   max-height: 280px;
-  margin-top: 20px;
+  margin-top: 0;
+  padding: 0;
 }
 
 #grandTotal,
 #grandTotal2 {
   position: absolute;
   top: 48%;
-  color: var(--greenText);
+  color: var(--greyCyan);
   margin: 0;
   line-height: 90%;
   text-align: center;

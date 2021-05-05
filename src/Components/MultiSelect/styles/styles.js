@@ -7,7 +7,7 @@ export const MultiSelectOuterStyles = styled.div`
   width: 100%;
   max-height: 100vh;
   border: 2px solid var(--greyCyan);
-  background-color: transparent;
+  background-color: var(--lightBlack);;
   padding: 0;
   border-radius: 1rem;
 
@@ -61,10 +61,10 @@ export const MultiSelectOuterStyles = styled.div`
     height: 1.5rem;
     margin-right: 4px;
     font-size: 1.5rem;
-    border: 1px solid var(--greyCyan);;
+    border: 1px solid var(--greyCyan);
     border-radius: 1rem;
     color: var(--greyCyan);
-    background-color: transparent;
+    background-color: var(--gradient2);
     transition: background-color 0.4s;
 
     &:hover {
@@ -104,7 +104,7 @@ export const OutterWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-//background-color: var(--greyCyan);
+
 export const TagStyles = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -140,7 +140,6 @@ export const TagStyles = styled.div`
     &:hover {
       cursor: pointer;
       background-color: black;
-      //color: var(--greyCyan);
       color: ${props => props.color || 'var(--greyCyan)'};
     }
   }
