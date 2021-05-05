@@ -2,8 +2,8 @@ const handleFetch = async (selectedClasses, start, end, selectedCompanies) => {
   const remote = 'https://evening-plateau-74700.herokuapp.com';
   // const remote = 'http://127.0.0.1:4000';
 
-  if (Array.isArray(selectedCompanies) && selectedCompanies.length > 8) {
-    alert('Please Select Fewer than 8 companies')
+  if (Array.isArray(selectedCompanies) && selectedCompanies.length > 32) {
+    alert('Please select no more than 32 companies')
     return 1;
   }
 
