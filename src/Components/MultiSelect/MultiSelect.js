@@ -4,9 +4,13 @@ import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
 export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, reportMultiSelectState, id, propsSelectedOptions, propsOptions }) {
+  // used for focusing text input when any part of the component is clicked
   const textInputRef = useRef(null);
+  // used to closing the list when click occurs outside the component
   const outerRef = useRef(null);
 
+  // instead of keeping two arrays...mabye keep one
+  // each option could be an object with a property of 'selected' that gets toggled on and off
   const [ options, setOptions ] = useState(propsOptions || optionsArray);
   const [ selectedOptions, setSelectedOptions ] = useState(propsSelectedOptions || []);
   const [ searchString, setSearchString ] = useState('');
@@ -46,13 +50,17 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const focusChildOnParentClick = (event) => {
-    if (event.target.classList.contains('noFocus')) return;
-    textInputRef.current.focus();
+    // if (event.target.classList.contains('noFocus')) return;
+    // textInputRef.current.focus();
   }
 
   const handleTextInputChange = (event) => {
     setSearchString(event.target.value);
-    if (event.target.value.length !== 0) setListIsOpen(true);
+    if (event.target.value !== '') {
+      setListIsOpen(true);
+    } else {
+      setListIsOpen(false);
+    }
   }
 
   const addItem = (event) => {
@@ -83,7 +91,13 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const toggleList = (event) => {
-    setListIsOpen(!listIsOpen);
+    // if the user has text in the input and is trying to see the list again
+    // make is so clicking the down arrow clears the input and shows all options
+    if (searchString !== '') {
+      setSearchString('');
+    } else {
+      setListIsOpen(!listIsOpen);
+    }
   }
 
   const filtered = options?.filter(option => option.toLowerCase().includes(searchString.toLowerCase()));
@@ -116,6 +130,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
         addItem={addItem}
         listIsOpen={listIsOpen}
         searchString={searchString}
+        textInputRef={textInputRef}
       />
     </OutterWrapper>
   )

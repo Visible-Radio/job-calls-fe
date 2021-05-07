@@ -17,7 +17,6 @@ const QueryBuilderStyles = styled.div`
   transform: ${props => props.isOpen ? 'translateX(0);' : 'translateX(-100%)'};
   transition: max-height 0.3s ease-in-out, transform 0.3s ease-in-out;
 
-
   .datePicker {
     background-color: var(--lightBlack);
     color: var(--greyCyan);
@@ -30,7 +29,6 @@ const QueryBuilderStyles = styled.div`
     transition: background-color 0.4s;
     margin: 4px;
     width: 160px;
-
 
     &:hover {
       cursor: pointer;
