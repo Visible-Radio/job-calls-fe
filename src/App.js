@@ -52,7 +52,6 @@ const ExploreRoute = () => {
 
   const onButtonSubmit = (event) => {
     if (!validateDateInput(start, end)) return;
-
     setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
     setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
     if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);

@@ -5,8 +5,8 @@ export default function List({ filtered, addItem, listIsOpen, colors, longOption
 
   return (
     <ListStyles listIsOpen={listIsOpen}>
-      {
-        filtered?.map((option, i) => {
+      { filtered.length > 0
+        ? filtered?.map((option, i) => {
           return (
             <ListItem
               color={colors ? colors?.hasOwnProperty(option) ? colors[option] : null : null}
@@ -14,10 +14,15 @@ export default function List({ filtered, addItem, listIsOpen, colors, longOption
               key={i + option}
               addItem={addItem}
               option={option}
-            >
+              >
             </ListItem>
           )
         })
+        : <ListItem
+            addItem={null}
+            option={'No items match filter terms'}
+            >
+          </ListItem>
       }
     </ListStyles>
   )
