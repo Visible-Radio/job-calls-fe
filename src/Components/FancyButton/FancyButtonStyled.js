@@ -42,6 +42,7 @@ export const FancyButton = styled.button`
   }
 
   &:hover {
+    cursor: pointer;
     filter: brightness(1.5);
     background: none;
   }

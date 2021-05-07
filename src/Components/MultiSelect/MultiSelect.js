@@ -50,8 +50,8 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   }
 
   const focusChildOnParentClick = (event) => {
-    if (event.target.classList.contains('noFocus')) return;
-    textInputRef.current.focus();
+    // if (event.target.classList.contains('noFocus')) return;
+    // textInputRef.current.focus();
   }
 
   const handleTextInputChange = (event) => {
@@ -130,6 +130,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
         addItem={addItem}
         listIsOpen={listIsOpen}
         searchString={searchString}
+        textInputRef={textInputRef}
       />
     </OutterWrapper>
   )
