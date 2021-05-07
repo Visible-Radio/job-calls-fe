@@ -112,26 +112,26 @@ const ExploreRoute = () => {
             isOpen={isOpen}
             toggleOpen={toggleOpen}
             >
-          <MultiSelect
-            optionsArray={companiesOnRecord}
-            placeholder={'Search companies'}
-            loading={loading}
-            reportMultiSelectState={reportMultiSelectState}
-            id={'multiSelect_companies'}
-            propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
-            propsOptions={test?.multiSelect_companies?.options}
-            />
-          <MultiSelect
-            optionsArray={Object.keys(colors)}
-            longOptions={readableClassification}
-            placeholder={'Search classes'}
-            colors={colors}
-            loading={loading}
-            reportMultiSelectState={reportMultiSelectState}
-            id={'multiSelect_classes'}
-            propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
-            propsOptions={test?.multiSelect_classes?.options}
-            />
+            <MultiSelect
+              optionsArray={companiesOnRecord}
+              placeholder={'Search companies'}
+              loading={loading}
+              reportMultiSelectState={reportMultiSelectState}
+              id={'multiSelect_companies'}
+              propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
+              propsOptions={test?.multiSelect_companies?.options}
+              />
+            <MultiSelect
+              optionsArray={Object.keys(colors)}
+              longOptions={readableClassification}
+              placeholder={'Search classes'}
+              colors={colors}
+              loading={loading}
+              reportMultiSelectState={reportMultiSelectState}
+              id={'multiSelect_classes'}
+              propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
+              propsOptions={test?.multiSelect_classes?.options}
+              />
           </QueryBuilder>
           <div className="handle" style={{gridColumn: '1 / 3', gridRow: '1 / 1', marginLeft: 'auto', width: '100%', borderBottom: '2px solid var(--greyCyan)', display: 'flex', alignItems: 'center', color: 'var(--greyCyan)'}}>
             <h3 style={{margin: '0 0 0 10px', padding: '0'}}>Electrical Trades Job Calls Database</h3>
