@@ -20,6 +20,7 @@ import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 import MultiSelect from "./Components/MultiSelect/MultiSelect";
 import QueryBuilder from "./Components/QueryBuilder/QueryBuilder";
 import { MenuButtonStyled } from "./Components/ButtonStyled";
+import fetchCompanies from "./utils/fetchCompanies";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
@@ -49,6 +50,16 @@ const ExploreRoute = () => {
       setLoading(false);
     });
   }, [selectedClasses, start, end, selectedCompanies]);
+
+  // useEffect(() => {
+  //   if (!loading) setLoading(true);
+  //   fetchCompanies().then(data => {
+  //     if (data === 1) {
+  //       setLoading(false);
+  //       return alert("failed to fetch company List from API");
+  //     }
+  //   })
+  // })
 
   const onButtonSubmit = (event) => {
     if (!validateDateInput(start, end)) return;
