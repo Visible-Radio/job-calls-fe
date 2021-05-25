@@ -7,7 +7,8 @@ import ColorLegend from "./Components/ColorLegend/ColorLegend";
 import SearchBox from "./Components/SearchBox/SearchBox";
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
-import handleFetch from "./utils/HandleFetch";
+import fetchCallCardData from "./utils/fetchCallCardData";
+import fetchTotalMemberRequests from "./utils/fetchTotalMemberRequests";
 import { colors, readableClassification } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
@@ -34,32 +35,53 @@ const ExploreRoute = () => {
   const [view, setView] = useState("Calls");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loadingCompanies, setLoadingCompanies] = useState(false);
+  const [loadingChartData, setLoadingChartData] = useState(false);
+  const [loadingCallCardData, setLoadingCallCardData] = useState(false);
   const [ isOpen, setIsOpen] = useState(true);
   const [ test, setTest] = useState({});
 
   useEffect(() => {
-    setLoading(true);
-    handleFetch(selectedClasses, start, end, selectedCompanies).then((data) => {
+    if (!companiesOnRecord) {
+      setLoadingCompanies(true);
+      fetchCompanies().then(data => {
+        if (data === 1) {
+          setLoading(false);
+          return alert("failed to fetch company List from API");
+        }
+        setCompaniesOnRecord(data);
+        setLoadingCompanies(false);
+      });
+    }
+  },[]);
+
+  useEffect(() => {
+    setLoadingCallCardData(true);
+    fetchCallCardData(selectedClasses, start, end, selectedCompanies)
+      .then(data => {
       if (data === 1) {
-        setLoading(false);
-        return alert("failed to fetch from API");
+        // setLoading(false);
+        return alert("failed to fetch call card data from API");
       }
-      setCallCardData(data.callCardData);
-      setChartData(data.chartData);
-      setCompaniesOnRecord(data.companies);
-      setLoading(false);
+      setCallCardData(data);
+      setLoadingCallCardData(false);
     });
   }, [selectedClasses, start, end, selectedCompanies]);
 
-  // useEffect(() => {
-  //   if (!loading) setLoading(true);
-  //   fetchCompanies().then(data => {
-  //     if (data === 1) {
-  //       setLoading(false);
-  //       return alert("failed to fetch company List from API");
-  //     }
-  //   })
-  // })
+  useEffect(() => {
+    if (view === 'Charts') {
+      setLoadingChartData(true);
+      fetchTotalMemberRequests(selectedClasses, start, end, selectedCompanies)
+        .then(data => {
+        if (data === 1) {
+          // setLoading(false);
+          return alert("failed to fetch total member requests API");
+        }
+        setChartData(data);
+        setLoadingChartData(false);
+        });
+      }
+  }, [selectedClasses, start, end, selectedCompanies, view]);
 
   const onButtonSubmit = (event) => {
     if (!validateDateInput(start, end)) return;
@@ -109,7 +131,7 @@ const ExploreRoute = () => {
 
   return (
     <>
-      <Loader datasets={chartData} loading={loading}>
+      <Loader datasets={chartData} loading={loadingCallCardData || loadingCallCardData || loadingChartData}>
         <ExploreRouteGrid>
           <QueryBuilder
             onButtonSubmit={onButtonSubmit}
