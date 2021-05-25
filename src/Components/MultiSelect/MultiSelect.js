@@ -22,7 +22,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
     window.addEventListener("mousedown", handleClick);
     return () => {
       window.removeEventListener('keydown', removeItemByKeyPress);
-      window.addEventListener("mousedown", handleClick);
+      window.removeEventListener("mousedown", handleClick);
     }
   });
 
