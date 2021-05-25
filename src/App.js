@@ -34,7 +34,6 @@ const ExploreRoute = () => {
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Calls");
   const [pickerIsOpen, setPickerIsOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [loadingCompanies, setLoadingCompanies] = useState(false);
   const [loadingChartData, setLoadingChartData] = useState(false);
   const [loadingCallCardData, setLoadingCallCardData] = useState(false);
@@ -46,7 +45,7 @@ const ExploreRoute = () => {
       setLoadingCompanies(true);
       fetchCompanies().then(data => {
         if (data === 1) {
-          setLoading(false);
+          setLoadingCompanies(false);
           return alert("failed to fetch company List from API");
         }
         setCompaniesOnRecord(data);
@@ -60,7 +59,7 @@ const ExploreRoute = () => {
     fetchCallCardData(selectedClasses, start, end, selectedCompanies)
       .then(data => {
       if (data === 1) {
-        // setLoading(false);
+        setLoadingCallCardData(false);
         return alert("failed to fetch call card data from API");
       }
       setCallCardData(data);
@@ -74,7 +73,7 @@ const ExploreRoute = () => {
       fetchTotalMemberRequests(selectedClasses, start, end, selectedCompanies)
         .then(data => {
         if (data === 1) {
-          // setLoading(false);
+          setLoadingChartData(false);
           return alert("failed to fetch total member requests API");
         }
         setChartData(data);
@@ -148,7 +147,7 @@ const ExploreRoute = () => {
             <MultiSelect
               optionsArray={companiesOnRecord}
               placeholder={'Search companies'}
-              loading={loading}
+              loading={loadingCompanies}
               reportMultiSelectState={reportMultiSelectState}
               id={'multiSelect_companies'}
               propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
@@ -159,7 +158,7 @@ const ExploreRoute = () => {
               longOptions={readableClassification}
               placeholder={'Search classes'}
               colors={colors}
-              loading={loading}
+              loading={loadingCompanies}
               reportMultiSelectState={reportMultiSelectState}
               id={'multiSelect_classes'}
               propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
