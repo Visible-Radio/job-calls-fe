@@ -131,7 +131,7 @@ const ExploreRoute = () => {
 
   return (
     <>
-      <Loader datasets={chartData} loading={loadingCallCardData || loadingCallCardData || loadingChartData}>
+      <Loader datasets={chartData} loading={loadingCompanies || loadingCallCardData || loadingChartData}>
         <ExploreRouteGrid>
           <QueryBuilder
             onButtonSubmit={onButtonSubmit}
