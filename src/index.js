@@ -18,6 +18,14 @@ const GlobalStyles = createGlobalStyle`
   --gradient1: #110a21;
   --gradient2: #1f2138;
   --gradient: linear-gradient(180deg, #110a21, #1f2138) no-repeat center center fixed;
+  // brought these in with the pagination controls
+  --pad: 2rem;
+  --borad: 2rem;
+  --maxWidth: 1200px;
+  --fz: 1rem;
+  --buttonWidth: 100px;
+  --buttonMargin: 0.5rem;
+  --textInputWidth: 200px;
   }
 
   html {
@@ -41,6 +49,24 @@ const GlobalStyles = createGlobalStyle`
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  // brought these in with pagination controls
+  // should make more use of CSS vars for consistency & responsiveness
+  @media screen and (max-width: 500px) {
+    :root {
+      --fz: 0.75rem;
+      --pad: 1rem;
+      --buttonWidth: 70px;
+      --textInputWidth: 170px;
+    }
+  }
+  @media screen and (max-width: 625px) {
+    :root {
+      --buttonMargin: 0rem 0rem 0.375rem 0rem;
+      --orderAssignEnd: 1;
+      --assignWidth100: 100%;
+    }
   }
 
 `;
