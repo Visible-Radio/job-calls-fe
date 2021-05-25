@@ -43,4 +43,4 @@ const fetchCallCardData = async (selectedClasses, start, end, selectedCompanies)
   }
 }
 
-export default handleFetch;
+export default fetchCallCardData;
