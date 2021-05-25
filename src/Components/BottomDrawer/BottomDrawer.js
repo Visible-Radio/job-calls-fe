@@ -1,52 +1,59 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const Drawer = styled.div`
+const DrawerWrapper = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 4;
-
   position: relative;
+  width: 100%;
+
+  @media screen and (max-width: 840px) {
+    grid-column: 1 / 4;
+    grid-row: 4 / 5;
+    border-top: 3px solid var(--magenta);
+  }
+`;
+
+const Drawer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: space-around;
   width: 100%;
-  height: auto;
-  height: 285px;
   height: ${props => props.isOpen ? '285px' : '0px'};
-  padding: 0 5px 5px 5px;
+  overflow: ${props => props.isOpen ? '' : 'hidden'};
 	transition: height 0.5s;
   border-top: none;
 
-  #doughnutHandle {
-    display: none;
-    position: absolute;
-    background-color: var(--magenta);
-    color: var(--brightMagenta);
-    top: -100px;
-    height: 40px;
-    width: 40px;
-    left: 0;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-    z-index: 1;
+  @media screen and (min-width: 841px) {
+    overflow: visible;
+  }
+`;
 
-    &:hover {
-      color: var(--magenta);
-      background-color: var(--brightMagenta);
-    }
+const DoughnutHandleStyles = styled.div`
+  display: none;
+  position: absolute;
+  background-color: var(--magenta);
+  color: var(--brightMagenta);
+  padding: 0;
+  top: -42px;
+  height: 40px;
+  width: 40px;
+  left: calc(100% - 42px);
+  border-radius: 50%;
+  transition: background-color, transform 0.2s;
+  ${props => props.isOpen ? '' : 'transform: translateY(-200%);'}
+  z-index: 3;
+
+  &:hover {
+    color: var(--magenta);
+    background-color: var(--brightMagenta);
   }
 
   @media screen and (max-width: 840px) {
-    grid-column: 1 / 4;
-    grid-row: 4 / 5;
-
-    border-top: 3px solid var(--magenta);
-
-    #doughnutHandle {
-      display: inline-block;
-      left: 90%;
-    }
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
 `;
 
@@ -58,11 +65,13 @@ export default function BottomDrawer({ children }) {
   }
 
   return (
-    <Drawer isOpen={isOpen}>
-      <button id="doughnutHandle" onClick={handleClick}>
+    <DrawerWrapper>
+      <Drawer isOpen={isOpen}>
+        {children}
+      </Drawer>
+      <DoughnutHandleStyles id="doughnutHandle" onClick={handleClick} isOpen={isOpen}>
       ☰
-      </button>
-      {children}
-    </Drawer>
+      </DoughnutHandleStyles>
+    </DrawerWrapper>
   )
 }

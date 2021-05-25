@@ -83,6 +83,24 @@ const CallCardStyled = styled.div`
     border-radius: 1rem;
     color: black;
   }
+
+  div.headline {
+    display: flex;
+    width: 100%;
+    flex-direction: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    padding: 0 1rem 0 1rem;
+    margin: 0;
+
+    h2, h4 {
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+  }
 `;
 
 const CallCard = ({
@@ -112,7 +130,12 @@ const CallCard = ({
         <div className="classShield">
           <h3>{callAttributes?.member_class}</h3>
         </div>
-        <h2>{callAttributes?.company}</h2>
+        <div className="headline">
+          <h2>{callAttributes?.company}</h2>
+          {!isOpen &&
+            <h4>{firstAppeared.split(',').join(', ')}</h4>
+          }
+        </div>
         <FancyButton
           color={color}
           isOpen={isOpen}

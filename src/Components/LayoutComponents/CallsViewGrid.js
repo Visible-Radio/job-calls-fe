@@ -11,6 +11,7 @@ const CallsViewStyles = styled.div`
   align-content: start;
   grid-template-columns: 280px 1fr;
   grid-template-rows: auto 1fr;
+  grid-auto-rows: auto;
   align-items: start;
   overflow-y: hidden;
 

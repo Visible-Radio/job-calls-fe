@@ -52,7 +52,7 @@ const ExploreRoute = () => {
         setLoadingCompanies(false);
       });
     }
-  },[]);
+  },[companiesOnRecord]);
 
   useEffect(() => {
     setLoadingCallCardData(true);

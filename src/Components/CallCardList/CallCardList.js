@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import CallCard from "../CallCard/CallCard";
+import PageNav from "../PageNav/PageNav";
 
 const CallCardListStyles = styled.div`
   grid-column: 2 / -1;
@@ -16,17 +17,54 @@ const CallCardListStyles = styled.div`
     grid-column: 1 / 4;
     grid-row: 2;
   }
-
 `;
 
 const CallCardList = ({ colors, callsById, searchField }) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [resultsPerPage] = useState(10);
+  const [pageCount, setPageCount] = useState(null);
+  const firstIndex = currentPage * resultsPerPage;
+  const lastIndex = firstIndex + resultsPerPage;
+
+  const allCalls = Object.values(callsById).reverse();
+  const topRef = useRef(null);
+
+  useEffect(() => {
+    setPageCount(Math.ceil(allCalls?.length / resultsPerPage));
+  }, [allCalls, resultsPerPage]);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  },[pageCount]);
+
+  useEffect(() => {
+    topRef.current.scrollIntoView({behavior: "smooth", block: "start"});
+  },[currentPage]);
+
+  const changePage = (event) => {
+    const direction = Number(event.target.value);
+    if (currentPage < pageCount - 1 && direction === 1) {
+      setCurrentPage(currentPage + direction);
+    } else if ( currentPage > 0 && direction === -1 ) {
+      setCurrentPage(currentPage + direction);
+    }
+  }
+
+  const pageJump = (event) => {
+    const destination = event.target.value === 'start' ? 0 : pageCount - 1;
+    setCurrentPage(destination);
+  }
+
+  const page = allCalls.slice(firstIndex, lastIndex);
+
   return (
     <CallCardListStyles>
-      {Object.values(callsById)?.map(({ instances, uniqueJobsForLifeCycle, members_needed }, i) => {
+      <div ref={topRef}></div>
+      {page?.map(({ instances, uniqueJobsForLifeCycle, members_needed }, i) => {
         return (
           <CallCard
             index={i}
-						instanceCount={instances.length}
+            instanceCount={instances.length}
             uniqueJobsForLifeCycle={uniqueJobsForLifeCycle}
             instances={instances}
             members_needed={members_needed}
@@ -36,6 +74,12 @@ const CallCardList = ({ colors, callsById, searchField }) => {
           />
         );
       })}
+      <PageNav
+        pageJump={pageJump}
+        changePage={changePage}
+        pageCount={pageCount}
+        currentPage={currentPage}
+      ></PageNav>
     </CallCardListStyles>
   );
 };
