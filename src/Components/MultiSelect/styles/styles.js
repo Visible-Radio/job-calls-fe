@@ -97,6 +97,28 @@ export const MultiSelectOuterStyles = styled.div`
 `;
 
 export const OutterWrapper = styled.div`
+  /* Works on Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: black transparent;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 20px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--greyCyan);
+    border-radius: 20px;
+    border: 1px solid black;
+  }
+
   display: flex;
   flex-direction: column;
   position: relative;
