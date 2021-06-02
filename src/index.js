@@ -40,6 +40,28 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: inherit;
   }
 
+  /* Works on Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brightOrange) black;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 20px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--greyCyan);
+    border-radius: 20px;
+    border: 1px solid black;
+  }
+
   body {
 
     background: var(--lightBlack);
