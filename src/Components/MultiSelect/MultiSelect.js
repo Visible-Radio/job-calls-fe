@@ -1,24 +1,35 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import List from "./List";
-import { MultiSelectOuterStyles, OutterWrapper } from "./styles/styles";
+import { MultiSelectOuterStyles, OuterWrapper } from "./styles/styles";
 import Tag from "./Tag";
 
-export default function MultiSelect({ optionsArray, longOptions, colors, placeholder, reportMultiSelectState, id, propsSelectedOptions, propsOptions }) {
+export default function MultiSelect({ optionsArray, selectedOptionsArray=[], longOptions, itemColors, placeholder, onSelectionChange, id, loading}) {
+
   // used for focusing text input when any part of the component is clicked
   const textInputRef = useRef(null);
   // used to closing the list when click occurs outside the component
   const outerRef = useRef(null);
 
-  // instead of keeping two arrays...mabye keep one
-  // each option could be an object with a property of 'selected' that gets toggled on and off
-  const [ options, setOptions ] = useState(propsOptions || optionsArray);
-  const [ selectedOptions, setSelectedOptions ] = useState(propsSelectedOptions || []);
+  const getInitialOptions = useCallback(() => {
+    setOptions(optionsArray.filter(option => !selectedOptionsArray.includes(option)));
+    setSelectedOptions(selectedOptionsArray);
+  }, [optionsArray, selectedOptionsArray]);
+
+  const [ options, setOptions ] = useState([]);
+  const [ selectedOptions, setSelectedOptions ] = useState([]);
   const [ searchString, setSearchString ] = useState('');
   const [ listIsOpen, setListIsOpen ] = useState(false);
-  const [ loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      getInitialOptions();
+    }
+  },[loading, getInitialOptions])
 
   useEffect(()=> {
+    // event listener for deleting selections with backspace
     window.addEventListener('keydown', removeItemByKeyPress);
+    // event listener for closing list on outer click
     window.addEventListener("mousedown", handleClick);
     return () => {
       window.removeEventListener('keydown', removeItemByKeyPress);
@@ -27,31 +38,14 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   });
 
   useEffect(() => {
-    // check that list of options from async source has arrived
-    if (optionsArray && optionsArray.length) setLoaded(true);
-  }, [optionsArray])
-
-  useEffect(() => {
-    // only populate options from master async source once
-    if (loaded && optionsArray)  {
-      setOptions(optionsArray)
-    }
-  }, [loaded])
-
-  useEffect(()=> {
-    // report state to parent when local state changes
-    reportMultiSelectState(selectedOptions, options, id);
-  }, [selectedOptions, options, reportMultiSelectState, id ])
+    // this function must get passed in in order to communicate with parent compontent
+    onSelectionChange({id: id, selection: selectedOptions});
+  },[selectedOptions, id, onSelectionChange])
 
   const handleClick = (event) => {
     // close list on click outside of component
     if (outerRef.current && outerRef.current.contains(event.target)) return;
     setListIsOpen(false);
-  }
-
-  const focusChildOnParentClick = (event) => {
-    // if (event.target.classList.contains('noFocus')) return;
-    // textInputRef.current.focus();
   }
 
   const handleTextInputChange = (event) => {
@@ -66,12 +60,12 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   const addItem = (event) => {
     const value = event.target.dataset.value;
     setSelectedOptions([...selectedOptions, value])
-    setOptions([...options].filter(option => option !== value));
+    setOptions([...options].filter(option => option !== value).sort());
   }
 
   const removeItem = (event) => {
     setSearchString('');
-    setOptions([...options, event.target.value]);
+    setOptions([...options, event.target.value].sort());
     setSelectedOptions([...selectedOptions].filter(option => option !== event.target.value));
   }
 
@@ -103,8 +97,8 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
   const filtered = options?.filter(option => option.toLowerCase().includes(searchString.toLowerCase()));
 
   return (
-    <OutterWrapper ref={outerRef}>
-      <MultiSelectOuterStyles onClick={focusChildOnParentClick} selectedOptions={selectedOptions}>
+    <OuterWrapper ref={outerRef}>
+      <MultiSelectOuterStyles selectedOptions={selectedOptions}>
         <div className="tagWrapper">
         {
           selectedOptions.map((option, i) => {
@@ -112,7 +106,7 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
               key={i+option}
               option={option}
               removeItem={removeItem}
-              color={colors ? colors?.hasOwnProperty(option) ? colors[option] : null : null}
+              itemColor={itemColors ? itemColors?.hasOwnProperty(option) ? itemColors[option] : null : null}
             />
           })
         }
@@ -123,15 +117,15 @@ export default function MultiSelect({ optionsArray, longOptions, colors, placeho
           <button className="control noFocus" onClick={toggleList}>{listIsOpen ? '▲' : '▼'}</button>
         </div>
       </MultiSelectOuterStyles>
-      <List
-        colors={colors}
-        filtered={filtered}
-        longOptions={longOptions}
-        addItem={addItem}
-        listIsOpen={listIsOpen}
-        searchString={searchString}
-        textInputRef={textInputRef}
-      />
-    </OutterWrapper>
+        <List
+          itemColors={itemColors}
+          filtered={filtered}
+          longOptions={longOptions}
+          addItem={addItem}
+          listIsOpen={listIsOpen}
+          searchString={searchString}
+          textInputRef={textInputRef}
+        />
+    </OuterWrapper>
   )
 }

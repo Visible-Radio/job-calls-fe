@@ -7,8 +7,6 @@ import ColorLegend from "./Components/ColorLegend/ColorLegend";
 import SearchBox from "./Components/SearchBox/SearchBox";
 import CallCardList from "./Components/CallCardList/CallCardList";
 import Loader from "./Components/Loader/Loader";
-import fetchCallCardData from "./utils/fetchCallCardData";
-import fetchTotalMemberRequests from "./utils/fetchTotalMemberRequests";
 import { colors, readableClassification } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
@@ -21,84 +19,224 @@ import GraphViewSubGrid from "./Components/LayoutComponents/GraphViewSubGrid";
 import MultiSelect from "./Components/MultiSelect/MultiSelect";
 import QueryBuilder from "./Components/QueryBuilder/QueryBuilder";
 import { MenuButtonStyled } from "./Components/ButtonStyled";
-import fetchCompanies from "./utils/fetchCompanies";
 
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
-  const [start, setStart] = useState(createDate(-14, 0, 0));
+  const [start, setStart] = useState(
+    createDate(-14, 0, 0).toISOString().slice(0, 10)
+  );
   const [end, setEnd] = useState(() => new Date().toISOString().slice(0, 10));
-  const [selectedClasses, setSelectedClasses] = useState([]);
-  const [selectedCompanies, setSelectedCompanies] = useState("All Companies");
-  const [companiesOnRecord, setCompaniesOnRecord] = useState();
+  const [companiesOnRecord, setCompaniesOnRecord] = useState([]);
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Calls");
-  const [pickerIsOpen, setPickerIsOpen] = useState(true);
-  const [loadingCompanies, setLoadingCompanies] = useState(false);
-  const [loadingChartData, setLoadingChartData] = useState(false);
-  const [loadingCallCardData, setLoadingCallCardData] = useState(false);
-  const [ isOpen, setIsOpen] = useState(true);
-  const [ test, setTest] = useState({});
+  const [isOpen, setIsOpen] = useState(true);
+  const [loading, setLoading] = useState({});
+  const [multiSelectSelections, setMultiSelectSelections] = useState({
+    multiSelectCompanies: [],
+    multiSelectClasses: [],
+  });
+
+  const UseLoading = (loadingProperty, isLoading) => {
+  // keep one loading object with properties for whatever is loading
+  setLoading((prevState) => ({
+    ...prevState,
+    [loadingProperty]: isLoading,
+  }));
+  };
 
   useEffect(() => {
-    if (!companiesOnRecord) {
-      setLoadingCompanies(true);
-      fetchCompanies().then(data => {
-        if (data === 1) {
-          setLoadingCompanies(false);
-          return alert("failed to fetch company List from API");
-        }
-        setCompaniesOnRecord(data);
-        setLoadingCompanies(false);
-      });
-    }
-  },[companiesOnRecord]);
-
-  useEffect(() => {
-    setLoadingCallCardData(true);
-    fetchCallCardData(selectedClasses, start, end, selectedCompanies)
-      .then(data => {
-      if (data === 1) {
-        setLoadingCallCardData(false);
-        return alert("failed to fetch call card data from API");
-      }
-      setCallCardData(data);
-      setLoadingCallCardData(false);
+    // get the complete list of companies from db
+    getCompanies();
+    // set the initial selections for our multi select component
+    setMultiSelectSelections({
+      multiSelectCompanies: [],
+      multiSelectClasses: [],
     });
-  }, [selectedClasses, start, end, selectedCompanies]);
+    // get the initial job calls, empty arrays = all companies, all classes
+    getJobCalls(start, end, [], []);
+  }, []);
 
-  useEffect(() => {
-    if (view === 'Charts') {
-      setLoadingChartData(true);
-      fetchTotalMemberRequests(selectedClasses, start, end, selectedCompanies)
-        .then(data => {
-        if (data === 1) {
-          setLoadingChartData(false);
-          return alert("failed to fetch total member requests API");
-        }
-        setChartData(data);
-        setLoadingChartData(false);
-        });
+  const getCompanies = async () => {
+    UseLoading("companies", true);
+    const response = await fetch("http://localhost:4000/API/companies")
+      .then((res) => res.json())
+      .catch((e) => console.error(e.message));
+    setCompaniesOnRecord(response);
+    UseLoading("companies", false);
+  };
+
+  const getJobCalls = async (
+    startDate,
+    endDate,
+    multiSelectCompanies,
+    multiSelectClasses
+  ) => {
+    if (
+      Array.isArray(multiSelectCompanies) &&
+      multiSelectCompanies.length > 32
+    ) {
+      alert("Please select no more than 32 companies");
+      return;
+    }
+
+    const url = "http://localhost:4000/API";
+    const body = {
+      start: startDate,
+      end: endDate,
+    };
+
+    if (multiSelectClasses?.length > 0) {
+      body.member_class = multiSelectClasses;
+    }
+    if (
+      !multiSelectCompanies.includes("All Companies") &&
+      multiSelectCompanies.length
+    ) {
+      body.company = multiSelectCompanies;
+    }
+
+    UseLoading("jobCalls", true);
+    try {
+      const response = await fetch(url, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const parsedResponse = await response.json();
+      setCallCardData(parsedResponse);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      UseLoading("jobCalls", false);
+    }
+  };
+
+  const getMemberTotals = async (
+    startDate,
+    endDate,
+    multiSelectCompanies,
+    multiSelectClasses
+  ) => {
+
+    if (
+      Array.isArray(multiSelectCompanies) &&
+      multiSelectCompanies.length > 32
+    ) {
+      alert("Please select no more than 32 companies");
+      return;
+    }
+
+    const url = "http://localhost:4000/API/members_needed_byDate/";
+    const body = {
+      start: startDate,
+      end: endDate,
+    };
+
+    if (multiSelectClasses?.length > 0) {
+      body.member_class = multiSelectClasses;
+    }
+    if (
+      !multiSelectCompanies.includes("All Companies") &&
+      multiSelectCompanies.length
+    ) {
+      body.company = multiSelectCompanies;
+    }
+
+    UseLoading("chartData", true);
+    try {
+      const response = await fetch(url, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const parsedResponse = await response.json();
+
+      if (typeof parsedResponse !== "object") {
+        throw parsedResponse;
       }
-  }, [selectedClasses, start, end, selectedCompanies, view]);
+      // massage the data for the charts view
+      const chartData = prepareDatasets(parsedResponse);
+      setChartData(chartData);
 
-  const onButtonSubmit = (event) => {
-    if (!validateDateInput(start, end)) return;
-    setSelectedCompanies(test?.multiSelect_companies?.selectedOptions);
-    setSelectedClasses(test?.multiSelect_classes?.selectedOptions);
-    if (view === "Charts") setTimeout(setPickerIsOpen(!pickerIsOpen), 500);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      UseLoading("chartData", false);
+    }
+
+    function prepareDatasets(response) {
+      const keys = Object.keys(response[0]);
+      const datasets = {};
+      keys.forEach((key) => (datasets[key] = []));
+      response.forEach((obj) => {
+        for (let key in obj) {
+          datasets[key].push(obj[key]);
+        }
+      });
+      return datasets;
+    };
+  };
+
+  const toggleOpen = () => {
+    // toggle the query builder
+    setIsOpen(!isOpen);
   };
 
   const onToggleView = () => {
+    // toggle between call sheet view and charts view
+    if (view === "Calls") {
+      getMemberTotals(
+        start,
+        end,
+        multiSelectSelections.multiSelectCompanies,
+        multiSelectSelections.multiSelectClasses
+      );
+    }
     setView(view === "Charts" ? "Calls" : "Charts");
     setSearchField("");
   };
 
   const onSearchChange = (event) => {
+    // filter terms for call sheet details search
     setSearchField(event.target.value);
   };
 
+  const onSelectionChange = useCallback(({ id, selection }) => {
+    // this needs to get passed in to the multiselect component
+    // so you can set state out here in the parent
+    // inside it is passed an id, and an array of the currently selected options
+    setMultiSelectSelections((prevState) => ({
+      ...prevState,
+      [id]: selection,
+    }));
+  }, []);
+
+  const onButtonSubmit = (event) => {
+    // button to get selected records from db
+    if (!validateDateInput(start, end)) return;
+    getJobCalls(
+      start,
+      end,
+      multiSelectSelections.multiSelectCompanies,
+      multiSelectSelections.multiSelectClasses
+    );
+    if (view === "Charts") {
+      getMemberTotals(
+        start,
+        end,
+        multiSelectSelections.multiSelectCompanies,
+        multiSelectSelections.multiSelectClasses
+      );
+    }
+  };
+
   const filteredCalls = useMemo(
+    // filtering based on text input in call sheet view
     () =>
       callCardData.filter((call) =>
         call.summary.toLowerCase().includes(searchField.toLowerCase())
@@ -107,30 +245,19 @@ const ExploreRoute = () => {
   );
 
   const { uniqueJobsByClassification, callsById, count } = useMemo(
+    // analyze the call sheets to pull out the unique calls based on the union_call_id
+    // determines actual number of jobs created vs total requested members
     () => findUniqueTotals(filteredCalls),
     [filteredCalls]
   );
 
-  const reportMultiSelectState = useCallback(
-    (selectedOptions, options, id) => {
-    setTest((prevState) => ({
-      ...prevState,
-      [id]: {selectedOptions, options}
-    }));
-  }, []);
-
-  const reportDates = (localStart, localEnd) => {
-    setStart(localStart);
-    setEnd(localEnd);
-  }
-
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
-  }
-
+  const { multiSelectClasses, multiSelectCompanies } = multiSelectSelections;
   return (
     <>
-      <Loader datasets={chartData} loading={loadingCompanies || loadingCallCardData || loadingChartData}>
+      <Loader
+        datasets={chartData}
+        loading={Object.values(loading).includes(true)}
+      >
         <ExploreRouteGrid>
           <QueryBuilder
             onButtonSubmit={onButtonSubmit}
@@ -140,34 +267,47 @@ const ExploreRoute = () => {
             view={view}
             setStart={setStart}
             setEnd={setEnd}
-            reportDates={reportDates}
             isOpen={isOpen}
             toggleOpen={toggleOpen}
-            >
+          >
             <MultiSelect
               optionsArray={companiesOnRecord}
-              placeholder={'Search companies'}
-              loading={loadingCompanies}
-              reportMultiSelectState={reportMultiSelectState}
-              id={'multiSelect_companies'}
-              propsSelectedOptions={test?.multiSelect_companies?.selectedOptions}
-              propsOptions={test?.multiSelect_companies?.options}
-              />
+              selectedOptionsArray={multiSelectCompanies}
+              placeholder={"Search companies"}
+              id={"multiSelectCompanies"}
+              onSelectionChange={onSelectionChange}
+              loading={Object.values(loading).includes(true)}
+            />
             <MultiSelect
-              optionsArray={Object.keys(colors)}
+              optionsArray={Object.keys(colors).sort()}
+              itemColors={colors}
               longOptions={readableClassification}
-              placeholder={'Search classes'}
-              colors={colors}
-              loading={loadingCompanies}
-              reportMultiSelectState={reportMultiSelectState}
-              id={'multiSelect_classes'}
-              propsSelectedOptions={test?.multiSelect_classes?.selectedOptions}
-              propsOptions={test?.multiSelect_classes?.options}
-              />
+              selectedOptionsArray={multiSelectClasses}
+              placeholder={"Search classes"}
+              id={"multiSelectClasses"}
+              onSelectionChange={onSelectionChange}
+              loading={Object.values(loading).includes(true)}
+            />
           </QueryBuilder>
-          <div className="handle" style={{gridColumn: '1 / 3', gridRow: '1 / 1', marginLeft: 'auto', width: '100%', borderBottom: '2px solid var(--greyCyan)', display: 'flex', alignItems: 'center', color: 'var(--greyCyan)'}}>
-            <h3 style={{margin: '0 0 0 10px', padding: '0'}}>Electrical Trades Job Calls Database</h3>
-            <MenuButtonStyled onClick={toggleOpen}>{isOpen ? '×' : '☰'}</MenuButtonStyled>
+          <div
+            className="handle"
+            style={{
+              gridColumn: "1 / 3",
+              gridRow: "1 / 1",
+              marginLeft: "auto",
+              width: "100%",
+              borderBottom: "2px solid var(--greyCyan)",
+              display: "flex",
+              alignItems: "center",
+              color: "var(--greyCyan)",
+            }}
+          >
+            <h3 style={{ margin: "0 0 0 10px", padding: "0" }}>
+              Electrical Trades Job Calls Database
+            </h3>
+            <MenuButtonStyled onClick={toggleOpen}>
+              {isOpen ? "×" : "☰"}
+            </MenuButtonStyled>
           </div>
           {view === "Charts" && (
             <GraphViewGrid>
@@ -196,7 +336,11 @@ const ExploreRoute = () => {
                   colors={colors}
                 />
               </BottomDrawer>
-              <CallCardList colors={colors} callsById={callsById} searchField={searchField} />
+              <CallCardList
+                colors={colors}
+                callsById={callsById}
+                searchField={searchField}
+              />
             </CallsViewGrid>
           )}
         </ExploreRouteGrid>

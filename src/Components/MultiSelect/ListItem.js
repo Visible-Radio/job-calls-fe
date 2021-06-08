@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ListItemStyles } from "./styles/ListItemStyles";
 
-export default function ListItem({ filtered, option, addItem, longOption, color, setFocus, focus, index}) {
+export default function ListItem({ filtered, option, addItem, longOption, itemColor, setFocus, focus, index}) {
 const ref = useRef(null);
 const handleClick = (event) => {
   // setting focus to that element when it is selected
@@ -20,7 +20,7 @@ useEffect(() => {
       className="inputItem"
       data-value={option}
       onClick={addItem === null ? null : handleClick}
-      color={color}
+      itemColor={itemColor}
       ref={ref}
       tabIndex={focus ? 0 : -1}
     >
