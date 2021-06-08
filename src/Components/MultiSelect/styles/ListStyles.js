@@ -15,19 +15,6 @@ export const ListStyles = styled.div`
   transition: max-height 0.2s;
   z-index: 2;
 
-  scrollbar-color: black transparent;
-
-  &::-webkit-scrollbar-track {
-    background: var(--lightBlack);
-    border-radius: 20px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--greyCyan);
-    border-radius: 20px;
-    border: 1px solid black;
-  }
-
   &:hover {
     cursor: pointer;
   }
