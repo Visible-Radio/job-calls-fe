@@ -138,8 +138,9 @@ export const TagStyles = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.itemColor || 'var(--uiCol1)'};
-  border-bottom: 1px solid var(--uiCol3);;
-  border-left: 1px solid var(--uiCol3);;
+  border-bottom: 1px solid var(--uiCol3);
+  border-left: 1px solid var(--uiCol3);
+  color: var(--uiCol2);
   font-size: 0.75rem;
   border-radius: 1rem;
   height: auto;

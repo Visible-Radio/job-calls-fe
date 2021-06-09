@@ -40,6 +40,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: inherit;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   /* Works on Firefox */
   * {
     scrollbar-width: thin;
@@ -71,6 +75,7 @@ const GlobalStyles = createGlobalStyle`
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--greyCyan);
   }
 
   // brought these in with pagination controls
