@@ -24,42 +24,38 @@ import { MenuButtonStyled } from "./Components/ButtonStyled";
 const ExploreRoute = () => {
   const [chartData, setChartData] = useState({});
   const [callCardData, setCallCardData] = useState([]);
-  const [start, setStart] = useState(
-    createDate(-14, 0, 0).toISOString().slice(0, 10)
-  );
-  const [end, setEnd] = useState(() => new Date().toISOString().slice(0, 10));
   const [companiesOnRecord, setCompaniesOnRecord] = useState([]);
   const [searchField, setSearchField] = useState("");
   const [view, setView] = useState("Calls");
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState({});
+  const [start, setStart] = useState(createDate(-14, 0, 0).toISOString().slice(0, 10));
+  const [end, setEnd] = useState(() => new Date().toISOString().slice(0, 10));
   const [multiSelectSelections, setMultiSelectSelections] = useState({
     multiSelectCompanies: [],
     multiSelectClasses: [],
   });
 
   const callsURL = "http://localhost:4000/API";
-  const memberTotalsURL = "http://localhost:4000/API/members_needed_byDate/"
+  const memberTotalsURL = "http://localhost:4000/API/members_needed_byDate/";
+  const companiesURL = "http://localhost:4000/API/companies";
 
   const UseLoading = (loadingProperty, isLoading) => {
-  // keep one loading object with properties for whatever is loading
-  setLoading((prevState) => ({
-    ...prevState,
-    [loadingProperty]: isLoading,
-  }));
+    // keep one loading object with properties for whatever is loading
+    setLoading((prevState) => ({
+      ...prevState,
+      [loadingProperty]: isLoading,
+    }));
   };
 
   useEffect(() => {
-    // get the complete list of companies from db
-    getCompanies();
-    // set the initial selections for our multi select component
-    setMultiSelectSelections({
-      multiSelectCompanies: [],
-      multiSelectClasses: [],
-    });
-    // get the initial records
-    onButtonSubmit();
-  }, []);
+    if (companiesOnRecord.length === 0) {
+      // get the complete list of companies from db
+      getCompanies();
+      // get the initial records
+      onButtonSubmit();
+    }
+  });
 
   const toggleOpen = () => {
     // toggle the query builder open/closed
@@ -84,28 +80,32 @@ const ExploreRoute = () => {
   const getCompanies = async () => {
     // get the list of companies from the db
     UseLoading("companies", true);
-    const response = await fetch("http://localhost:4000/API/companies")
+    const response = await fetch(companiesURL)
       .then((res) => res.json())
       .catch((e) => console.error(e.message));
     setCompaniesOnRecord(response);
     UseLoading("companies", false);
   };
 
+  function getBody() {
+    // return a body object for API calls
+    return {
+      start,
+      end,
+      member_class: multiSelectSelections.multiSelectClasses,
+      company: multiSelectSelections.multiSelectCompanies,
+    };
+  }
+
   const onToggleView = async () => {
     // toggle between call sheet view and charts view
 
     if (view === "Calls") {
       // only fetch for charts view when needed since it's a slow request
-      const body = {
-        start,
-        end,
-        member_class: multiSelectSelections.multiSelectClasses,
-        company: multiSelectSelections.multiSelectCompanies
-      }
 
       try {
         UseLoading("chartData", true);
-        const parsedResponse = await getData(memberTotalsURL, {...body});
+        const parsedResponse = await getData(memberTotalsURL, { ...getBody() });
         setChartData(prepareDatasets(parsedResponse));
       } catch (error) {
         setChartData([]);
@@ -122,16 +122,9 @@ const ExploreRoute = () => {
     // button to get selected records from db
     if (!validateDateInput(start, end)) return;
 
-    const body = {
-      start,
-      end,
-      member_class: multiSelectSelections.multiSelectClasses,
-      company: multiSelectSelections.multiSelectCompanies
-    }
-
     try {
       UseLoading("jobCalls", true);
-      setCallCardData(await getData(callsURL, {...body}));
+      setCallCardData(await getData(callsURL, { ...getBody() }));
     } catch (error) {
       setCallCardData([]);
     } finally {
@@ -141,7 +134,7 @@ const ExploreRoute = () => {
     if (view === "Charts") {
       try {
         UseLoading("chartData", true);
-        const parsedResponse = await getData(memberTotalsURL, {...body});
+        const parsedResponse = await getData(memberTotalsURL, { ...getBody() });
         setChartData(prepareDatasets(parsedResponse));
       } catch (error) {
         setChartData([]);

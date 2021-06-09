@@ -1,6 +1,9 @@
+import validateBody from "./validateBody";
+
 export const getData = (url, body) => {
   return new Promise( async(resolve, reject) => {
     // check number of selected companies - back end only allows 32 at a time
+    if(!validateBody(body)) reject([]);
 
     if (body.member_class?.length < 1) {
       delete body.member_class
@@ -17,7 +20,7 @@ export const getData = (url, body) => {
         },
         body: JSON.stringify(body)
       });
-      // const parsedResponse = await response.json();
+      if (response.status !== 200) reject([]);
       resolve(await response.json());
 
     } catch (error) {
