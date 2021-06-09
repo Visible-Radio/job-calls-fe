@@ -11,6 +11,7 @@ import { colors, readableClassification } from "./config";
 import { createDate } from "./utils/createDate";
 import findUniqueTotals from "./utils/findUniqueTotals";
 import validateDateInput from "./utils/validateDateInput";
+import { getData, prepareDatasets } from "./utils/getData";
 import BottomDrawer from "./Components/BottomDrawer/BottomDrawer";
 import CallsViewGrid from "./Components/LayoutComponents/CallsViewGrid";
 import ExploreRouteGrid from "./Components/LayoutComponents/ExploreRouteGrid";
@@ -37,6 +38,9 @@ const ExploreRoute = () => {
     multiSelectClasses: [],
   });
 
+  const callsURL = "http://localhost:4000/API";
+  const memberTotalsURL = "http://localhost:4000/API/members_needed_byDate/"
+
   const UseLoading = (loadingProperty, isLoading) => {
   // keep one loading object with properties for whatever is loading
   setLoading((prevState) => ({
@@ -53,152 +57,13 @@ const ExploreRoute = () => {
       multiSelectCompanies: [],
       multiSelectClasses: [],
     });
-    // get the initial job calls, empty arrays = all companies, all classes
-    getJobCalls(start, end, [], []);
+    // get the initial records
+    onButtonSubmit();
   }, []);
 
-  const getCompanies = async () => {
-    UseLoading("companies", true);
-    const response = await fetch("http://localhost:4000/API/companies")
-      .then((res) => res.json())
-      .catch((e) => console.error(e.message));
-    setCompaniesOnRecord(response);
-    UseLoading("companies", false);
-  };
-
-  const getJobCalls = async (
-    startDate,
-    endDate,
-    multiSelectCompanies,
-    multiSelectClasses
-  ) => {
-    if (
-      Array.isArray(multiSelectCompanies) &&
-      multiSelectCompanies.length > 32
-    ) {
-      alert("Please select no more than 32 companies");
-      return;
-    }
-
-    const url = "http://localhost:4000/API";
-    const body = {
-      start: startDate,
-      end: endDate,
-    };
-
-    if (multiSelectClasses?.length > 0) {
-      body.member_class = multiSelectClasses;
-    }
-    if (
-      !multiSelectCompanies.includes("All Companies") &&
-      multiSelectCompanies.length
-    ) {
-      body.company = multiSelectCompanies;
-    }
-
-    UseLoading("jobCalls", true);
-    try {
-      const response = await fetch(url, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      const parsedResponse = await response.json();
-      setCallCardData(parsedResponse);
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      UseLoading("jobCalls", false);
-    }
-  };
-
-  const getMemberTotals = async (
-    startDate,
-    endDate,
-    multiSelectCompanies,
-    multiSelectClasses
-  ) => {
-
-    if (
-      Array.isArray(multiSelectCompanies) &&
-      multiSelectCompanies.length > 32
-    ) {
-      alert("Please select no more than 32 companies");
-      return;
-    }
-
-    const url = "http://localhost:4000/API/members_needed_byDate/";
-    const body = {
-      start: startDate,
-      end: endDate,
-    };
-
-    if (multiSelectClasses?.length > 0) {
-      body.member_class = multiSelectClasses;
-    }
-    if (
-      !multiSelectCompanies.includes("All Companies") &&
-      multiSelectCompanies.length
-    ) {
-      body.company = multiSelectCompanies;
-    }
-
-    UseLoading("chartData", true);
-    try {
-      const response = await fetch(url, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      const parsedResponse = await response.json();
-
-      if (typeof parsedResponse !== "object") {
-        throw parsedResponse;
-      }
-      // massage the data for the charts view
-      const chartData = prepareDatasets(parsedResponse);
-      setChartData(chartData);
-
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      UseLoading("chartData", false);
-    }
-
-    function prepareDatasets(response) {
-      const keys = Object.keys(response[0]);
-      const datasets = {};
-      keys.forEach((key) => (datasets[key] = []));
-      response.forEach((obj) => {
-        for (let key in obj) {
-          datasets[key].push(obj[key]);
-        }
-      });
-      return datasets;
-    };
-  };
-
   const toggleOpen = () => {
-    // toggle the query builder
+    // toggle the query builder open/closed
     setIsOpen(!isOpen);
-  };
-
-  const onToggleView = () => {
-    // toggle between call sheet view and charts view
-    if (view === "Calls") {
-      getMemberTotals(
-        start,
-        end,
-        multiSelectSelections.multiSelectCompanies,
-        multiSelectSelections.multiSelectClasses
-      );
-    }
-    setView(view === "Charts" ? "Calls" : "Charts");
-    setSearchField("");
   };
 
   const onSearchChange = (event) => {
@@ -216,22 +81,73 @@ const ExploreRoute = () => {
     }));
   }, []);
 
-  const onButtonSubmit = (event) => {
-    // button to get selected records from db
-    if (!validateDateInput(start, end)) return;
-    getJobCalls(
-      start,
-      end,
-      multiSelectSelections.multiSelectCompanies,
-      multiSelectSelections.multiSelectClasses
-    );
-    if (view === "Charts") {
-      getMemberTotals(
+  const getCompanies = async () => {
+    // get the list of companies from the db
+    UseLoading("companies", true);
+    const response = await fetch("http://localhost:4000/API/companies")
+      .then((res) => res.json())
+      .catch((e) => console.error(e.message));
+    setCompaniesOnRecord(response);
+    UseLoading("companies", false);
+  };
+
+  const onToggleView = async () => {
+    // toggle between call sheet view and charts view
+
+    if (view === "Calls") {
+      // only fetch for charts view when needed since it's a slow request
+      const body = {
         start,
         end,
-        multiSelectSelections.multiSelectCompanies,
-        multiSelectSelections.multiSelectClasses
-      );
+        member_class: multiSelectSelections.multiSelectClasses,
+        company: multiSelectSelections.multiSelectCompanies
+      }
+
+      try {
+        UseLoading("chartData", true);
+        const parsedResponse = await getData(memberTotalsURL, {...body});
+        setChartData(prepareDatasets(parsedResponse));
+      } catch (error) {
+        setChartData([]);
+      } finally {
+        UseLoading("chartData", false);
+      }
+    }
+
+    setView(view === "Charts" ? "Calls" : "Charts");
+    setSearchField("");
+  };
+
+  const onButtonSubmit = async (event) => {
+    // button to get selected records from db
+    if (!validateDateInput(start, end)) return;
+
+    const body = {
+      start,
+      end,
+      member_class: multiSelectSelections.multiSelectClasses,
+      company: multiSelectSelections.multiSelectCompanies
+    }
+
+    try {
+      UseLoading("jobCalls", true);
+      setCallCardData(await getData(callsURL, {...body}));
+    } catch (error) {
+      setCallCardData([]);
+    } finally {
+      UseLoading("jobCalls", false);
+    }
+
+    if (view === "Charts") {
+      try {
+        UseLoading("chartData", true);
+        const parsedResponse = await getData(memberTotalsURL, {...body});
+        setChartData(prepareDatasets(parsedResponse));
+      } catch (error) {
+        setChartData([]);
+      } finally {
+        UseLoading("chartData", false);
+      }
     }
   };
 
