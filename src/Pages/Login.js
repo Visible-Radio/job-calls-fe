@@ -67,17 +67,20 @@ const Login = ({ toggleAuth }) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
-      }).then(res => res.json());
+      });
+
+      const parsedResponse = await response.json();
 
       // should get a token back
-      if (response.hasOwnProperty('token')) {
-        localStorage.setItem("token", response.token);
+      if (parsedResponse.hasOwnProperty('token')) {
+        localStorage.setItem("token", parsedResponse.token);
         toggleAuth(true);
       } else {
-        throw new Error(response)
+        throw new Error(response.statusText);
       }
 
     } catch (error) {
+      alert(error.message);
       console.error(error.message);
     }
 

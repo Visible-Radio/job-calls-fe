@@ -6,15 +6,17 @@ const InputStyles = styled.input`
   font-size: 1.125rem;
   color: var(--greyCyan);
   flex: auto;
-  min-width: 275px;
+  min-width: 200px;
+  width: 50%;
   background-color: transparent;
   padding: 3px 6px 2px 6px;
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   border: none;
   border-bottom: 2px solid var(--greyCyan);
+  transition: background-color 0.3s;
   &:focus {
     outline: none;
-    background-color: black;
+    background-color: rgba(0,0,0,0.5);
     border-bottom: 2px solid var(--greyCyan);
   }
   &:hover {

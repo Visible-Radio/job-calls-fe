@@ -48,13 +48,15 @@ const SmallPageWrapper = styled.div`
 `;
 
 const Alerts = ({ toggleAuth }) => {
-  const token = localStorage.token;
+  // const token = localStorage.token;
   const [ companies, setCompanies ] = useState([]);
   const [ multiSelectSelections, setMultiSelectSelections] = useState({});
   const [ loading, setLoading ] = useState({});
 
   const getUserAlerts = useCallback(async () => {
     try {
+      const token = localStorage.token;
+      if (!token) throw new Error('Session Expired');
       setLoading((prevState) => ({
         ...prevState,
         loadingAlerts: true
@@ -77,7 +79,7 @@ const Alerts = ({ toggleAuth }) => {
         loadingAlerts: false
       }));
     }
-  },[token]);
+  },[]);
 
   useEffect(() => {
     getCompanies();
@@ -108,6 +110,8 @@ const Alerts = ({ toggleAuth }) => {
     }
 
     try {
+      const token = localStorage.token;
+      if (!token) throw new Error('Session Expired');
       const response = await fetch("http://localhost:4000/alerts", {
         method: "POST",
         headers: {
@@ -122,6 +126,7 @@ const Alerts = ({ toggleAuth }) => {
       }
       const parsedResponse = await response.json();
       setMultiSelectSelections(parsedResponse);
+      alert('Alerts Updated!');
 
     } catch (error) {
       console.error(error.message);

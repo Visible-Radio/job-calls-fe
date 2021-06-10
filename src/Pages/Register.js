@@ -65,19 +65,22 @@ const Register = ({ toggleAuth }) => {
         method: 'post',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(body)
-      }).then(res => res.json());
+      });
 
-      if (response.hasOwnProperty('token')) {
-        localStorage.setItem("token", response.token);
+      const parsedResponse = await response.json();
+
+      if (parsedResponse.hasOwnProperty('token')) {
+        localStorage.setItem("token", parsedResponse.token);
         // safe to toggle auth true since we just got a token from the server
         toggleAuth(true);
       } else {
         // no token from the server
         // relay the server's error message to the console
-        throw new Error(response);
+        throw new Error(response.statusText);
       }
 
     } catch (error) {
+      alert(error.message);
       console.error(error.message);
     }
   }
