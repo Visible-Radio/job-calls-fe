@@ -76,7 +76,7 @@ const Login = ({ toggleAuth }) => {
         localStorage.setItem("token", parsedResponse.token);
         toggleAuth(true);
       } else {
-        throw new Error(response.statusText);
+        throw new Error(parsedResponse);
       }
 
     } catch (error) {

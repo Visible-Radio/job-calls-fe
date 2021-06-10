@@ -68,6 +68,7 @@ const Alerts = ({ toggleAuth }) => {
         }
       }).then(res => res.json());
 
+      console.log(`response`, response);
       setMultiSelectSelections(response);
 
     } catch (error) {
@@ -94,6 +95,8 @@ const Alerts = ({ toggleAuth }) => {
 
     const response = await fetch("https://evening-plateau-74700.herokuapp.com/companies")
       .then(res => res.json()).catch(e => console.error(e.message));
+
+      console.log(`response`, response);
 
     setCompanies(response);
 

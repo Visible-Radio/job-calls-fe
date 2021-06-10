@@ -76,7 +76,7 @@ const Register = ({ toggleAuth }) => {
       } else {
         // no token from the server
         // relay the server's error message to the console
-        throw new Error(response.statusText);
+        throw new Error(parsedResponse);
       }
 
     } catch (error) {
