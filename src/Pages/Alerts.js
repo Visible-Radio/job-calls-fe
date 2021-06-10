@@ -71,7 +71,6 @@ const Alerts = ({ toggleAuth }) => {
         }
       }).then(res => res.json());
 
-      console.log(`response`, response);
       setMultiSelectSelections(response);
 
     } catch (error) {
