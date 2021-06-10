@@ -5,7 +5,8 @@ export const FancyButton = styled.button`
   position: relative;
   width: 2.5rem;
   height: 2.5rem;
-  margin: 0.75rem;
+  /* margin: 0.75rem; */
+  margin: 0;
   align-self: start;
   border: none;
   font-size: 2.5rem;

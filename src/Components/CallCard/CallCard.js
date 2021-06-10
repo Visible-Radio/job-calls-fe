@@ -23,6 +23,10 @@ const CallCardStyled = styled.div`
     text-align: center;
   }
 
+  div.center {
+    background-color: transparent;
+  }
+
   p {
     margin: 0.5rem 1rem 1rem 1rem;
     line-height: 1.25rem;
@@ -37,6 +41,18 @@ const CallCardStyled = styled.div`
     background-color: ${(props) => props.color};
   }
 
+  h2 {
+      font-size: var(--fzh2);
+      padding: 0;
+      margin: 1rem;
+  }
+  h3 {
+    font-size: var(--fzh3);
+  }
+  h4 {
+    font-size: var(--fzh4);
+  }
+
   .compact {
     width: 100%;
     display: flex;
@@ -49,7 +65,7 @@ const CallCardStyled = styled.div`
   .classShield {
     border-radius: 0 0 25px 25px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     padding: 0;
     width: 60px;
@@ -59,12 +75,9 @@ const CallCardStyled = styled.div`
     h3 {
       font-weight: bold;
       color: var(--slate);
+      margin: 0;
+      padding: 0;
     }
-  }
-
-  h2 {
-    padding: 0;
-    margin: 1rem;
   }
 
   .expanded {
@@ -88,7 +101,9 @@ const CallCardStyled = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row wrap;
+    /* flex-direction: column; */
     align-items: center;
+    /* align-items: flex-start; */
     justify-content: space-between;
     background-color: transparent;
     padding: 0 1rem 0 1rem;
@@ -99,8 +114,15 @@ const CallCardStyled = styled.div`
       margin: 0;
       text-align: left;
     }
-
   }
+
+  @media screen and (max-width: 1000px) {
+    div.headline {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
 `;
 
 const CallCard = ({
@@ -136,11 +158,13 @@ const CallCard = ({
             <h4>{firstAppeared.split(',').join(', ')}</h4>
           }
         </div>
-        <FancyButton
-          color={color}
-          isOpen={isOpen}
-          onClick={handleClick}
-        ></FancyButton>
+        <div className="center">
+          <FancyButton
+            color={color}
+            isOpen={isOpen}
+            onClick={handleClick}
+          ></FancyButton>
+        </div>
       </div>
       <div className="expanded">
         {instanceCount > 1 && (
