@@ -32,6 +32,7 @@ export const ButtonStyled = styled.button`
     }
 `;
 
+// margin-left: auto;
 export const MenuButtonStyled = styled.button`
     width: min-content;
     display: flex;
@@ -40,7 +41,6 @@ export const MenuButtonStyled = styled.button`
     width: 2.5rem;
     height: 2.5rem;
     margin: 4px;
-    margin-left: auto;
     font-size: 1.25rem;
     border: 2px solid var(--greyCyan);;
     border-radius: 2.5rem;

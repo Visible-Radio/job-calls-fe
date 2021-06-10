@@ -26,6 +26,9 @@ const GlobalStyles = createGlobalStyle`
   --buttonWidth: 100px;
   --buttonMargin: 0.5rem;
   --textInputWidth: 200px;
+  --fzh2: 1.4rem;
+  --fzh3: 1.125rem;
+  --fzh4: 0.875rem;
   }
 
   html {
@@ -38,6 +41,12 @@ const GlobalStyles = createGlobalStyle`
   *:before,
   *:after {
     box-sizing: inherit;
+  }
+
+  a {
+    display: flex;
+    text-decoration: none;
+    width: max-content;
   }
 
   /* Works on Firefox */
@@ -71,6 +80,7 @@ const GlobalStyles = createGlobalStyle`
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--greyCyan);
   }
 
   // brought these in with pagination controls
@@ -81,6 +91,9 @@ const GlobalStyles = createGlobalStyle`
       --pad: 1rem;
       --buttonWidth: 70px;
       --textInputWidth: 170px;
+      --fzh2: 1rem;
+      --fzh3: 0.875rem;
+      --fzh4: 0.75rem;
     }
   }
   @media screen and (max-width: 625px) {

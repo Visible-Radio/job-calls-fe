@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import ListItem from "./ListItem";
 import { ListStyles } from "./styles/ListStyles";
+import { ScrollBarClip } from "./styles/styles";
 import useRoveFocus from "./utils/useRoveFocus";
 
-export default function List({ filtered, addItem, listIsOpen, colors, longOptions, textInputRef}) {
+export default function List({ filtered, addItem, listIsOpen, itemColors, longOptions, textInputRef}) {
   const [focus, setFocus] = useRoveFocus(filtered?.length, textInputRef);
 
   useEffect(()=> {
@@ -17,7 +18,7 @@ export default function List({ filtered, addItem, listIsOpen, colors, longOption
           ? filtered?.map((option, i) => {
             return (
               <ListItem
-                color={colors ? colors?.hasOwnProperty(option) ? colors[option] : null : null}
+                itemColor={itemColors ? itemColors?.hasOwnProperty(option) ? itemColors[option] : null : null}
                 longOption={longOptions ? longOptions?.hasOwnProperty(option) ? longOptions[option] : null : null}
                 key={i + option}
                 addItem={addItem}

@@ -6,8 +6,8 @@ export const ListItemStyles = styled.button`
     align-items: center;
     padding: 0.5rem 1rem 0.5rem 1rem;
     border: none;
-    color: black;
-    background-color: var(--greyCyan);
+    color: var(--uiCol2);
+    background-color: var(--uiCol1);
 
     div {
       text-align: left;
@@ -20,26 +20,26 @@ export const ListItemStyles = styled.button`
         min-width: 25px;
         border-radius: 1rem;
         margin-right: 1rem;
-        background-color: ${props => props.color}
+        background-color: ${props => props.itemColor};
       }
 
     }
 
     &:hover {
       cursor: pointer;
-      color: var(--greyCyan);
-      background-color: black;
+      color: var(--uiCol1);
+      background-color: var(--uiCol2);
     }
 
     &:focus {
       outline: none;
-      color: var(--greyCyan);
-      background-color: black;
+      color: var(--uiCol1);
+      background-color: var(--uiCol2);
 
     @media screen and (max-width: 420px) {
       &:focus {
-        color: black;
-        background-color: var(--greyCyan);
+        color: var(--uiCol2);
+        background-color: var(--uiCol1);
       }
     }
 
