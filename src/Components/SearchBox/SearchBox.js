@@ -51,7 +51,6 @@ const SearchBoxStyles = styled.div`
     }
   }
 
-
   @media screen and (max-width: 840px) {
     grid-column: 1 / 4;
     grid-row: 1 / 2;

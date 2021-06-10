@@ -41,7 +41,9 @@ const GlobalStyles = createGlobalStyle`
   }
 
   a {
+    display: flex;
     text-decoration: none;
+    width: max-content;
   }
 
   /* Works on Firefox */

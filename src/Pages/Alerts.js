@@ -7,7 +7,15 @@ import { ButtonStyled } from "../Components/ButtonStyled";
 import styled from "styled-components";
 
 const SmallPageWrapper = styled.div`
-  padding: 0 5rem;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div.sectionWrapper {
+    width: 100%;
+    max-width: var(--maxWidth);
+  }
 
   p {
     margin: 0;
@@ -27,6 +35,15 @@ const SmallPageWrapper = styled.div`
   section.alertsConfig {
     border: 2px solid var(--greyCyan);
     border-radius: var(--borad);
+  }
+
+  div.center {
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
   }
 `;
 
@@ -133,39 +150,48 @@ const Alerts = ({ toggleAuth }) => {
     <>
       <Loader loading={Object.values(loading).includes(true)}>
         <SmallPageWrapper>
-          <section className="about">
-            <h2>Alerts Configuration</h2>
-            <p>You'll receive alerts via the email address you provided during registration.</p>
-            <p>Specifying a company AND a classification will return more specific results. Only matches at that company for that classification will be sent to you.</p>
-            <p>Specifying a classification or group of classifcations will return results from any company for those classifications.</p>
-            <p>Specifying a company or group of companies will return results from any classification at that company.</p>
-          </section>
-          <section className="alertsConfig">
-            <h2>Company Alerts</h2>
-            <MultiSelect
-              optionsArray={companies}
-              selectedOptionsArray={alertsCompanies}
-              placeholder={'Search companies'}
-              id={'alertsCompanies'}
-              onSelectionChange={onSelectionChange}
-              loading={Object.values(loading).includes(true)}
-            />
-            <h2>Classification Alerts</h2>
-            <MultiSelect
-              optionsArray={Object.keys(colors).sort()}
-              itemColors={colors}
-              longOptions={readableClassification}
-              selectedOptionsArray={alertsClasses}
-              placeholder={'Search classes'}
-              id={'alertsClasses'}
-              onSelectionChange={onSelectionChange}
-              loading={Object.values(loading).includes(true)}
-            />
-            <ButtonStyled onClick={postNewAlerts} className="btn btn-primary">Save my alerts configuration</ButtonStyled>
-          </section>
-          <Link to="/">
-            <ButtonStyled onClick={logOut} className="btn btn-primary">Logout</ButtonStyled>
-          </Link>
+          <div className="sectionWrapper">
+            <section className="about">
+              <h2>Alerts Configuration</h2>
+              <p>You'll receive alerts via the email address you provided during registration.</p>
+              <p>Specifying a company AND a classification will return more specific results. Only matches at that company for that classification will be sent to you.</p>
+              <p>Specifying a classification or group of classifcations will return results from any company for those classifications.</p>
+              <p>Specifying a company or group of companies will return results from any classification at that company.</p>
+            </section>
+            <section className="alertsConfig">
+              <h2>Company Alerts</h2>
+              <MultiSelect
+                optionsArray={companies}
+                selectedOptionsArray={alertsCompanies}
+                placeholder={'Search companies'}
+                id={'alertsCompanies'}
+                onSelectionChange={onSelectionChange}
+                loading={Object.values(loading).includes(true)}
+              />
+              <h2>Classification Alerts</h2>
+              <MultiSelect
+                optionsArray={Object.keys(colors).sort()}
+                itemColors={colors}
+                longOptions={readableClassification}
+                selectedOptionsArray={alertsClasses}
+                placeholder={'Search classes'}
+                id={'alertsClasses'}
+                onSelectionChange={onSelectionChange}
+                loading={Object.values(loading).includes(true)}
+              />
+              <div className="center">
+                <ButtonStyled onClick={postNewAlerts} className="btn btn-primary">Save my alerts configuration</ButtonStyled>
+              </div>
+            </section>
+            <div className="center">
+              <Link to="/">
+                <ButtonStyled onClick={logOut} className="btn btn-primary">Logout</ButtonStyled>
+              </Link>
+              <Link to="/">
+                <ButtonStyled className="btn btn-primary">Browse Database</ButtonStyled>
+              </Link>
+            </div>
+          </div>
         </SmallPageWrapper>
       </Loader>
     </>
