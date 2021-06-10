@@ -40,7 +40,8 @@ const Explore = () => {
   // const callsURL = "http://localhost:4000/API";
   // const memberTotalsURL = "http://localhost:4000/API/members_needed_byDate/";
   // const companiesURL = "http://localhost:4000/API/companies";
-  const callsURL = "https://evening-plateau-74700.herokuapp.com/API/";
+
+  const callsURL = "https://evening-plateau-74700.herokuapp.com/API";
   const memberTotalsURL = "https://evening-plateau-74700.herokuapp.com/API/members_needed_byDate/";
   const companiesURL = "https://evening-plateau-74700.herokuapp.com/API/companies";
 
@@ -59,7 +60,7 @@ const Explore = () => {
       // get the initial records
       onButtonSubmit();
     }
-  });
+  },[]);
 
   const toggleQueryBuilder = () => {
     // toggle the query builder open/closed
