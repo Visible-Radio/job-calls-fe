@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { ButtonStyled } from "../Components/ButtonStyled";
 import InputStyled from "../Components/InputStyled";
 
+// const registerURL = "http://localhost:4000/auth/register";
+const registerURL = "https://evening-plateau-74700.herokuapp.com/auth/register"
+
 const SmallPageWrapper = styled.div`
   padding: var(--pad);
   display: flex;
@@ -61,7 +64,7 @@ const Register = ({ toggleAuth }) => {
     try {
       const body = { email, password, name}
 
-      const response = await fetch("http://localhost:4000/auth/register", {
+      const response = await fetch(registerURL, {
         method: 'post',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(body)

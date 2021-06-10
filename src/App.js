@@ -11,6 +11,9 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+// const verifyURL = "http://localhost:4000/auth/is-verify";
+const verifyURL = "https://evening-plateau-74700.herokuapp.com/is-verify";
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -21,7 +24,7 @@ const App = () => {
   useEffect(() => {
     if (!localStorage.token) return;
     (async () => {
-      const response = await fetch("http://localhost:4000/auth/is-verify", {
+      const response = await fetch(verifyURL, {
         method: "GET",
         headers: {
           token: localStorage.token,

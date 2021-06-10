@@ -6,6 +6,9 @@ import Loader from "../Components/Loader/Loader";
 import { ButtonStyled } from "../Components/ButtonStyled";
 import styled from "styled-components";
 
+// const alertsURL = "http://localhost:4000/alerts";
+const alertsURL = "https://evening-plateau-74700.herokuapp.com/alerts";
+
 const SmallPageWrapper = styled.div`
   padding: 0 1rem;
   display: flex;
@@ -61,7 +64,7 @@ const Alerts = ({ toggleAuth }) => {
         ...prevState,
         loadingAlerts: true
       }));
-      const response = await fetch("http://localhost:4000/alerts", {
+      const response = await fetch(alertsURL, {
         method: "GET",
         headers: {
           "token": token
@@ -95,8 +98,6 @@ const Alerts = ({ toggleAuth }) => {
 
     const response = await fetch("https://evening-plateau-74700.herokuapp.com/companies")
       .then(res => res.json()).catch(e => console.error(e.message));
-
-      console.log(`response`, response);
 
     setCompanies(response);
 
