@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 
 // const verifyURL = "http://localhost:4000/auth/is-verify";
-const verifyURL = "https://evening-plateau-74700.herokuapp.com/is-verify";
+const verifyURL = "https://evening-plateau-74700.herokuapp.com/auth/is-verify";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
