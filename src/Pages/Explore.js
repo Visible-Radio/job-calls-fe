@@ -44,7 +44,6 @@ const Explore = () => {
   const memberTotalsURL = "https://evening-plateau-74700.herokuapp.com/API/members_needed_byDate/";
   const companiesURL = "https://evening-plateau-74700.herokuapp.com/API/companies";
 
-
   const UseLoading = (loadingProperty, isLoading) => {
     // keep one loading object with properties for whatever is loading
     setLoading((prevState) => ({

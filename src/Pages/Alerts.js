@@ -96,7 +96,7 @@ const Alerts = ({ toggleAuth }) => {
       loadingCompanies: true
     }));
 
-    const response = await fetch("https://evening-plateau-74700.herokuapp.com/companies")
+    const response = await fetch("https://evening-plateau-74700.herokuapp.com/API/companies")
       .then(res => res.json()).catch(e => console.error(e.message));
 
     setCompanies(response);
@@ -116,7 +116,7 @@ const Alerts = ({ toggleAuth }) => {
     try {
       const token = localStorage.token;
       if (!token) throw new Error('Session Expired');
-      const response = await fetch("http://localhost:4000/alerts", {
+      const response = await fetch("https://evening-plateau-74700.herokuapp.com/alerts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
